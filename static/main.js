@@ -216,7 +216,7 @@ $('#contact_form').bootstrapValidator({
   })
   .then(response => {
     // handle the response from the backend API endpoint
-    title.textContent = 'TherapistGPT - ' + name;
+    title.textContent = 'MindMateGPT - ' + name;
     myDiv.style.display = "none";
     myDiv2.style.display = "block";
   })

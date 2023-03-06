@@ -1,7 +1,10 @@
+import json
+
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 import os
+import redis
 
 from starlette.middleware.cors import CORSMiddleware
 
@@ -28,15 +31,25 @@ class CoreGPTBody(BaseModel):
 import openai
 
 openai.api_key = os.environ['apikey']
-user_data = {}
+redis_url = os.getenv("REDIS_URL")
+redis_client = redis.from_url(redis_url)
+
+#user_data = {}
 
 from fastapi import Request
 
 
 @api_app.post("/therapistGPT")
 async def get_response(request: Request, body: CoreGPTBody):
-    session_id = (request.headers['Session'])
-    global user_data
+    session_id = request.headers['Session']
+    user_data_key = f"user_data_{session_id}"
+    user_data = redis_client.get(user_data_key)
+    if user_data is None:
+        user_data = {session_id: {}}
+    else:
+        user_data = json.loads(user_data)
+    # do something with user_data
+    redis_client.set(user_data_key, json.dumps(user_data))
 
     user_data[session_id]['prompt'] += f"\n\n {body.message} \n \n"
     try:
@@ -60,9 +73,12 @@ async def get_response(request: Request, body: CoreGPTBody):
 async def get_form(request: Request):
     form_data = await request.form()
     session_id = (request.headers['Session'])
-    global user_data
-    if session_id not in user_data:
-        user_data[session_id] = {}
+    user_data_key = f"user_data_{session_id}"
+    user_data = redis_client.get(user_data_key)
+    if user_data is None:
+        user_data = {session_id: {}}
+    else:
+        user_data = json.loads(user_data)
     user_data[session_id]['name'] = form_data.get('first_name')
     user_data[session_id]['childhood'] = form_data.get('childhood')
     user_data[session_id]['relationship'] = form_data.get('relationship')

@@ -9,7 +9,7 @@ api_app = FastAPI(title="api app")
 
 origins = [
     "http://localhost:8000",
-    'https://mindmategpt.herokuapp.com/'  # dev
+    'https://mindmategpt.herokuapp.com/'
 ]
 
 api_app.add_middleware(

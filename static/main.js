@@ -201,7 +201,7 @@ $('#contact_form').bootstrapValidator({
   const form = event.target;
   const formData = new FormData(form);
   var name = formData.get('first_name');
-  const url = 'http://localhost:8000/api/getForm';
+  const url = 'https://mindmategpt.herokuapp.com/api/getForm';
   var myDiv = document.getElementById("intro");
   var myDiv2 = document.getElementById("chat");
   var sesh = document.getElementById("session");
@@ -231,7 +231,7 @@ async function postData(data) {
   var sesh = document.getElementById("session");
 
   // Default options are marked with *
-  const response = await fetch("http://localhost:8000/api/therapistGPT", {
+  const response = await fetch("https://mindmategpt.herokuapp.com/api/therapistGPT", {
     method: "POST", // *GET, POST, PUT, DELETE, etc.
     mode: "cors", // no-cors, *cors, same-origin
     cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached

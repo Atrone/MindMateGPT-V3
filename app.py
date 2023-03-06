@@ -124,6 +124,7 @@ async def get_form(request: Request):
                     f"{user_data[session_id]['religion']}\n\nTheir MBTI personality type: " \
                     f"{user_data[session_id]['mbti']}\n\nTheir relationship to drugs and alcohol:  " \
                     f"{user_data[session_id]['drugs']}\n---\n"
+    redis_client.set(user_data_key, json.dumps(user_data))
 
     return user_data[session_id]['name']
 

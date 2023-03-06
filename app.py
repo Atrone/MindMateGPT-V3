@@ -122,7 +122,7 @@ app.mount("/static", StaticFiles(directory="static", html=True), name="static")
 
 origins = [
     "http://localhost:8000",
-    'https://mindmategpt.herokuapp.com/'  # dev
+    'https://mindmategpt.herokuapp.com/'
 ]
 
 app.add_middleware(

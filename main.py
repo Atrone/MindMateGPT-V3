@@ -5,4 +5,4 @@ port = 8000
 app_name = "app:app"
 
 if __name__ == '__main__':
-	uvicorn.run(app_name, host=host, port=port, workers=5)
+	uvicorn.run(app_name, host=host, port=port, workers=10)

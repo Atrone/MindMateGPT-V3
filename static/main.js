@@ -251,8 +251,9 @@ async function postData(data) {
         const { value, done } = await reader.read()
 
         // Base64
-        console.log(value)
-        text = text + value
+        var s = new TextDecoder().decode(value)
+        console.log(s)
+        text = text + s;
 
         if (done) break
     }

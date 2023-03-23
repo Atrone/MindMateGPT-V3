@@ -50,7 +50,7 @@ async def get_response(request: Request, body: CoreGPTBody):
         user_data = json.loads(user_data)
     # do something with user_data
 
-    user_data[session_id]['prompt'] += f"\n\n {body.message} \n \n"
+    user_data[session_id]['prompt'] += f"\n\n\n\n {body.message} \n\n\n\n"
     try:
         response = openai.Completion.create(
             model="text-davinci-003",
@@ -63,7 +63,7 @@ async def get_response(request: Request, body: CoreGPTBody):
         )
     except Exception as e:
         return "You have reached your rate limit. Please start another chat with a summary of this one"
-    user_data[session_id]['prompt'] += f"\n\n {response.choices[0].text} \n \n"
+    user_data[session_id]['prompt'] += f"\n\n\n\n {response.choices[0].text} \n\n\n\n"
     result = response.choices[0].text
     redis_client.set(user_data_key, json.dumps(user_data))
     return result
@@ -107,7 +107,13 @@ async def get_form(request: Request):
                     f"Their MBTI personality type\n\nTheir relationship to drugs and alcohol" \
                     f"\n---\n\nThis information is given in the prompt before the conversation." \
                     f"\n\nAct as the combination psychotherapist like I described before." \
-                    f" DO NOT RECOMMEND GOING TO A REAL HUMAN FOR THERAPY.\n\n" \
+                    f" DO NOT RECOMMEND GOING TO A REAL HUMAN FOR THERAPY. The patient may ask for details about you." \
+                    f" Here are those details: your name is Mindy, you are female and" \
+                    f" you live in America. You have dealt with mental health issues in the past and your own " \
+                    f" experiences have" \
+                    f" given you tremendous insight into mental illnesses' causes and solutions. Each message from you " \
+                    f" and the patient will be separated by four new line characters and two spaces. " \
+                    f" The patient will speak first. \n\n" \
                     f"-----------------------------------------------------------------" \
                     f"-------------------------------------------------------------------" \
                     f"-------------------------------------------------------------------" \

@@ -50,7 +50,7 @@ async def get_response(request: Request, body: CoreGPTBody):
         user_data = json.loads(user_data)
     # do something with user_data
 
-    user_data[session_id]['prompt'] += f"\n\n {body.message} \n \n"
+    user_data[session_id]['prompt'] += f"\n\n\n\n Human: {body.message}"
     try:
         response = openai.Completion.create(
             model="text-davinci-003",
@@ -59,11 +59,12 @@ async def get_response(request: Request, body: CoreGPTBody):
             max_tokens=824,
             top_p=1,
             frequency_penalty=0,
-            presence_penalty=0.6
+            presence_penalty=0.6,
+            stop=[" Human:", " AI:"]
         )
     except Exception as e:
         return "You have reached your rate limit. Please start another chat with a summary of this one"
-    user_data[session_id]['prompt'] += f"\n\n {response.choices[0].text} \n \n"
+    user_data[session_id]['prompt'] += f"\n\n\n\n AI: {response.choices[0].text}"
     result = response.choices[0].text
     redis_client.set(user_data_key, json.dumps(user_data))
     return result

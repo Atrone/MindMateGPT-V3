@@ -62,7 +62,7 @@ async def get_response(request: Request, body: CoreGPTBody):
             presence_penalty=0.6
         )
     except Exception as e:
-        return e
+        return "You have reached your rate limit. Please start another chat with a summary of this one"
     user_data[session_id]['prompt'] += f"\n\n {response.choices[0].text} \n \n"
     result = response.choices[0].text
     redis_client.set(user_data_key, json.dumps(user_data))

@@ -122,6 +122,20 @@ $('#contact_form').bootstrapValidator({
                     }
                 }
             },
+            growup: {
+                validators: {
+                    notEmpty: {
+                        message: 'Please supply your upbringing area'
+                    }
+                }
+            },
+            live: {
+                validators: {
+                    notEmpty: {
+                        message: 'Please supply your area of living'
+                    }
+                }
+            },
             criminal: {
                 validators: {
                      stringLength: {

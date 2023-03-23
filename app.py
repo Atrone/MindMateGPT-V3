@@ -83,6 +83,8 @@ async def get_form(request: Request):
     user_data[session_id]['childhood'] = form_data.get('childhood')
     user_data[session_id]['relationship'] = form_data.get('relationship')
     user_data[session_id]['mbti'] = form_data.get('mbti')
+    user_data[session_id]['growup'] = form_data.get('growup')
+    user_data[session_id]['live'] = form_data.get('live')
     user_data[session_id]['criminal'] = form_data.get('criminal')
     user_data[session_id]['drugs'] = form_data.get('drugs')
     user_data[session_id]['family'] = form_data.get('family')
@@ -103,7 +105,7 @@ async def get_form(request: Request):
                     f"\n\nA brief description of their relationship with their family\n\n" \
                     f"Whether or not they are working\n\nThe level of education they have\n\n" \
                     f"A brief description of the medications they take\n\n" \
-                    f"Their criminal history, if any\n\nTheir religion\n\n" \
+                    f"Their criminal history, if any\n\nTheir religion\n\nWhere they grew up\n\nWhere they live\n\n" \
                     f"Their MBTI personality type\n\nTheir relationship to drugs and alcohol" \
                     f"\n---\n\nThis information is given in the prompt before the conversation." \
                     f"\n\nAct as the combination psychotherapist like I described before." \
@@ -128,7 +130,9 @@ async def get_form(request: Request):
                     f"{user_data[session_id]['criminal']}\n\nA brief description of the medications they take: " \
                     f"{user_data[session_id]['medication']}\n\nTheir religion: " \
                     f"{user_data[session_id]['religion']}\n\nTheir MBTI personality type: " \
-                    f"{user_data[session_id]['mbti']}\n\nTheir relationship to drugs and alcohol:  " \
+                    f"{user_data[session_id]['mbti']}\n\nWhere they grew up: " \
+                    f"{user_data[session_id]['growup']}\n\nWhere they live: " \
+                    f"{user_data[session_id]['live']}\n\nTheir relationship to drugs and alcohol:  " \
                     f"{user_data[session_id]['drugs']}\n---\n"
     redis_client.set(user_data_key, json.dumps(user_data))
 

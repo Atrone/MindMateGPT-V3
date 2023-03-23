@@ -244,20 +244,7 @@ async function postData(data) {
     referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
     body: JSON.stringify(data), // body data type must match "Content-Type" header
   });
-  var text = "";
-  const reader = response.body.getReader()
-
-    while (true) {
-        const { value, done } = await reader.read()
-
-        // Base64
-        var s = new TextDecoder().decode(value)
-        console.log(s)
-        text = text + s;
-
-        if (done) break
-    }
-  return text; // parses JSON response into native JavaScript objects
+  return response.json(); // parses JSON response into native JavaScript objects
 }
 
 /**

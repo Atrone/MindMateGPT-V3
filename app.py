@@ -5,8 +5,10 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 import os
 import redis
+from starlette import status
 
 from starlette.middleware.cors import CORSMiddleware
+from starlette.responses import StreamingResponse
 
 api_app = FastAPI(title="api app")
 
@@ -66,7 +68,11 @@ async def get_response(request: Request, body: CoreGPTBody):
     user_data[session_id]['prompt'] += f"\n\n\n {response.choices[0].text} \n\n\n"
     result = response.choices[0].text
     redis_client.set(user_data_key, json.dumps(user_data))
-    return result
+    return StreamingResponse(
+        (event['choices'][0]['text'] for event in response),
+        status_code=status.HTTP_200_OK,
+        media_type='text'
+    )
 
 
 @api_app.post("/getForm")

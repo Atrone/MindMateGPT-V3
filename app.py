@@ -1,3 +1,4 @@
+import dataclasses
 import json
 
 from fastapi import FastAPI
@@ -12,7 +13,10 @@ api_app = FastAPI(title="api app")
 
 origins = [
     "http://localhost:8000",
-    'https://mindmategpt.herokuapp.com/'
+    'https://mindmategpt.herokuapp.com/',
+    'https://mindmategpt.com',
+    'https://www.mindmategpt.com'
+
 ]
 
 api_app.add_middleware(
@@ -34,7 +38,7 @@ openai.api_key = os.environ['apikey']
 redis_url = os.getenv("REDIS_URL")
 redis_client = redis.from_url(redis_url)
 
-#user_data = {}
+# user_data = {}
 
 from fastapi import Request
 

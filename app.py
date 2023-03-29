@@ -7,7 +7,7 @@ from pydantic import BaseModel
 import os
 import redis
 
-from starlette.middleware.cors import CORSMiddleware
+from fastapi.middleware.cors import CORSMiddleware
 
 api_app = FastAPI(title="api app")
 

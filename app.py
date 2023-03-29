@@ -7,7 +7,7 @@ from pydantic import BaseModel
 import os
 import redis
 
-from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.cors import CORSMiddleware
 
 api_app = FastAPI(title="api app")
 
@@ -153,7 +153,9 @@ app.mount("/static", StaticFiles(directory="static", html=True), name="static")
 
 origins = [
     "http://localhost:8000",
-    'https://mindmategpt.herokuapp.com/'
+    'https://mindmategpt.herokuapp.com/',
+    'https://mindmategpt.com',
+    'https://www.mindmategpt.com'
 ]
 
 app.add_middleware(

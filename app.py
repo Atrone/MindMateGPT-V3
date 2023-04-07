@@ -8,6 +8,7 @@ import os
 import redis
 
 from starlette.middleware.cors import CORSMiddleware
+from starlette.responses import JSONResponse
 
 api_app = FastAPI(title="api app")
 
@@ -142,6 +143,11 @@ async def get_form(request: Request):
 
     return user_data[session_id]['name']
 
+@api_app.delete("/session/{session_id}")
+async def delete_session(session_id: str):
+    redis_client.delete(session_id)
+    return JSONResponse(status_code=200, content={"message": "Session deleted"})
+
 
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
@@ -176,3 +182,4 @@ import random
 async def index(request: Request):
     user = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10))
     return templates.TemplateResponse("index.html", {"request": request, "user": user})
+

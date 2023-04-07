@@ -31,6 +31,16 @@
 
   gtag('config', 'G-ZYL1S2102L');
 </script>
+    <script>
+        // Get the session_id from the HTML
+        const sessionId = "SESSION={{user}}";
+
+        // Send a request to delete the session when the page is refreshed
+        window.addEventListener("beforeunload", function (event) {
+            navigator.sendBeacon("/session/" + sessionId, {method: "DELETE"});
+        });
+    </script>
+
 
 <body>
 <p id="session">SESSION={{user}}</p>

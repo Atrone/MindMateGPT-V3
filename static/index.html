@@ -35,10 +35,13 @@
         // Get the session_id from the HTML
         const sessionId = "user_data_SESSION={{user}}";
 
-        // Send a request to delete the session when the page is refreshed
         window.addEventListener("beforeunload", function (event) {
-            navigator.sendBeacon("https://mindmategpt.herokuapp.com/api/session/" + sessionId, {method: "DELETE"});
+            fetch("https://mindmategpt.herokuapp.com/api/session/" + sessionId, {
+                method: "DELETE",
+                keepalive: true
+            });
         });
+
     </script>
 
 

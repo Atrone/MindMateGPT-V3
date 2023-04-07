@@ -37,7 +37,7 @@
 
         // Send a request to delete the session when the page is refreshed
         window.addEventListener("beforeunload", function (event) {
-            navigator.sendBeacon("/session/" + sessionId, {method: "DELETE"});
+            navigator.sendBeacon("https://mindmategpt.herokuapp.com/api//session/" + sessionId, {method: "DELETE"});
         });
     </script>
 

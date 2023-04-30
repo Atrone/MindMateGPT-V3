@@ -41,6 +41,21 @@ redis_client = redis.from_url(redis_url)
 
 # user_data = {}
 
+def summarize_text(text):
+    prompt = f"Summarize the following text in 5 sentences:\n{text}"
+    response = openai.Completion.create(
+      engine="text-davinci-003",
+      prompt=prompt,
+      temperature=0.3,
+      max_tokens=150, # = 112 words
+      top_p=1,
+      frequency_penalty=0,
+      presence_penalty=1
+    )
+
+    return response["choices"][0]["text"]
+
+
 from fastapi import Request
 
 
@@ -67,7 +82,16 @@ async def get_response(request: Request, body: CoreGPTBody):
             presence_penalty=0.6
         )
     except Exception as e:
-        return "You have reached your rate limit. Please start another chat with a summary of this one"
+        user_data[session_id]['prompt'] = summarize_text(user_data[session_id]['prompt'])
+        response = openai.Completion.create(
+            model="text-davinci-003",
+            prompt=user_data[session_id]['prompt'],
+            temperature=0.9,
+            max_tokens=824,
+            top_p=1,
+            frequency_penalty=0,
+            presence_penalty=0.6
+        )
     user_data[session_id]['prompt'] += f"\n\n\n\n {response.choices[0].text} \n\n\n\n"
     result = response.choices[0].text
     redis_client.set(user_data_key, json.dumps(user_data))

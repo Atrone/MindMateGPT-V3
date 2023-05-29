@@ -326,6 +326,7 @@ async def get_response(request: Request, body: CoreGPTBody):
         else:
             return "You have reached your session limit"
     user_data[session_id]['prompt'] += f"\n\n\n\n {response.choices[0].text} \n\n\n\n"
+    user_data[session_id]['transcript'] += f"\n\n\n\n {response.choices[0].text} \n\n\n\n"
     result = response.choices[0].text
     redis_client.set(user_data_key, json.dumps(user_data))
     return result

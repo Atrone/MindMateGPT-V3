@@ -292,7 +292,7 @@ async def get_response(request: Request, body: CoreGPTBody):
 
     session_id = request.headers['Session']
     user_data_key = f"user_data_{session_id}"
-    user_data = None
+    user_data = redis_client.get(user_data_key)
     if user_data is None:
         user_data = {session_id: {}}
     else:

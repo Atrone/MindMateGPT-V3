@@ -71,6 +71,59 @@
         <button type="submit">Submit Payment</button>
     </form>
 </div>
+<script>// Initialize Stripe with your publishable key
+var stripe = Stripe('pk_live_51NCuyrH6lUlOepAr6tp9jjlGbpGZO7OEc59UrMXtMdSQROPd0jyfN8DfrBhNNKy0EzWjD5zAJYugYI1ZcDSBkRFX0050q18T5p');
+
+// Create an instance of Elements.
+var elements = stripe.elements();
+
+// Create an instance of the card Element.
+var card = elements.create('card');
+
+// Add an instance of the card Element into the `card-element` <div>.
+card.mount('#card-element');
+
+// Handle real-time validation errors from the card Element.
+card.on('change', function(event) {
+  var displayError = document.getElementById('card-errors');
+  if (event.error) {
+    displayError.textContent = event.error.message;
+  } else {
+    displayError.textContent = '';
+  }
+});
+
+// Handle form submission.
+var form = document.getElementById('payment-form');
+form.addEventListener('submit', function(event) {
+  event.preventDefault();
+
+  stripe.createPaymentMethod({
+    type: 'card',
+    card: card,
+  }).then(function(result) {
+    if (result.error) {
+      // Show error in your UI.
+      var errorElement = document.getElementById('card-errors');
+      errorElement.textContent = result.error.message;
+    } else {
+      // Send the PaymentMethod ID to your server.
+      fetch('https://mindmategpt.herokuapp.com/your-payment-endpoint', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({paymentMethodId: result.paymentMethod.id})
+      }).then(function(response) {
+        response.json().then(function(data) {
+          var resultElement = document.getElementById('result');
+          resultElement.textContent = JSON.stringify(data);
+        });
+      });
+    }
+  });
+});
+</script>
 
 <script>
     function showLandingPage() {
@@ -143,7 +196,7 @@
         if (!validateInput()) {
             return;
         }
-        var stripe = Stripe('pk_live_51NCuyrH6lUlOepAr6tp9jjlGbpGZO7OEc59UrMXtMdSQROPd0jyfN8DfrBhNNKy0EzWjD5zAJYugYI1ZcDSBkRFX0050q18T5p');
+        var stripe = Stripe('pk_live_');
 
         var cardNumber = document.getElementById('card-number').value;
         var expMonth = document.getElementById('exp-month').value;

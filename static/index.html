@@ -64,19 +64,9 @@
     <p>Here, you can enjoy unlimited sessions, get personalized insights, and receive email transcripts. Upgrade today for the optimal self-care experience.</p>
 
     <form id="payment-form">
-        <label for="card-number">Card Number</label>
-        <input type="text" id="card-number" required>
-
-        <label for="exp-month">Expiration Month</label>
-        <input type="number" id="exp-month" min="1" max="12" required>
-
-        <label for="exp-year">Expiration Year</label>
-        <input type="number" id="exp-year" min="2023" required>
-
-        <label for="cvc">CVC</label>
-        <input type="text" id="cvc" required>
-
-        <button type="button" class="payment-button" onclick="handlePayment()">Pay with Stripe</button>
+        <div id="card-element" class="StripeElement"></div>
+        <div id="card-errors" role="alert"></div>
+        <button type="submit">Submit Payment</button>
     </form>
 </div>
 

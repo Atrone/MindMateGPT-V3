@@ -159,27 +159,52 @@
         var expYear = document.getElementById('exp-year').value;
         var cvc = document.getElementById('cvc').value;
 
-        stripe.createToken('card', {
-            number: cardNumber,
-            exp_month: expMonth,
-            exp_year: expYear,
-            cvc: cvc
-        }).then(function(result) {
+        // First, create an instance of Elements.
+        var elements = stripe.elements();
+
+        // Create an instance of the card Element.
+        var card = elements.create('card');
+
+        // Add an instance of the card Element into the `card-element` <div>.
+        card.mount('#card-element');
+
+        // Handle real-time validation errors from the card Element.
+        card.on('change', function(event) {
+          var displayError = document.getElementById('card-errors');
+          if (event.error) {
+            displayError.textContent = event.error.message;
+          } else {
+            displayError.textContent = '';
+          }
+        });
+
+        // Handle form submission.
+        var form = document.getElementById('payment-form');
+        form.addEventListener('submit', function(event) {
+          event.preventDefault();
+
+          stripe.createPaymentMethod({
+            type: 'card',
+            card: card,
+          }).then(function(result) {
             if (result.error) {
-                // Handle error
+              // Show error in your UI.
+              var errorElement = document.getElementById('card-errors');
+              errorElement.textContent = result.error.message;
             } else {
-                // Send the token to your server
-                fetch('https://mindmategpt.herokuapp.com/your-payment-endpoint', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({stripeToken: result.token.id})
-                }).then(function(response) {
-                    var resultElement = document.getElementById('result');
-                    resultElement.textContent = JSON.stringify(data);
-                });
+              // Send the PaymentMethod ID to your server.
+              fetch('https://mindmategpt.herokuapp.com/your-payment-endpoint', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({paymentMethodId: result.paymentMethod.id})
+              }).then(function(response) {
+                var resultElement = document.getElementById('result');
+                resultElement.textContent = JSON.stringify(data);
+              });
             }
+          });
         });
     }
 </script>

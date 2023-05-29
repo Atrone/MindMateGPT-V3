@@ -34,7 +34,7 @@ import openai
 
 openai.api_key = os.environ['apikey']
 redis_url = os.getenv("REDIS_URL")
-redis_client = redis.from_url(redis_url)
+redis_client = None
 
 
 # user_data = {}
@@ -193,19 +193,29 @@ def generate_key(length):
     return ''.join(random.choice(letters_and_digits) for _ in range(length))
 
 
+class PaymentData(BaseModel):
+    paymentMethodId: str
+
 @app.post('/your-payment-endpoint')
-async def handle_payment(stripeToken: str):
+async def handle_payment(data: PaymentData):
     try:
-        charge = stripe.Charge.create(
+        # Create a PaymentIntent with the amount and currency
+        payment_intent = stripe.PaymentIntent.create(
             amount=2000,  # amount in cents
             currency='usd',
-            source=stripeToken,
-            description='My first payment'
+            payment_method=data.paymentMethodId,
+            confirm=True,  # Automatically confirm the payment
+            description='My first payment',
         )
-        key = generate_key(5)
-        # Store the key in Redis
-        redis_client.set(key, 'true')
-        return {"status": "success", "key": key}
+
+        if payment_intent.status == 'succeeded':
+            key = generate_key(5)
+            # Store the key in Redis
+            redis_client.set(key, 'true')
+            return {"status": "success", "key": key}
+        else:
+            return {"status": "error", "message": "Payment failed"}
+
     except Exception as e:
         return {"status": "error", "message": str(e)}
 

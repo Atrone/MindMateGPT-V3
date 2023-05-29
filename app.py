@@ -137,7 +137,7 @@ async def get_form(request: Request):
                     f"{user_data[session_id]['growup']}\n\nWhere they live: " \
                     f"{user_data[session_id]['live']}\n\nTheir relationship to drugs and alcohol:  " \
                     f"{user_data[session_id]['drugs']}\n---\n"
-    user_data[session_id]['transcript'] = ""
+    user_data[session_id]['transcript'] = "This is a transcript"
     redis_client.set(user_data_key, json.dumps(user_data))
 
     return user_data[session_id]['name']

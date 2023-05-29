@@ -34,7 +34,7 @@ import openai
 
 openai.api_key = os.environ['apikey']
 redis_url = os.getenv("REDIS_URL")
-redis_client = None
+redis_client = redis.from_url(redis_url)
 
 
 # user_data = {}

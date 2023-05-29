@@ -127,7 +127,14 @@ form.addEventListener('submit', function(event) {
 
 <script>
     function showLandingPage() {
-        document.getElementById("landingPage").style.display = "block";
+        if(document.getElementById("landingPage").style.display != "block")
+        {
+                document.getElementById("landingPage").style.display = "block";
+        }
+        else
+        {
+                        document.getElementById("landingPage").style.display = "none";
+        }
     }
 
     function validateInput() {

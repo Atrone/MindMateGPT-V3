@@ -6,6 +6,27 @@ body {
 	background-color: #edeff2;
 	font-family: 'Calibri', 'Roboto', sans-serif;
 }
+#key {
+    border: 2px solid;
+}
+
+.banner {
+            padding: 20px;
+            text-align: center;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 20px;
+            border-radius: 8px;
+            cursor: pointer;
+}
+.landing-page {
+            display: none;
+            text-align: center;
+            padding: 20px;
+}
+.payment-button {
+            margin-top: 20px;
+}
 
 .row.padded_row,
 .row.padded_row > div {

@@ -1,11 +1,13 @@
-import dataclasses
 import json
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
+import redis
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 import os
-import redis
 
 from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import JSONResponse
@@ -28,74 +30,46 @@ api_app.add_middleware(
     allow_headers=["*"],
 )
 
-
-class CoreGPTBody(BaseModel):
-    message: str
-
-
 import openai
 
 openai.api_key = os.environ['apikey']
 redis_url = os.getenv("REDIS_URL")
 redis_client = redis.from_url(redis_url)
 
+
 # user_data = {}
 
 def summarize_text(text):
     prompt = f"Summarize the following text in 5 sentences:\n{text}"
     response = openai.Completion.create(
-      engine="text-davinci-003",
-      prompt=prompt,
-      temperature=0.3,
-      max_tokens=150, # = 112 words
-      top_p=1,
-      frequency_penalty=0,
-      presence_penalty=1
+        engine="text-davinci-003",
+        prompt=prompt,
+        temperature=0.3,
+        max_tokens=150,  # = 112 words
+        top_p=1,
+        frequency_penalty=0,
+        presence_penalty=1
+    )
+
+    return response["choices"][0]["text"]
+
+
+def create_insights(text):
+    prompt = f"Create expert level insights for this therapy session:\n{text}"
+    response = openai.Completion.create(
+        engine="text-davinci-003",
+        prompt=prompt,
+        temperature=0.3,
+        max_tokens=150,  # = 112 words
+        top_p=1,
+        frequency_penalty=0,
+        presence_penalty=1
     )
 
     return response["choices"][0]["text"]
 
 
 from fastapi import Request
-
-
-@api_app.post("/therapistGPT")
-async def get_response(request: Request, body: CoreGPTBody):
-    session_id = request.headers['Session']
-    user_data_key = f"user_data_{session_id}"
-    user_data = redis_client.get(user_data_key)
-    if user_data is None:
-        user_data = {session_id: {}}
-    else:
-        user_data = json.loads(user_data)
-    # do something with user_data
-
-    user_data[session_id]['prompt'] += f"\n\n\n\n {body.message} \n\n\n\n"
-    try:
-        response = openai.Completion.create(
-            model="text-davinci-003",
-            prompt=user_data[session_id]['prompt'],
-            temperature=0.9,
-            max_tokens=824,
-            top_p=1,
-            frequency_penalty=0,
-            presence_penalty=0.6
-        )
-    except Exception as e:
-        user_data[session_id]['prompt'] = summarize_text(user_data[session_id]['prompt'])
-        response = openai.Completion.create(
-            model="text-davinci-003",
-            prompt=user_data[session_id]['prompt'],
-            temperature=0.9,
-            max_tokens=824,
-            top_p=1,
-            frequency_penalty=0,
-            presence_penalty=0.6
-        )
-    user_data[session_id]['prompt'] += f"\n\n\n\n {response.choices[0].text} \n\n\n\n"
-    result = response.choices[0].text
-    redis_client.set(user_data_key, json.dumps(user_data))
-    return result
 
 
 @api_app.post("/getForm")
@@ -163,9 +137,11 @@ async def get_form(request: Request):
                     f"{user_data[session_id]['growup']}\n\nWhere they live: " \
                     f"{user_data[session_id]['live']}\n\nTheir relationship to drugs and alcohol:  " \
                     f"{user_data[session_id]['drugs']}\n---\n"
+    user_data[session_id]['transcript'] = ""
     redis_client.set(user_data_key, json.dumps(user_data))
 
     return user_data[session_id]['name']
+
 
 @api_app.delete("/session/{session_id}")
 async def delete_session(session_id: str):
@@ -198,12 +174,154 @@ app.add_middleware(
 
 templates = Jinja2Templates(directory="static")
 
-import string
+import stripe
 import random
+import string
+
+SENDER_EMAIL = os.getenv("SENDER_EMAIL")
+SENDER_PASSWORD = os.getenv("SENDER_PASSWORD")
+
+stripe.api_key = os.getenv("STRIPE_SECRET")
+
+
+# Connect to Redis. Update these values with your Redis connection details.
+
+
+def generate_key(length):
+    # Generate a random alphanumeric key
+    letters_and_digits = string.ascii_letters + string.digits
+    return ''.join(random.choice(letters_and_digits) for _ in range(length))
+
+
+@app.post('/your-payment-endpoint')
+async def handle_payment(stripeToken: str):
+    try:
+        charge = stripe.Charge.create(
+            amount=2000,  # amount in cents
+            currency='usd',
+            source=stripeToken,
+            description='My first payment'
+        )
+        key = generate_key(5)
+        # Store the key in Redis
+        redis_client.set(key, 'true')
+        return {"status": "success", "key": key}
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
+
+
+class KeyCheck(BaseModel):
+    key: str
+
+
+class CoreGPTBody(BaseModel):
+    message: str
+    key: str
+    recipient: str = ""
+
+
+@app.post('/check-key')
+async def check_key(keyCheck: KeyCheck):
+    # Check if the key exists in Redis
+    try:
+        if redis_client.exists(keyCheck.key):
+            return {"status": "success", "message": "Valid key."}
+        else:
+            return {"status": "error", "message": "Invalid key."}
+    except:
+        return {"status": "error", "message": "Invalid key."}
+
+@api_app.post("/download")
+async def download_insights(body: CoreGPTBody, request: Request):
+    key_check_result = await check_key(KeyCheck(key=body.key))
+    print(key_check_result)
+    if key_check_result['status'] == "success":
+        session_id = request.headers['Session']
+        user_data_key = f"user_data_{session_id}"
+        user_data = redis_client.get(user_data_key)
+        if user_data is None:
+            user_data = {session_id: {}}
+        else:
+            user_data = json.loads(user_data)
+
+        message = user_data[session_id]['transcript'] + "\n\n\n\n" + create_insights(user_data[session_id]['transcript'])
+        subject = "Your Therapy Insights by MindMateGPT"
+
+        try:
+            # Create a multipart message and set headers
+            msg = MIMEMultipart()
+            msg["From"] = SENDER_EMAIL
+            msg["To"] = body.recipient
+            msg["Subject"] = subject
+
+            # Add body to email
+            msg.attach(MIMEText(message, "plain"))
+
+            # Convert the message to a string
+            text = msg.as_string()
+
+            # Connect to the SMTP server
+            server = smtplib.SMTP("smtp.gmail.com", 587)
+            server.starttls()
+            server.login(SENDER_EMAIL, SENDER_PASSWORD)
+
+            # Send the email
+            server.sendmail(SENDER_EMAIL, body.recipient, message)
+            server.quit()
+
+            return {"message": "Email sent successfully"}
+
+        except Exception as e:
+            return {"message": f"Failed to send email: {str(e)}"}
+
+
+@api_app.post("/therapistGPT")
+async def get_response(request: Request, body: CoreGPTBody):
+    key_check_result = await check_key(KeyCheck(key=body.key))
+    print(key_check_result)
+
+    session_id = request.headers['Session']
+    user_data_key = f"user_data_{session_id}"
+    user_data = None
+    if user_data is None:
+        user_data = {session_id: {}}
+    else:
+        user_data = json.loads(user_data)
+
+    user_data[session_id]['transcript'] += f"\n\n\n\n {body.message} \n\n\n\n"
+    user_data[session_id]['prompt'] += f"\n\n\n\n {body.message} \n\n\n\n"
+    try:
+        response = openai.Completion.create(
+            model="text-davinci-003",
+            prompt=user_data[session_id]['prompt'],
+            temperature=0.9,
+            max_tokens=824,
+            top_p=1,
+            frequency_penalty=0,
+            presence_penalty=0.6
+        )
+    except Exception as e:
+        if key_check_result['status'] == "success":
+            print('Youre in')
+            user_data[session_id]['prompt'] = summarize_text(user_data[session_id]['prompt'])
+            response = openai.Completion.create(
+                model="text-davinci-003",
+                prompt=user_data[session_id]['prompt'],
+                temperature=0.9,
+                max_tokens=824,
+                top_p=1,
+                frequency_penalty=0,
+                presence_penalty=0.6
+            )
+        else:
+            return "You have reached your session limit"
+    user_data[session_id]['prompt'] += f"\n\n\n\n {response.choices[0].text} \n\n\n\n"
+    result = response.choices[0].text
+    redis_client.set(user_data_key, json.dumps(user_data))
+    return result
 
 
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request):
     user = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10))
     return templates.TemplateResponse("index.html", {"request": request, "user": user})
-

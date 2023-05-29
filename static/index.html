@@ -41,7 +41,6 @@
                 keepalive: true
             });
         });
-
     </script>
 
 
@@ -49,6 +48,142 @@
 <p id="session">SESSION={{user}}</p>
 <p>IMPORTANT: All data you insert is sent to OpenAI. The makers of this app only intend store your data for the length of your session (session data). Your session data is deleted on refresh or close of this page.</p>
 
+<div class="banner" onclick="showLandingPage()">
+    Discover the Future of Self-Care: Enjoy Unlimited Sessions, Personalized Insights, and Email Transcripts with our Premium Therapist Robot! (TESTING)
+</div>
+    <form id="check-key-form">
+        <label for="key">Input Premium Key</label>
+        <input type="text" id="key" required>
+
+        <button id="submitButton" type="button" class="check-key-button" onclick="checkKey()">Check Key</button>
+    </form>
+
+
+<div id="landingPage" class="landing-page">
+    <h2>Welcome to our Premium Service</h2>
+    <p>Here, you can enjoy unlimited sessions, get personalized insights, and receive email transcripts. Upgrade today for the optimal self-care experience.</p>
+
+    <form id="payment-form">
+        <label for="card-number">Card Number</label>
+        <input type="text" id="card-number" required>
+
+        <label for="exp-month">Expiration Month</label>
+        <input type="number" id="exp-month" min="1" max="12" required>
+
+        <label for="exp-year">Expiration Year</label>
+        <input type="number" id="exp-year" min="2023" required>
+
+        <label for="cvc">CVC</label>
+        <input type="text" id="cvc" required>
+
+        <button type="button" class="payment-button" onclick="handlePayment()">Pay with Stripe</button>
+    </form>
+</div>
+
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+    function showLandingPage() {
+        document.getElementById("landingPage").style.display = "block";
+    }
+
+    function validateInput() {
+        var cardNumber = document.getElementById('card-number').value;
+        var expMonth = document.getElementById('exp-month').value;
+        var expYear = document.getElementById('exp-year').value;
+        var cvc = document.getElementById('cvc').value;
+
+        var currentYear = new Date().getFullYear();
+        var currentMonth = new Date().getMonth() + 1; // getMonth is zero-indexed
+
+        if (cardNumber.length !== 16) {
+            alert("Card number must be 16 digits");
+            return false;
+        }
+
+        if (expYear < currentYear || (expYear == currentYear && expMonth < currentMonth)) {
+            alert("Card is expired");
+            return false;
+        }
+
+        if (cvc.length !== 3) {
+            alert("CVC must be 3 digits");
+            return false;
+        }
+
+        return true;
+    }
+    function checkKey() {
+        var keyInput = document.getElementById('key');
+        var key = keyInput.value;
+        var submitButton = document.getElementById('submitButton');
+        var transcript = document.getElementById('transcript');
+
+        if (key.length !== 5) {
+            alert("Key must be 5 characters");
+            keyInput.style.backgroundColor = "red"; // Change background to red when key length is incorrect
+            return;
+        }
+
+        fetch('https://mindmategpt.herokuapp.com/check-key', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({key: key})
+        }).then(function(response) {
+            return response.json();
+        }).then(function(data) {
+            if (data.status === "success") {
+                alert("Valid key.");
+                keyInput.readOnly = true; // Prevent the input from being edited
+                keyInput.style.backgroundColor = "green"; // Change background to green when key is valid
+                submitButton.style.display = "none"; // Hide the button when key is valid
+                transcript.style.display = "flex";
+            } else {
+                alert("Invalid key.");
+                keyInput.style.backgroundColor = "red"; // Change background to red when key is invalid
+                transcript.style.display = "none";
+            }
+        });
+    }
+
+
+    function handlePayment() {
+        if (!validateInput()) {
+            return;
+        }
+        var stripe = Stripe('pk_live_51NCuyrH6lUlOepAr6tp9jjlGbpGZO7OEc59UrMXtMdSQROPd0jyfN8DfrBhNNKy0EzWjD5zAJYugYI1ZcDSBkRFX0050q18T5p');
+
+        var cardNumber = document.getElementById('card-number').value;
+        var expMonth = document.getElementById('exp-month').value;
+        var expYear = document.getElementById('exp-year').value;
+        var cvc = document.getElementById('cvc').value;
+
+        stripe.createToken('card', {
+            number: cardNumber,
+            exp_month: expMonth,
+            exp_year: expYear,
+            cvc: cvc
+        }).then(function(result) {
+            if (result.error) {
+                // Handle error
+            } else {
+                // Send the token to your server
+                fetch('https://mindmategpt.herokuapp.com/your-payment-endpoint', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({stripeToken: result.token.id})
+                }).then(function(response) {
+                    var resultElement = document.getElementById('result');
+                    resultElement.textContent = JSON.stringify(data);
+                });
+            }
+        });
+    }
+</script>
+<div id="result"></div>
 
 <div id="intro" class="container">
 
@@ -249,7 +384,10 @@
 						<input id="msg_input" placeholder="Say Hi to begin chat..." />
 						<div id="send_button" class="app_button_1">Send</div>
 					</div>
-
+                    <div class="bottom_wrapper">
+                        <input id="downloadInput" placeholder="bill@gmail.com..." />
+						<div id="downloadButton" class="app_button_1">Get transcripts + insights</div>
+                    </div>
 				</div>
 
 			</div>

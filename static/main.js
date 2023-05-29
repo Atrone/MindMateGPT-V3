@@ -72,13 +72,42 @@ $('#send_button').on('click', async (e) => {
 	// get and show message and reset input
 	showUserMessage($('#msg_input').val());
 	$('#msg_input').val('');
+    var keyInput = document.getElementById('key');
+    console.log(keyInput.value)
 
 	// show bot message
-	var ai = await postData({message:post_param});
+	var ai = await postData({message:post_param, key: keyInput.value});
 	showBotMessage(ai);
 
 
 });
+
+$('#downloadButton').on('click', async (e) => {
+                          var sesh = document.getElementById("session");
+                          var keyInput = document.getElementById('key');
+                          var downloadInput = document.getElementById('downloadInput');
+                          console.log(keyInput.value)
+                          // show bot message
+                          var data = {message:"", key: keyInput.value, recipient: downloadInput.value};
+
+
+                          // Default options are marked with *
+                          const response = await fetch("https://mindmategpt.herokuapp.com/api/download", {
+                            method: "POST", // *GET, POST, PUT, DELETE, etc.
+                            mode: "cors", // no-cors, *cors, same-origin
+                            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+                            credentials: "same-origin", // include, *same-origin, omit
+                            headers: {
+                              "Content-Type": "application/json",
+                              'Session': sesh.textContent // Include the session ID in the headers
+                            },
+                            redirect: "follow", // manual, *follow, error
+                            referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                            body: JSON.stringify(data), // body data type must match "Content-Type" header
+                          });
+                          return response.json(); // parses JSON response into native JavaScript objects
+});
+
 
 $('#contact_form').bootstrapValidator({
         // To use feedback icons, ensure that you use Bootstrap v3.1.0 or later

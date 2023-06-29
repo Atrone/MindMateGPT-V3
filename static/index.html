@@ -47,10 +47,14 @@
 
 <body>
 <p id="session">SESSION={{user}}</p>
-<p>IMPORTANT: All data you insert is sent to OpenAI. The makers of this app only intend store your data for the length of your session (session data). Your session data is deleted on refresh or close of this page.</p>
+<p>IMPORTANT: This is completely anonymous. The makers of this app only intend store your data for the length of your session (session data). Your session data is deleted on refresh or close of this page.</p>
 
-<div class="banner" onclick="showLandingPage()">
-    Discover the Future of Self-Care: Enjoy Unlimited Sessions, Personalized Insights, and Email Transcripts with our Premium Therapist Robot!
+<div class="banner" onclick="showLandingPage()" style="background-color: #000080; color: #FFFFFF; padding: 20px; border-radius: 5px; text-align: center;">
+    Transform Your Self-Care Journey Today! Unleash unlimited access to your Personal Therapist Robot.
+    <br/>
+    Experience exclusive, life-changing insights tailored just for you.
+    <br/>
+    <button onclick="showLandingPage()" style="background-color: #FFA500; color: #FFFFFF; padding: 10px 20px; margin-top: 10px; border: none; border-radius: 5px; cursor: pointer;">Don’t wait! Embrace a better you with our Premium Service. Upgrade Now!</button>
 </div>
 <br>
     <form id="check-key-form">
@@ -259,6 +263,7 @@ form.addEventListener('submit', function(event) {
           });
         });
     }
+
 </script>
 <div id="result"></div>
 
@@ -464,7 +469,6 @@ form.addEventListener('submit', function(event) {
                     <div class="bottom_wrapper">
                         <input id="downloadInput" placeholder="bill@gmail.com..." />
 						<div id="downloadButton" class="app_button_1">Get transcripts + insights</div>
-                        <h4>(ONLY AVAILABLE WITH VALID KEY)</h4>
                     </div>
 				</div>
 
@@ -491,10 +495,9 @@ form.addEventListener('submit', function(event) {
 							</div>
 							<div id="collapse1" class="panel-collapse collapse in">
 								<div class="panel-body">
-									WARNING: The makers of this project are in no way associated with OpenAI or ChatGPT and do not control what they do.
-                                    This robot can give the wrong advices and the makers of this app are in no way shape
-                                    or form responsible for anything this robot says.
-                                    We do not intend to store any data you type and everything you say is as anonymous as you make it.
+									WARNING: The makers of this project are in no way associated with OpenAI or ChatGPT.
+                                    This robot can give the wrong advices.
+                                    We do not intend to store any data you type and everything you say is anonymous.
                                     Use responsibly.
 								</div>
 							</div>
@@ -517,6 +520,33 @@ form.addEventListener('submit', function(event) {
 
 	<!-- custom scripts -->
 	<script src="static/main.js"></script>
+    <script>
+    window.onload = function() {
+    var keyElement = document.getElementById('key');
+    var downloadInput = document.getElementById('downloadInput');
+    var downloadButton = document.getElementById('downloadButton');
+
+    // Function to update display based on the 'key' element's background color
+    var updateDisplay = function() {
+        if (window.getComputedStyle(keyElement).backgroundColor === 'rgb(0, 128, 0)') { // this is 'green' in RGB
+            downloadInput.style.display = 'block';
+            downloadButton.style.display = 'block';
+        } else {
+            downloadInput.style.display = 'none';
+            downloadButton.style.display = 'none';
+        }
+    }
+
+    // Set up the mutation observer
+    var observer = new MutationObserver(updateDisplay);
+
+    // Configure the observer to listen for attribute changes
+    var config = { attributes: true, attributeFilter: ['style'] };
+
+    // Start observing
+    observer.observe(keyElement, config);
+}
+</script>
 </body>
 
 </html>

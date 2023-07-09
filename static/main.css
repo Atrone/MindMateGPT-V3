@@ -44,11 +44,11 @@ body {
 }
   @media only screen and (max-width: 480px) {
     .welcome-section .logo {
-      font-size: 75px;
+      font-size: 45px;
     }
 
     .welcome-section .logo p {
-      font-size: 15px;
+      font-size: 10px;
     }
   }
 

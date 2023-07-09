@@ -42,6 +42,16 @@ body {
   bottom: 25px; /* Adjust the bottom position */
 
 }
+  @media only screen and (max-width: 480px) {
+    .welcome-section .logo {
+      font-size: 75px;
+    }
+
+    .welcome-section .logo p {
+      font-size: 15px;
+    }
+  }
+
 .banner {
   background-color: #5B969C;
   color: black;

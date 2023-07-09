@@ -42,29 +42,42 @@
                 keepalive: true
             });
         });
+
     </script>
 
 
+
 <body>
-<p id="session">SESSION={{user}}</p>
-<p>IMPORTANT: This is completely anonymous. The makers of this app only intend store your data for the length of your session (session data). Your session data is deleted on refresh or close of this page.</p>
 
-<div class="banner" style="background-color: #000080; color: #FFFFFF; padding: 20px; border-radius: 5px; text-align: center; font-size: 20px;">
-    Transform Your Self-Care Journey Today! Unleash unlimited access to your Personal Therapist Robot.
-    <br/>
-    Experience exclusive, life-changing insights tailored just for you.
-    <br/>
-    <button onclick="showLandingPage()" style="background-color: #FFA500; color: #FFFFFF; padding: 10px 20px; margin-top: 10px; border: none; border-radius: 5px; cursor: pointer; font-size: 18px;">Don’t wait! Embrace a better you with our Premium Service. Upgrade Now!</button>
+    <div id="welcome-section" class="welcome-section">
+<div class="logocon" data-0="height: 100vh; opacity: 1" data-99="height: 10vh; opacity: .85" data-100="height: 50px">
+    <div class="logo" data-0="font-size: 150px" data-100="font-size: 32px" style="text-align: center">MindMateGPT <br><br> <p style="font-size: 25px">Scroll for personalized 24/7 support</p> </div>
 </div>
-<br>
-    <form id="check-key-form">
-        <label for="key">Input Premium Key</label>
-        <input type="text" id="key" required>
+<!--page contents below-->
+    </div>
+<div class="banner">
+  <div style="
+    font-weight: bold;
+">
+    Life-changing insights tailored just for you!<br />
 
-        <button id="submitButton" type="button" class="check-key-button" onclick="checkKey()">Check Key</button>
+    <button onclick="showLandingPage()" style="background-color: #FFA500; color: black; padding: 8px 16px; margin-top: 10px; border: none; border-radius: 5px; cursor: pointer; font-size: 15px;">Upgrade Now!</button>
+  </div>
+  <div class="form-wrapper">
+    <form id="check-key-form" style="display: flex; flex-direction: column;">
+      <label for="key">Input Premium Key</label>
+      <input type="text" id="key" required>
+      <button id="submitButton" type="button" class="check-key-button" onclick="checkKey()" style="color: black;">Check Key</button>
     </form>
+  </div>
+</div>
+    <br>
+<p style="display: none" id="session">SESSION={{user}}</p>
 
 
+<div class="content">
+
+<p style="font-size: 15px;text-align: center;font-weight: bold; ">IMPORTANT: This is completely anonymous. The makers of this app only intend store your data for the length of your session (session data). Your session data is deleted on refresh or close of this page.</p>
 
 <div id="landingPage" class="landing-page">
     <h2>Welcome to our Premium Service</h2>
@@ -274,7 +287,7 @@ form.addEventListener('submit', function(event) {
 
 <div id="intro" class="container">
 
-    <form id="contact_form" class="well form-horizontal" >
+    <form id="contact_form" class="well form-horizontal" style="background-color: DDFBFE;" >
 <fieldset>
 
 <!-- Form Name -->
@@ -525,6 +538,19 @@ form.addEventListener('submit', function(event) {
 
 	<!-- custom scripts -->
 	<script src="static/main.js"></script>
+
+  <!-- Initialize Skrollr -->
+<script>
+window.onscroll = function(ev) {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+        // User is at the bottom of the page
+        document.getElementById("welcome-section").style.display = "none";
+    }
+};
+</script>
+
+    </div>
+
 </body>
 
 </html>

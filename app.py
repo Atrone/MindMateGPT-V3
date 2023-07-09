@@ -212,7 +212,7 @@ async def handle_payment(data: PaymentData):
             key = generate_key(5)
             # Store the key in Redis
             redis_client.set(key, 'true')
-            return f"Here is your key: {key}. \n\n\n IMPORTANT: Please store this key for future use. You input it to access the premium features."
+            return f"Here is your key: {key}. IMPORTANT: Please store this key for future use. You input it to access the premium features."
         else:
             return {"status": "error", "message": "Payment failed"}
 

@@ -79,7 +79,6 @@ body {
   align-items: center;
   /* Add flexbox properties to align form items */
     justify-content: flex-end;
-      position: absolute; /* Add position absolute */
   top: 0; /* Position at the top */
   right: 0; /* Position at the right */
   display: flex;

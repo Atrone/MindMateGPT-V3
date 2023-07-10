@@ -55,11 +55,15 @@ def summarize_text(text):
 
 
 def create_insights(text):
-    prompt = f"Create expert level insights for this therapy session:\n{text}"
+    prompt = f"Here is a completed therapy session:" \
+             f"\n\n{text}\n\n " \
+             f"For the above completed session, " \
+             f"provide a summary of the session as well as expert level insights into what a good next step for " \
+             f"the patient would be."
     response = openai.Completion.create(
         engine="text-davinci-003",
         prompt=prompt,
-        temperature=0.3,
+        temperature=0.5,
         max_tokens=150,  # = 112 words
         top_p=1,
         frequency_penalty=0,

@@ -259,26 +259,16 @@ async def download_insights(body: CoreGPTBody, request: Request):
             user_data = json.loads(user_data)
 
         message = user_data[session_id]['transcript'] + "\n\n\n\n" + create_insights(user_data[session_id]['transcript'])
-        subject = "Your Therapy Insights by MindMateGPT"
 
         try:
-            # Create a multipart message and set headers
-            msg = MIMEMultipart()
-            msg["From"] = SENDER_EMAIL
-            msg["To"] = body.recipient
-            msg["Subject"] = subject
-
-            # Add body to email
-            msg.attach(MIMEText(message, "plain"))
-
-
             # Connect to the SMTP server
             server = smtplib.SMTP("smtp.gmail.com", 587)
             server.starttls()
             server.login(SENDER_EMAIL, SENDER_PASSWORD)
+            message = 'Subject: {}\n\n{}'.format("Therapy Insights from MindMateGPT Premium :)", message)
 
             # Send the email
-            server.sendmail(SENDER_EMAIL, body.recipient, msg)
+            server.sendmail(SENDER_EMAIL, body.recipient, message)
             server.quit()
 
             return {"message": "Email sent successfully"}

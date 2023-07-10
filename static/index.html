@@ -575,10 +575,8 @@ document.getElementById('downloadButton').addEventListener('click', function() {
     // Show the spinner
     document.getElementById('loadingSpinner2').style.display = 'block';
     setTimeout(function() {
-        document.getElementById('emailContent').textContent = 'Sending email';
+        document.getElementById('loadingSpinner2').style.display = 'none';
     }, 2000);
-    document.getElementById('loadingSpinner2').style.display = 'none';
-    document.getElementById('emailContent').textContent = '';
 });
 </script>
 

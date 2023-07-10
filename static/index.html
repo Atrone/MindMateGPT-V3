@@ -86,7 +86,10 @@
     <form id="payment-form">
         <div id="card-element" class="StripeElement"></div>
         <div id="card-errors" role="alert"></div>
-        <button type="submit" style="font-size: 20px">Submit payment to generate key</button>
+        <button id="payment-button" type="submit" style="font-size: 20px">Submit payment to generate key</button>
+        <div id="loadingSpinner" style="display: none;">
+          <div class="spinner"></div>
+        </div>
     </form>
 </div>
 <script>// Initialize Stripe with your publishable key
@@ -142,7 +145,22 @@ form.addEventListener('submit', function(event) {
   });
 });
 </script>
+<script>
+document.getElementById('payment-button').addEventListener('click', function() {
+    // Show the spinner
+    document.getElementById('loadingSpinner').style.display = 'block';
 
+    // Start checking every 100ms if the content is loaded
+    var contentCheckInterval = setInterval(function() {
+        var contentDiv = document.getElementById('result');
+        if (contentDiv.textContent.trim() !== '') {
+            // If the content is loaded, hide the spinner and stop checking
+            document.getElementById('loadingSpinner').style.display = 'none';
+            clearInterval(contentCheckInterval);
+        }
+    }, 100);
+});
+</script>
 <script>
     function showLandingPage() {
         if(document.getElementById("landingPage").style.display != "block")

@@ -271,8 +271,6 @@ async def download_insights(body: CoreGPTBody, request: Request):
             # Add body to email
             msg.attach(MIMEText(message, "plain"))
 
-            # Convert the message to a string
-            text = msg.as_string()
 
             # Connect to the SMTP server
             server = smtplib.SMTP("smtp.gmail.com", 587)
@@ -280,7 +278,7 @@ async def download_insights(body: CoreGPTBody, request: Request):
             server.login(SENDER_EMAIL, SENDER_PASSWORD)
 
             # Send the email
-            server.sendmail(SENDER_EMAIL, body.recipient, message)
+            server.sendmail(SENDER_EMAIL, body.recipient, msg)
             server.quit()
 
             return {"message": "Email sent successfully"}

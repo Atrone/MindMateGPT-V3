@@ -505,6 +505,10 @@ document.getElementById('payment-button').addEventListener('click', function() {
                     <div class="bottom_wrapper">
                         <input id="downloadInput" style="display: none;" placeholder="bill@gmail.com..." />
 						<div id="downloadButton" style="display: none;" class="app_button_1">Get transcripts + insights</div>
+                        <div id="emailContent"></div>
+                        <div id="loadingSpinner2" style="display: none;">
+                            <div class="spinner"></div>
+                        </div>
                     </div>
 				</div>
 
@@ -566,6 +570,17 @@ window.onscroll = function(ev) {
     }
 };
 </script>
+    <script>
+document.getElementById('downloadButton').addEventListener('click', function() {
+    // Show the spinner
+    document.getElementById('loadingSpinner2').style.display = 'block';
+    setTimeout(function() {
+        document.getElementById('emailContent').textContent = 'Sending email';
+    }, 2000);
+    document.getElementById('loadingSpinner2').style.display = 'none';
+});
+</script>
+
 
     </div>
 <div class="banner">

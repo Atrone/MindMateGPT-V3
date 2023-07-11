@@ -62,9 +62,7 @@
     font-size: 30px;
 ;
 ">
-    MindMate insights and session memory!<br />
-
-    <button onclick="showLandingPage()" style="background-color: #FFA500; color: black; padding: 8px 16px; margin-top: 10px; border: none; border-radius: 5px; cursor: pointer; font-size: 25px;">Upgrade Now!</button>
+    <button onclick="showLandingPage()" style="background-color: #FFA500; color: black; padding: 8px 16px; margin-top: 10px; border: none; border-radius: 5px; cursor: pointer; font-size: 25px;">Upgrade Now! <br> For insights and session memory!</button>
   </div>
 </div>
     <br>
@@ -82,7 +80,7 @@
     <h4>20$ one time fee (No subscription)</h4>
     <p style="
     font-size: 25px;
-">With this key, you can enjoy rate-limit free sessions, personalized insights, email transcripts, and specific session summaries you can use for MindMate session memory. Upgrade today for the optimal self-care experience.</p>
+">With this key, you can enjoy rate-limit free sessions, personalized insights, email transcripts, and specific session summaries you can use for Mindy's memory. Upgrade today for the optimal self-care experience.</p>
 
     <form id="payment-form">
         <div id="card-element" class="StripeElement"></div>
@@ -504,10 +502,11 @@ document.getElementById('payment-button').addEventListener('click', function() {
 						<div id="send_button" class="app_button_1">Send</div>
 					</div>
                     <div class="bottom_wrapper">
-                        <input id="downloadInput" style="display: none;" placeholder="bill@gmail.com..." />
-						<div id="downloadButton" style="display: none;" class="app_button_1">Get transcripts, insights, and summary</div>
-                        <div id="emailContent">Input a previous session's email summary for MindMate's memory like so:</div>
-                        "Here is a summary of our session from 2 days ago: SUMMARY HERE"
+                        <input id="downloadInput" style="display: block;padding: 10px;" placeholder="bill@gmail.com..." />
+						<div id="downloadButton" style="display: block;padding: 10px;" class="app_button_1">Get insights</div>
+                        <div id="emailContent" style="
+    padding: 10px;
+">Input a session email summary in chat to continue conversation</div>
                         <div id="loadingSpinner2" style="display: none;">
                             <div class="spinner"></div>
                         </div>

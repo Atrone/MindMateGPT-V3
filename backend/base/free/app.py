@@ -25,7 +25,7 @@ class FreeApp(BaseApp):
             user_data = await extract_form_data(dict(form_data), session_id)
             user_data[session_id]['transcript'] = "This is a transcript"
             redis_client.set(user_data_key, json.dumps(user_data))
-            return user_data['name']
+            return user_data[session_id]['name']
 
         @self.router.post("/therapistGPT")
         async def get_response(request: Request, body: GPTBody, key_body: KeyBody):

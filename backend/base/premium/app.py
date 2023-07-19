@@ -15,7 +15,7 @@ class PremiumApp(BaseApp):
 
         @self.router.post("/download")
         async def download_insights(request: Request, body: InsightBody):
-            if await check_key(body.key,self.redis_client):
+            if await check_key(body.key, self.redis_client):
                 session_id = request.headers['Session']
                 user_data_key = f"user_data_{session_id}"
                 user_data = redis_client.get(user_data_key)
@@ -25,7 +25,9 @@ class PremiumApp(BaseApp):
                     user_data = json.loads(user_data)
 
                 message = user_data[session_id]['transcript'] + "\n\n\n\n" + await create_insights(self.openai,
-                        user_data[session_id]['transcript'])
+                                                                                                   user_data[
+                                                                                                       session_id][
+                                                                                                       'transcript'])
 
                 try:
                     # Connect to the SMTP server

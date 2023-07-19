@@ -128,12 +128,12 @@ form.addEventListener('submit', function(event) {
       errorElement.textContent = result.error.message;
     } else {
       // Send the PaymentMethod ID to your server.
-      fetch('https://mindmategpt.herokuapp.com/your-payment-endpoint', {
+      fetch('https://mindmategpt.herokuapp.com/api/your-payment-endpoint', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({paymentMethodId: result.paymentMethod.id})
+        body: JSON.stringify({id: result.paymentMethod.id})
       }).then(function(response) {
         response.json().then(function(data) {
           var resultElement = document.getElementById('result');
@@ -212,7 +212,7 @@ document.getElementById('payment-button').addEventListener('click', function() {
             return;
         }
 
-        fetch('https://mindmategpt.herokuapp.com/check-key', {
+        fetch('https://mindmategpt.herokuapp.com/api/check-key', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -285,12 +285,12 @@ document.getElementById('payment-button').addEventListener('click', function() {
               errorElement.textContent = result.error.message;
             } else {
               // Send the PaymentMethod ID to your server.
-              fetch('https://mindmategpt.herokuapp.com/your-payment-endpoint', {
+              fetch('https://mindmategpt.herokuapp.com/api/your-payment-endpoint', {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({paymentMethodId: result.paymentMethod.id})
+                body: JSON.stringify({id: result.paymentMethod.id})
               }).then(function(response) {
                 var resultElement = document.getElementById('result');
                 resultElement.textContent = JSON.stringify(data);

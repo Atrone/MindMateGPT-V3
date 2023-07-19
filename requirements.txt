@@ -28,3 +28,4 @@ uvicorn==0.20.0
 yarl==1.8.2
 redis
 stripe
+python-dotenv

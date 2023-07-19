@@ -61,7 +61,7 @@ templates = Jinja2Templates(directory="static")
 env_vars = load_environment()
 openai.api_key = env_vars['OPENAI_API_KEY']
 redis_url = env_vars["REDIS_URL"]
-redis_client = None #redis.from_url(redis_url)
+redis_client = redis.from_url(redis_url)
 
 
 def get_redis_client() -> Redis:

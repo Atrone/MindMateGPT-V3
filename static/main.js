@@ -76,7 +76,7 @@ $('#send_button').on('click', async (e) => {
     console.log(keyInput.value)
 
 	// show bot message
-	var ai = await postData({message:post_param, key: keyInput.value});
+	var ai = await postData({message:post_param}, {key: keyInput.value});
 	showBotMessage(ai);
 
 
@@ -270,7 +270,7 @@ $('#contact_form').bootstrapValidator({
 });
 
 // Example POST method implementation:
-async function postData(data) {
+async function postData(data, key_data) {
   var sesh = document.getElementById("session");
 
   // Default options are marked with *
@@ -285,8 +285,8 @@ async function postData(data) {
     },
     redirect: "follow", // manual, *follow, error
     referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-    body: JSON.stringify({"message":data.message}), // body data type must match "Content-Type" header
-    key_body: JSON.stringify({"key":data.key}) // body data type must match "Content-Type" header
+    body: JSON.stringify(data), // body data type must match "Content-Type" header
+    key_body: JSON.stringify(key_data), // body data type must match "Content-Type" header
   });
   return response.json(); // parses JSON response into native JavaScript objects
 }

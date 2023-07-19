@@ -64,28 +64,11 @@ redis_url = env_vars["REDIS_URL"]
 redis_client = redis.from_url(redis_url)
 
 
-def get_redis_client() -> Redis:
-    return redis_client
-
-
-async def check_key_http(request: Request, redis_client: Redis = Depends(get_redis_client)):
-    try:
-        key = request.headers['Session']  # or however you're sending the key
-        if key and redis_client.exists(key):
-            return True
-        else:
-            raise HTTPException(
-            )
-    except:
-        raise HTTPException(
-        )
-
-
 free_app = FreeApp(redis_client, stripe, openai)
 premium_app = PremiumApp(redis_client, openai)
 
 api_app.include_router(free_app.router)
-api_app.include_router(premium_app.router, dependencies=[Depends(check_key_http)])
+api_app.include_router(premium_app.router)
 
 
 @api_app.delete("/session/{session_id}")

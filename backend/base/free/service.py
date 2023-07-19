@@ -26,30 +26,27 @@ class FreeAppService:
     async def generate_response(self, prompt: str, key_check_result: Dict[str, Any] = None) -> str:
         if key_check_result is None:
             key_check_result = {"status": "NO KEY"}
+
+        # Common settings for the Completion.create
+        completion_params = {
+            "model": "text-davinci-003",
+            "prompt": prompt,
+            "temperature": 0.9,
+            "max_tokens": 824,
+            "top_p": 1,
+            "frequency_penalty": 0,
+            "presence_penalty": 0.6
+        }
+
         try:
-            response = self.openai.Completion.create(
-                model="text-davinci-003",
-                prompt=prompt,
-                temperature=0.9,
-                max_tokens=824,
-                top_p=1,
-                frequency_penalty=0,
-                presence_penalty=0.6
-            )
+            response = self.openai.Completion.create(**completion_params)
         except:
             if key_check_result['status'] == "success":
-                prompt = await summarize_text(self.openai,prompt)
-                response = self.openai.Completion.create(
-                    model="text-davinci-003",
-                    prompt=prompt,
-                    temperature=0.9,
-                    max_tokens=824,
-                    top_p=1,
-                    frequency_penalty=0,
-                    presence_penalty=0.6
-                )
+                completion_params['prompt'] = await summarize_text(self.openai, prompt)
+                response = self.openai.Completion.create(**completion_params)
             else:
                 return "You have reached your session limit"
+
         return response.choices[0].text
 
     async def handle_payment(self, payment_id: str, redis_client):

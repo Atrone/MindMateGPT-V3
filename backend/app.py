@@ -1,8 +1,7 @@
-from http.client import HTTPException
 
 import redis
 from fastapi.staticfiles import StaticFiles
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 import openai
@@ -10,8 +9,6 @@ import stripe
 import random
 import string
 from fastapi import Request
-from redis.client import Redis
-from starlette import status
 
 from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import JSONResponse

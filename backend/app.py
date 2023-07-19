@@ -61,7 +61,7 @@ templates = Jinja2Templates(directory="static")
 env_vars = load_environment()
 openai.api_key = env_vars['OPENAI_API_KEY']
 redis_url = env_vars["REDIS_URL"]
-redis_client = redis.from_url(redis_url)
+redis_client = None #redis.from_url(redis_url)
 
 
 def get_redis_client() -> Redis:
@@ -96,7 +96,7 @@ async def delete_session(session_id: str):
 
 @api_app.post('/check-key')
 async def check_key_route(keyCheck: HTTPKeyCheckBody):
-    return check_key(keyCheck.key, redis_client)
+    return await check_key(keyCheck.key, redis_client)
 
 
 @app.get("/", response_class=HTMLResponse)

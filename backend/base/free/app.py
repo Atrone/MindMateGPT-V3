@@ -28,7 +28,7 @@ class FreeApp(BaseApp):
             return user_data[session_id]['name']
 
         @self.router.post("/therapistGPT")
-        async def get_response(request: Request, body: GPTBody, key_body: KeyBody):
+        async def get_response(request: Request, body: GPTBody, key_body: KeyBody = KeyBody(key="INVAL")):
             session_id = request.headers['Session']
             user_data_key = f"user_data_{session_id}"
             user_data = redis_client.get(user_data_key)

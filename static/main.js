@@ -76,7 +76,7 @@ $('#send_button').on('click', async (e) => {
     console.log(keyInput.value)
 
 	// show bot message
-	var ai = await postData({message:post_param}, {key: keyInput.value});
+	var ai = await postData({body:{message:post_param}}, {key: keyInput.value});
 	showBotMessage(ai);
 
 

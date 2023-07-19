@@ -23,7 +23,7 @@ class FreeApp(BaseApp):
             session_id = request.headers['Session']
             user_data_key = f"user_data_{session_id}"
             user_data = await extract_form_data(dict(form_data), session_id)
-            user_data[session_id]['prompt'] = await self.service.format_prompt(user_data)
+            user_data[session_id]['prompt'] = await self.service.format_prompt(user_data[session_id])
             user_data[session_id]['transcript'] = "This is a transcript"
             redis_client.set(user_data_key, json.dumps(user_data))
             return user_data[session_id]['name']

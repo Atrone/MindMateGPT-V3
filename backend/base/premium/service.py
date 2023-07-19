@@ -5,7 +5,7 @@ async def summarize_text(openai, text):
         messages=[{"role": "user", "content": prompt}]
     )
 
-    return response["choices"][0]["text"]
+    return response.choices[0].message.content
 
 
 async def create_insights(openai, text):
@@ -19,4 +19,4 @@ async def create_insights(openai, text):
         messages=[{"role": "user", "content": prompt}]
     )
 
-    return response["choices"][0]["text"]
+    return response.choices[0].message.content

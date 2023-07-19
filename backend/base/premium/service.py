@@ -1,7 +1,7 @@
 async def summarize_text(openai, text):
     prompt = f"Summarize the following text in 5 sentences:\n{text}"
     response = openai.Completion.create(
-        engine="gpt-4",
+        model="gpt-4",
         messages=[{"role": "user", "content": prompt}]
     )
 
@@ -15,7 +15,7 @@ async def create_insights(openai, text):
              f"provide a summary of the session as well as expert level insights into what a good next step for " \
              f"the patient would be."
     response = openai.ChatCompletion.create(
-        engine="gpt-4",
+        model="gpt-4",
         messages=[{"role": "user", "content": prompt}]
     )
 

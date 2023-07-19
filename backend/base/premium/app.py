@@ -24,7 +24,8 @@ class PremiumApp(BaseApp):
                 else:
                     user_data = json.loads(user_data)
 
-                message = user_data[session_id]['transcript'] + "\n\n\n\n" + await create_insights(user_data[
+                message = user_data[session_id]['transcript'] + "\n\n\n\n" + await create_insights(self.openai,
+                                                                                                   user_data[
                                                                                                        session_id][
                                                                                                        'transcript'])
 

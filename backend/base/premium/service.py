@@ -1,10 +1,4 @@
-import os
-
-import openai
-
-openai.api_key = os.getenv("apikey")
-
-async def summarize_text(text):
+async def summarize_text(openai, text):
     prompt = f"Summarize the following text in 5 sentences:\n{text}"
     response = openai.Completion.create(
         engine="gpt-4",
@@ -14,7 +8,7 @@ async def summarize_text(text):
     return response.choices[0].message.content
 
 
-async def create_insights(text):
+async def create_insights(openai, text):
     prompt = f"Here is a completed therapy session:" \
              f"\n\n{text}\n\n " \
              f"For the above completed session, " \

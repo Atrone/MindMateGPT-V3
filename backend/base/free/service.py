@@ -38,7 +38,7 @@ class FreeAppService:
             )
         except:
             if key_check_result['status'] == "success":
-                prompt = await summarize_text(prompt)
+                prompt = await summarize_text(self.openai,prompt)
                 response = self.openai.Completion.create(
                     model="text-davinci-003",
                     prompt=prompt,

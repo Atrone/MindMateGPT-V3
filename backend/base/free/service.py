@@ -59,7 +59,7 @@ class FreeAppService:
                 amount=2000,  # amount in cents
                 currency='usd',
                 payment_method=payment_id,
-                confirm=False,  # Automatically confirm the payment
+                confirm=True,  # Automatically confirm the payment
                 description='My first payment',
             )
 

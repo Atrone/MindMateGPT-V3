@@ -6,7 +6,7 @@ from backend.base.premium.service import summarize_text
 
 async def extract_form_data(form_data: Dict[str, Any], session_id: str) -> Dict[str, Any]:
     user_data = {session_id: {}}
-    for key in ['name', 'childhood', 'relationship', 'mbti', 'growup', 'live',
+    for key in ['first_name', 'childhood', 'relationship', 'mbti', 'growup', 'live',
                 'criminal', 'drugs', 'family', 'religion', 'education', 'medication', 'working']:
         user_data[session_id][key] = form_data.get(key)
     return user_data

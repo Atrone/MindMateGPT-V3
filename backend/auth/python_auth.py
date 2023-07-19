@@ -16,5 +16,5 @@ def generate_key(length):
 
 async def check_key(key: str, redis_client):
     if not key or not redis_client.exists(key):
-        raise ValueError("Invalid key")
+        return {"status": "failure", "message": "Invalid key."}
     return {"status": "success", "message": "Valid key."}

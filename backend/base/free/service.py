@@ -40,7 +40,7 @@ class FreeAppService:
 
         try:
             response = self.openai.Completion.create(**completion_params)
-        except:
+        except self.openai.error.InvalidRequestError: # too many tokens
             if key_check_result['status'] == "success":
                 completion_params['prompt'] = await summarize_text(self.openai, prompt)
                 response = self.openai.Completion.create(**completion_params)

@@ -25,6 +25,7 @@ tqdm==4.65.0
 typing-extensions==4.5.0
 urllib3==1.26.14
 uvicorn==0.20.0
+gunicorn
 yarl==1.8.2
 redis
 stripe

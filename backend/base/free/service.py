@@ -49,7 +49,7 @@ class FreeAppService:
 
         return response.choices[0].text
 
-    async def handle_payment(self, payment_id: str, redis_client):
+    async def handle_payment(self, payment_id: str, redis_client) -> Dict:
         try:
             # Create a PaymentIntent with the amount and currency
             payment_intent = self.stripe.PaymentIntent.create(

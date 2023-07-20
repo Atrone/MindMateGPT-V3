@@ -1,4 +1,4 @@
-async def summarize_text(openai, text):
+async def summarize_text(openai, text: str) -> str:
     prompt = f"Summarize the following text in 5 sentences:\n{text}"
     response = openai.Completion.create(
         model="gpt-4",
@@ -8,7 +8,7 @@ async def summarize_text(openai, text):
     return response.choices[0].message.content
 
 
-async def create_insights(openai, text):
+async def create_insights(openai, text: str) -> str:
     prompt = f"Here is a completed therapy session:" \
              f"\n\n{text}\n\n " \
              f"For the above completed session, " \

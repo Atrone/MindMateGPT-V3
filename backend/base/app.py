@@ -1,7 +1,7 @@
 import json
 import os
 import smtplib
-
+from typing import Dict
 from fastapi import APIRouter
 
 
@@ -11,7 +11,7 @@ class BaseApp:
         self.openai = openai
         self.router = APIRouter()
 
-    async def get_user_data(self, session_id: str):
+    async def get_user_data(self, session_id: str) -> Dict:
         user_data_key = f"user_data_{session_id}"
         user_data = self.redis_client.get(user_data_key)
         if user_data is None:
@@ -20,7 +20,7 @@ class BaseApp:
             user_data = json.loads(user_data)
         return user_data
 
-    async def send_email(self, recipient: str, message: str):
+    async def send_email(self, recipient: str, message: str) -> Dict:
         try:
             server = smtplib.SMTP("smtp.gmail.com", 587)
             server.starttls()

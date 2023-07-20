@@ -12,7 +12,7 @@ from fastapi import Request
 
 from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import JSONResponse
-from backend.auth.python_auth import HTTPKeyCheckBody, check_key
+from backend.auth.keys import HTTPKeyCheckBody, check_key
 from backend.env.variables import load_environment
 from backend.base.free.app import FreeApp
 from backend.base.premium.app import PremiumApp

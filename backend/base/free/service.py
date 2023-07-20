@@ -1,6 +1,6 @@
 from typing import Dict, Any
 
-from backend.auth.python_auth import generate_key
+from backend.auth.keys import generate_key
 from backend.base.premium.service import summarize_text
 
 

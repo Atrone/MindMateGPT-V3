@@ -3,7 +3,7 @@ import os
 import smtplib
 from fastapi import Request
 
-from backend.auth.python_auth import check_key
+from backend.auth.keys import check_key
 from backend.base.app import BaseApp
 from backend.base.premium.service import create_insights
 from backend.base.premium.request_models import InsightBody

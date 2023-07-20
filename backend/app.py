@@ -27,13 +27,13 @@ origins = [
 
 ]
 
-api_app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+cors = {"middleware_class": CORSMiddleware,
+        "allow_origins": origins,
+        "allow_credentials": True,
+        "allow_methods":['*'],
+        "allow_headers":['*']}
+
+api_app.add_middleware(**cors)
 
 app = FastAPI(title="main app")
 app.mount("/api", api_app)
@@ -46,16 +46,13 @@ origins = [
     'https://www.mindmategpt.com'
 ]
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+app.add_middleware(**cors)
 
 templates = Jinja2Templates(directory="static")
+
 env_vars = load_environment()
+
+# Backend-wide shared data
 openai.api_key = env_vars['OPENAI_API_KEY']
 redis_url = env_vars["REDIS_URL"]
 redis_client = redis.from_url(redis_url)

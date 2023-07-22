@@ -151,40 +151,6 @@ $('#contact_form').bootstrapValidator({
                     }
                 }
             },
-            growup: {
-                validators: {
-                    notEmpty: {
-                        message: 'Please supply your upbringing area'
-                    }
-                }
-            },
-            live: {
-                validators: {
-                    notEmpty: {
-                        message: 'Please supply your area of living'
-                    }
-                }
-            },
-            criminal: {
-                validators: {
-                     stringLength: {
-                        min: 4,
-                    },
-                    notEmpty: {
-                        message: 'Please supply your criminal'
-                    }
-                }
-            },
-            drugs: {
-                validators: {
-                     stringLength: {
-                        min: 4,
-                    },
-                    notEmpty: {
-                        message: 'Please supply your drugs'
-                    }
-                }
-            },
             family: {
                 validators: {
                     notEmpty: {
@@ -199,30 +165,6 @@ $('#contact_form').bootstrapValidator({
                     }
                 }
             },
-            education: {
-                validators: {
-                      stringLength: {
-                        min: 3,
-                        max: 200,
-                        message:'Please enter at least 10 characters and no more than 200'
-                    },
-                    notEmpty: {
-                        message: 'Please supply a education'
-                    }
-                    }
-                },
-            medication: {
-                validators: {
-                      stringLength: {
-                        min: 1,
-                        max: 200,
-                        message:'Please enter at least 1 characters and no more than 200'
-                    },
-                    notEmpty: {
-                        message: 'Please supply a medication'
-                    }
-                    }
-                },
             working: {
                 validators: {
                       stringLength: {

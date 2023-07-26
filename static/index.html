@@ -83,8 +83,10 @@ function hideContent() {
   document.getElementById("hideAbout").style.display = "none";
 }
 </script>
-<button onclick="showContent()">Show About</button>
 <div class="content">
+  <div class="button-container">
+    <button onclick="showContent()">Show About</button>
+  </div>  
   <div class="center" id="content">
     <header>
         <h1>About Our AI Journaling Companion App</h1>
@@ -103,7 +105,7 @@ function hideContent() {
             <p>"This app has changed my life. I can now capture my thoughts and ideas easily. Highly recommended!"</p>
         </div>
     </section>  
-    <button id="hideAbout" onclick="hideContent()">Hide About</button>
+    <button class="button-container" id="hideAbout" onclick="hideContent()">Hide About</button>
   </div>
   <br>
   

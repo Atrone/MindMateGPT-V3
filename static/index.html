@@ -73,7 +73,17 @@
 </div>
     <br>
 <p style="display: none" id="session">SESSION={{user}}</p>
+<script>function showContent() {
+  document.getElementById("hideAbout").style.display = "block";
+  document.getElementById("content").style.display = "block";
+}
 
+function hideContent() {
+  document.getElementById("content").style.display = "none";
+  document.getElementById("hideAbout").style.display = "none";
+}
+</script>
+<button onclick="showContent()">Show About</button>
 <div class="content">
   <div class="center" id="content">
     <header>
@@ -93,7 +103,9 @@
             <p>"This app has changed my life. I can now capture my thoughts and ideas easily. Highly recommended!"</p>
         </div>
     </section>  
+    <button id="hideAbout" onclick="hideContent()">Hide About</button>
   </div>
+  <br>
   
 <p style="font-size: 15px;text-align: center;font-weight: bold; ">IMPORTANT: This is completely anonymous. We do not store any data.</p>
 <br>

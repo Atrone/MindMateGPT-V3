@@ -74,22 +74,8 @@
     <br>
 <p style="display: none" id="session">SESSION={{user}}</p>
 
-<script>
-  function showContent() {
-    document.getElementById("showAbout").style.display = "none";
-    document.getElementById("content").style.display = "block";
-    document.getElementById("hideAbout").style.display = "block";
-  }
-  
-  function hideContent() {
-    document.getElementById("showAbout").style.display = "block";
-    document.getElementById("content").style.display = "none";
-    document.getElementById("hideAbout").style.display = "none";
-  }
-  </script>  
-<button id="showAbout" onclick="showContent()">About</button>
 <div class="content">
-  <div class="center" style="display: none;" id="content">
+  <div class="center" id="content">
     <header>
         <h1>About Our AI Journaling Companion App</h1>
     </header>
@@ -106,9 +92,7 @@
         <div class="testimonial">
             <p>"This app has changed my life. I can now capture my thoughts and ideas easily. Highly recommended!"</p>
         </div>
-    </section>
-    <button id="hideAbout" onclick="hideContent()">Go Back</button>
-  
+    </section>  
   </div>
   
 <p style="font-size: 15px;text-align: center;font-weight: bold; ">IMPORTANT: This is completely anonymous. We do not store any data.</p>

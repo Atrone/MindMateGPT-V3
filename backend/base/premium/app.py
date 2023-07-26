@@ -1,6 +1,3 @@
-import json
-import os
-import smtplib
 from fastapi import Request
 
 from backend.auth.keys import check_key

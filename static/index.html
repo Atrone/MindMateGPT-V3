@@ -76,16 +76,20 @@
 
 <script>
   function showContent() {
+    document.getElementById("showAbout").style.display = "none";
     document.getElementById("content").style.display = "block";
+    document.getElementById("hideAbout").style.display = "block";
   }
   
   function hideContent() {
+    document.getElementById("showAbout").style.display = "block";
     document.getElementById("content").style.display = "none";
+    document.getElementById("hideAbout").style.display = "none";
   }
   </script>  
-<button onclick="showContent()">About</button>
+<button id="showAbout" onclick="showContent()">About</button>
 <div class="content">
-  <div style="display: none;" id="content">
+  <div class="center" style="display: none;" id="content">
     <header>
         <h1>About Our AI Journaling Companion App</h1>
     </header>
@@ -103,7 +107,7 @@
             <p>"This app has changed my life. I can now capture my thoughts and ideas easily. Highly recommended!"</p>
         </div>
     </section>
-    <button onclick="hideContent()">Go Back</button>
+    <button id="hideAbout" onclick="hideContent()">Go Back</button>
   
   </div>
   

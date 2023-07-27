@@ -387,6 +387,15 @@ body {
 	text-align: center;
 }
 
+@media (max-width: 600px) {
+  .input-field,
+  .app_button_1,
+  .content-field {
+      font-size: 14px;
+  }
+}
+
+
 /* faq section | right side */
 /* ---------------------------------------------------------------------- */
 

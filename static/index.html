@@ -348,16 +348,16 @@ document.getElementById('payment-button').addEventListener('click', function() {
 <fieldset>
 
 <!-- Form Name -->
-<legend>Tell us about yourself</legend>
+<legend>Tell me about yourself.</legend>
 
 <!-- Text input-->
 
 <div class="form-group">
-  <label class="col-md-4 control-label">First Name</label>
-  <div class="col-md-4 inputGroupContainer">
-  <div class="input-group">
-  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-  <input  name="first_name" placeholder="First Name" class="form-control"  type="text">
+  <label class="col-md-4 control-label">What is your <a href="https://www.16personalities.com/">MBTI</a> type?</label>
+    <div class="col-md-4 inputGroupContainer">
+    <div class="input-group">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+  <input name="mbti" placeholder="ENTJ" class="form-control" type="text">
     </div>
   </div>
 </div>
@@ -391,39 +391,6 @@ document.getElementById('payment-button').addEventListener('click', function() {
 </div>
 
 <!-- Text input-->
-
-<div class="form-group">
-  <label class="col-md-4 control-label">What is your <a href="https://www.16personalities.com/">MBTI</a> type?</label>
-    <div class="col-md-4 inputGroupContainer">
-    <div class="input-group">
-        <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-  <input name="mbti" placeholder="ENTJ" class="form-control" type="text">
-    </div>
-  </div>
-</div>
-
-
-<!-- Text area -->
-	<div class="form-group">
-  <label class="col-md-4 control-label">How is your family life?</label>
-    <div class="col-md-4 inputGroupContainer">
-    <div class="input-group">
-        <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-        	<textarea class="form-control" name="family" placeholder="I feel like..."></textarea>
-  </div>
-  </div>
-</div>
-
-
-	<div class="form-group">
-  <label class="col-md-4 control-label">Tell me about your spiritual/religious life.</label>
-    <div class="col-md-4 inputGroupContainer">
-    <div class="input-group">
-        <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-  <textarea name="religion" placeholder="Atheist, but spiritual because..." class="form-control"></textarea>
-    </div>
-</div>
-</div>
 			<!-- Text input -->
 
 	<div class="form-group">
@@ -441,9 +408,26 @@ document.getElementById('payment-button').addEventListener('click', function() {
 <div class="form-group">
   <label class="col-md-4 control-label"></label>
   <div class="col-md-4">
-    <button type="submit" class="btn btn-warning" >Send <span class="glyphicon glyphicon-send"></span></button>
+    <button type="submit" class="btn btn-warning" >Send Journal <span class="glyphicon glyphicon-send"></span></button>
   </div>
 </div>
+
+<div class="form-group">
+  <label class="col-md-4 control-label"></label>
+  <div class="col-md-4">
+    <button class="btn btn-warning" onclick="freeForm()" >Skip to therapy <span class="glyphicon glyphicon-play-circle"></span></button>
+  </div>
+</div>
+
+<script>
+function freeForm()
+{
+    myDiv.style.display = "none";
+    myDiv2.style.display = "block";
+
+}
+</script>
+
 
 </fieldset>
 </form>
@@ -459,7 +443,7 @@ document.getElementById('payment-button').addEventListener('click', function() {
 				<div class="chat_window">
 
 					<div class="top_menu">
-						<div id='welcome_title' class="title">TherapistGPT - NAME</div>
+						<div id='welcome_title' class="title">TherapistGPT</div>
 					</div>
 
 					<!-- dynamically rendered -->

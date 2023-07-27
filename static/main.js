@@ -117,16 +117,6 @@ $('#contact_form').bootstrapValidator({
             validating: 'glyphicon glyphicon-refresh'
         },
         fields: {
-            first_name: {
-                validators: {
-                        stringLength: {
-                        min: 2,
-                    },
-                        notEmpty: {
-                        message: 'Please supply your first name'
-                    }
-                }
-            },
              childhood: {
                 validators: {
                      stringLength: {
@@ -151,20 +141,6 @@ $('#contact_form').bootstrapValidator({
                     }
                 }
             },
-            family: {
-                validators: {
-                    notEmpty: {
-                        message: 'Please select your family'
-                    }
-                }
-            },
-            religion: {
-                validators: {
-                    notEmpty: {
-                        message: 'Please supply your religion'
-                    }
-                }
-            },
             working: {
                 validators: {
                       stringLength: {
@@ -185,7 +161,6 @@ $('#contact_form').bootstrapValidator({
   event.preventDefault(); // prevent the default form submission behavior
   const form = event.target;
   const formData = new FormData(form);
-  var name = formData.get('first_name');
   const url = 'https://mindmategpt.herokuapp.com/api/getForm';
   var myDiv = document.getElementById("intro");
   var myDiv2 = document.getElementById("chat");
@@ -201,7 +176,7 @@ $('#contact_form').bootstrapValidator({
   })
   .then(response => {
     // handle the response from the backend API endpoint
-    title.textContent = 'MindMateGPT - ' + name;
+    title.textContent = 'MindMateGPT';
     myDiv.style.display = "none";
     myDiv2.style.display = "block";
   })

@@ -417,16 +417,20 @@ body {
 	transform: rotate(90deg);
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+
 .center {
   max-width: 800px;
   margin: auto;
-  padding: 20px;
-  font-family: Arial, sans-serif;
-  line-height: 1.6;
+  padding: 40px;
+  background-color: #fff;
+  box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.1);
+  border-radius: 10px;
 }
 .blurb {
   font-size: 18px;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
 .testimonial {
   background-color: #f9f9f9;

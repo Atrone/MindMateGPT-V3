@@ -22,7 +22,7 @@ class BaseApp:
 
     async def send_email(self, recipient: str, message: str) -> Dict:
         try:
-            server = smtplib.SMTP("smtp.gmail.com", 587)
+            server = smtplib.SMTP("smtp.gmail.com", 587, timeout=60)
             server.starttls()
             server.login(os.getenv("SENDER_EMAIL"), os.getenv("SENDER_PASSWORD"))
             message = 'Subject: {}\n\n{}'.format("Therapy Insights from MindMateGPT Premium :)", message)

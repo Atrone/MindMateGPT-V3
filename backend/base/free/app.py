@@ -32,6 +32,9 @@ class FreeApp(BaseApp):
         async def get_response(request: Request, body: GPTBody, key_body: KeyBody = KeyBody(key="INVAL")):
             session_id = request.headers['Session']
             user_data = await self.get_user_data(session_id)
+            if "prompt" not in user_data[session_id] and "transcript" not in user_data[session_id]:
+                user_data[session_id]['transcript'] = "This is a transcript"
+                user_data[session_id]['prompt'] = self.initial_prompt
             user_data[session_id]['transcript'] += f"\n\n\n\n {body.message} \n\n\n\n"
             user_data[session_id]['prompt'] += f"\n\n\n\n {body.message} \n\n\n\n"
             result = await self.service.generate_response(user_data[session_id]['prompt'], await check_key(

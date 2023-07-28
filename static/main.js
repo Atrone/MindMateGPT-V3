@@ -120,18 +120,13 @@ $('#contact_form').bootstrapValidator({
              childhood: {
                 validators: {
                      stringLength: {
-                        min: 2,
-                    },
-                    notEmpty: {
-                        message: 'Please supply your childhood'
+                        min: 0,
                     }
                 }
             },
             relationship: {
                 validators: {
-                    notEmpty: {
-                        message: 'Please supply your relationship'
-                    }
+                  stringLength: {min:0, max:200}
                 }
             },
             mbti: {
@@ -144,12 +139,9 @@ $('#contact_form').bootstrapValidator({
             working: {
                 validators: {
                       stringLength: {
-                        min: 1,
+                        min: 0,
                         max: 200,
-                        message:'Please enter at least 1 characters and no more than 200'
-                    },
-                    notEmpty: {
-                        message: 'Please supply a working'
+                        message:'Please enter at least 0 characters and no more than 200'
                     }
                     }
                 }

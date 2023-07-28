@@ -4,19 +4,7 @@ import smtplib
 from typing import Dict
 from fastapi import APIRouter
 
-import time
-
-def send_email(retries=3, delay=5):
-    for i in range(retries):
-        try:
-            # your email sending code here...
-            return
-        except smtplib.SMTPServerDisconnected as e:
-            if i < retries - 1:
-                time.sleep(delay) # wait for a bit before trying again
-                                                                                        continue
-                                                                                                    else: # this was the last attempt
-                                                                                                                    raise e from None # re-raise the last exception
+import timewhoops
 
 
 class BaseApp:

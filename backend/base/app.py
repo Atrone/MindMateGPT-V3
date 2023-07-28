@@ -4,7 +4,7 @@ import smtplib
 from typing import Dict
 from fastapi import APIRouter
 
-import timewhoops
+import time
 
 
 class BaseApp:

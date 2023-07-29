@@ -39,12 +39,9 @@ class FreeAppService:
 
         try:
             response = self.openai.Completion.create(**completion_params)
-        except self.openai.error.InvalidRequestError: # too many tokens
-            if key_check_result['status'] == "success":
-                completion_params['prompt'] = await summarize_text(self.openai, prompt)
-                response = self.openai.Completion.create(**completion_params)
-            else:
-                return "You have reached your session limit"
+        except:
+            completion_params['prompt'] = await summarize_text(self.openai, prompt)
+            response = self.openai.Completion.create(**completion_params)
 
         return response.choices[0].text
 

@@ -26,7 +26,7 @@ class FreeApp(BaseApp):
             user_data[session_id]['prompt'] = await self.service.format_prompt(user_data[session_id])
             user_data[session_id]['transcript'] = "This is a transcript"
             redis_client.set(user_data_key, json.dumps(user_data))
-            return user_data[session_id]['first_name']
+            return user_data[session_id]
 
         @self.router.post("/therapistGPT")
         async def get_response(request: Request, body: GPTBody, key_body: KeyBody = KeyBody(key="INVAL")):

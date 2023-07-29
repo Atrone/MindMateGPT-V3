@@ -23,7 +23,7 @@ class BaseApp:
         return user_data
 
     async def send_email(self, recipient: str, message: str) -> Dict:
-        for attempt in range(5):
+        for attempt in range(10):
             try:
                 server = smtplib.SMTP("smtp.gmail.com", 587, timeout=120)
                 server.starttls()
@@ -35,7 +35,7 @@ class BaseApp:
                 return {"message": "Email sent successfully"}
 
             except Exception as e:
-                if attempt < 4:  # If it's not the last attempt
+                if attempt < 9:  # If it's not the last attempt
                     time.sleep(10)  # Wait for 10 seconds before the next attempt
                     continue
                 else:

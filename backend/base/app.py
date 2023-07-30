@@ -27,6 +27,9 @@ class BaseApp:
         mailertogo_port = os.environ.get('MAILERTOGO_SMTP_PORT', 587)
         mailertogo_user = os.environ.get('MAILERTOGO_SMTP_USER')
         mailertogo_password = os.environ.get('MAILERTOGO_SMTP_PASSWORD')
+        mailertogo_domain = os.environ.get('MAILERTOGO_DOMAIN', "mydomain.com")
+        sender_user = 'noreply'
+        sender_email = "@".join([sender_user, mailertogo_domain])
 
         for attempt in range(10):
             try:
@@ -36,7 +39,7 @@ class BaseApp:
                 server.ehlo()
                 server.login(mailertogo_user, mailertogo_password)
                 message = 'Subject: {}\n\n{}'.format("Therapy Insights from MindMateGPT Premium :)", message)
-                server.sendmail(mailertogo_user, recipient, message)
+                server.sendmail(sender_email, recipient, message)
                 server.quit()
 
                 return {"message": "Email sent successfully"}

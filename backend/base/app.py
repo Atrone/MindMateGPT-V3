@@ -23,10 +23,18 @@ class BaseApp:
         return user_data
 
     async def send_email(self, recipient: str, message: str) -> Dict:
+        mailertogo_host = os.environ.get('MAILERTOGO_SMTP_HOST')
+        mailertogo_port = os.environ.get('MAILERTOGO_SMTP_PORT', 587)
+        mailertogo_user = os.environ.get('MAILERTOGO_SMTP_USER')
+        mailertogo_password = os.environ.get('MAILERTOGO_SMTP_PASSWORD')
+
         for attempt in range(10):
             try:
-                server = smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=120)
-                server.login(os.getenv("SENDER_EMAIL"), os.getenv("SENDER_PASSWORD"))
+                server = smtplib.SMTP(mailertogo_host, mailertogo_port)
+                server.ehlo()
+                server.starttls()
+                server.ehlo()
+                server.login(mailertogo_user, mailertogo_password)
                 message = 'Subject: {}\n\n{}'.format("Therapy Insights from MindMateGPT Premium :)", message)
                 server.sendmail(os.getenv("SENDER_EMAIL"), recipient, message)
                 server.quit()

@@ -25,8 +25,7 @@ class BaseApp:
     async def send_email(self, recipient: str, message: str) -> Dict:
         for attempt in range(10):
             try:
-                server = smtplib.SMTP("smtp.mailgun.org", 587, timeout=120)
-                server.starttls()
+                server = smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=120)
                 server.login(os.getenv("SENDER_EMAIL"), os.getenv("SENDER_PASSWORD"))
                 message = 'Subject: {}\n\n{}'.format("Therapy Insights from MindMateGPT Premium :)", message)
                 server.sendmail(os.getenv("SENDER_EMAIL"), recipient, message)

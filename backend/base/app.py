@@ -36,7 +36,7 @@ class BaseApp:
                 server.ehlo()
                 server.login(mailertogo_user, mailertogo_password)
                 message = 'Subject: {}\n\n{}'.format("Therapy Insights from MindMateGPT Premium :)", message)
-                server.sendmail(os.getenv("SENDER_EMAIL"), recipient, message)
+                server.sendmail(mailertogo_user, recipient, message)
                 server.quit()
 
                 return {"message": "Email sent successfully"}

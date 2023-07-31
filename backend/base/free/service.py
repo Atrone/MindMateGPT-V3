@@ -23,7 +23,7 @@ class FreeAppService:
         return formatted_prompt
 
     async def generate_response(self, prompt: str, key_check_result: Dict[str, Any] = None) -> str:
-        if any(word.lower() in os.environ.get("badWords").replace('"', '').split(", ") for word in prompt[len(self.initial_prompt):].split(" ")): 
+        if any(word.lower() in os.environ.get("badWords").replace('"', '').split(", ") for word in prompt.split(" ")): 
             return "I'm really sorry that you're feeling this way, but I'm unable to provide the help that you need. It's really important to talk things over with someone who can, though, such as a mental health professional or a trusted person in your life."
 
         # Common settings for the Completion.create

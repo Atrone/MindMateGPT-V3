@@ -39,6 +39,8 @@ class FreeAppService:
 
         try:
             response = self.openai.Completion.create(**completion_params)
+            if "{" in response.choices[0].text or "}" in response.choices[0].text:
+                response = self.openai.Completion.create(**completion_params)
         except:
             completion_params['prompt'] = await summarize_text(self.openai, prompt)
             response = self.openai.Completion.create(**completion_params)

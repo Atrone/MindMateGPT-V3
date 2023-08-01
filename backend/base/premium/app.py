@@ -1,5 +1,4 @@
 from fastapi import Request
-from backend.app import send_email_task
 from backend.auth.keys import check_key
 from backend.base.app import BaseApp
 from backend.base.premium.service import create_insights

@@ -6,11 +6,14 @@ import openai
 
 openai.api_key = os.getenv('apikey')
 
+
 def make_celery(app_name=__name__):
     backend = broker = os.getenv('REDIS_URL')
     return Celery(app_name, backend=backend, broker=broker)
 
+
 celery = make_celery()
+
 
 @celery.task
 def send_email_task(recipient, message, text: str):

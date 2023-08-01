@@ -43,8 +43,3 @@ class FreeApp(BaseApp):
             user_data[session_id]['transcript'] += f"\n\n\n\n {result} \n\n\n\n"
             redis_client.set(f"user_data_{session_id}", json.dumps(user_data))
             return result
-
-        @self.router.post('/your-payment-endpoint')
-        async def handle_payment(data: PaymentBody):
-            result = await self.service.handle_payment(data.id, self.redis_client)
-            return result

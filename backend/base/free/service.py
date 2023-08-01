@@ -1,7 +1,5 @@
 from typing import Dict, Any
 import os
-from backend.auth.keys import generate_key
-from backend.base.premium.service import summarize_text
 
 
 async def extract_form_data(form_data: Dict[str, Any], session_id: str) -> Dict[str, Any]:
@@ -42,30 +40,6 @@ class FreeAppService:
             if "{" in response.choices[0].text or "}" in response.choices[0].text:
                 response = self.openai.Completion.create(**completion_params)
         except:
-            completion_params['prompt'] = await summarize_text(self.openai, prompt)
-            response = self.openai.Completion.create(**completion_params)
+            return "Rate limit reached. Please add to journal."
 
         return response.choices[0].text
-
-    async def handle_payment(self, payment_id: str, redis_client) -> Dict:
-        try:
-            # Create a PaymentIntent with the amount and currency
-            payment_intent = self.stripe.PaymentIntent.create(
-                amount=2000,  # amount in cents
-                currency='usd',
-                payment_method=payment_id,
-                confirm=True,  # Automatically confirm the payment
-                description='My first payment',
-            )
-
-            if payment_intent.status == 'succeeded':
-                key = generate_key(5)
-                # Store the key in Redis
-                redis_client.set(key, 'true')
-                return f"Here is your key: {key}. " \
-                       f"IMPORTANT: Please store this key for future use. You input it to access the premium features."
-            else:
-                return {"status": "error", "message": "Payment failed"}
-
-        except Exception as e:
-            return {"status": "error", "message": str(e)}

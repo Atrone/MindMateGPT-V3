@@ -1,5 +1,5 @@
 from fastapi import Request
-
+from backend.app import send_email_task
 from backend.auth.keys import check_key
 from backend.base.app import BaseApp
 from backend.base.premium.service import create_insights
@@ -21,6 +21,7 @@ class PremiumApp(BaseApp):
                                                                                                        session_id][
                                                                                                        'transcript'])
 
-                return await self.send_email(body.recipient, message)
+                send_email_task.delay(body.recipient, message)
+                return "sent"
             else:
                 return None

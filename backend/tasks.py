@@ -42,7 +42,7 @@ def send_email_task(recipient, message, text: str):
 
     message += response.choices[0].message.content
 
-    for i in range(15):
+    for i in range(2):
         try:
 
             # Replace newlines with <br> for HTML

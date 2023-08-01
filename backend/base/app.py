@@ -49,8 +49,5 @@ class BaseApp:
                 return {"message": "Email sent successfully"}
 
             except Exception as e:
-                if attempt < 3:  # If it's not the last attempt
-                    time.sleep(5)  # Wait for 10 seconds before the next attempt
-                    continue
-                else:
-                    print("error")
+                print(e)
+                return {"message": "Email not sent successfully"}

@@ -18,7 +18,7 @@ class PremiumApp(BaseApp):
 
                 message = user_data[session_id]['transcript'] + "\n\n\n\n"
 
-                send_email_task.delay(body.recipient, message, self.openai, user_data[session_id]['transcript'])
+                send_email_task.delay(body.recipient, message, user_data[session_id]['transcript'])
                 return "sent"
             else:
                 return None

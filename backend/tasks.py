@@ -2,6 +2,9 @@ from celery import Celery
 import os
 import smtplib
 import time
+import openai
+
+openai.api_key = os.getenv('apikey')
 
 def make_celery(app_name=__name__):
     backend = broker = os.getenv('REDIS_URL')
@@ -10,7 +13,7 @@ def make_celery(app_name=__name__):
 celery = make_celery()
 
 @celery.task
-def send_email_task(recipient, message, openai, text: str):
+def send_email_task(recipient, message, text: str):
     prompt = f"Here is a completed therapy session:" \
              f"\n\n{text}\n\n " \
              f"For the above completed session, " \

@@ -47,7 +47,20 @@ def send_email_task(recipient, message, text: str):
             safe_message = html.escape(message)
 
             # Replace newlines with <br> for HTML
-            html_message = safe_message.replace('\n', '<br>')
+            safe_message = html.escape(message)
+
+            # Split the message into lines
+            lines = safe_message.split('\n')
+
+            # Initialize an empty string to hold the HTML version of the message
+            html_lines = ''
+
+            # Add each line with a different format depending on whether it's spoken by the client or the therapist
+            for i, line in enumerate(lines):
+                if i % 2 == 0:  # client's lines
+                    html_lines += '<p style="color: blue;">{}</p>'.format(line)
+                else:  # therapist's lines
+                    html_lines += '<p style="color: green;">{}</p>'.format(line)
 
             html_code = """
             <html>
@@ -63,7 +76,7 @@ def send_email_task(recipient, message, text: str):
                 <p>{message}</p>  <!-- Your message should go here -->
             </body>
             </html>
-            """.format(message=html_message)  # Assuming 'message' is your message string
+            """.format(message=html_lines)  # Assuming 'message' is your message string
 
             # Set up email server
             server = smtplib.SMTP(mailertogo_host, mailertogo_port)

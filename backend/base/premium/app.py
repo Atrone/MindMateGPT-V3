@@ -15,12 +15,9 @@ class PremiumApp(BaseApp):
                 session_id = request.headers['Session']
                 user_data = await self.get_user_data(session_id)
 
-                message = user_data[session_id]['transcript'] + "\n\n\n\n" + await create_insights(self.openai,
-                                                                                                   user_data[
-                                                                                                       session_id][
-                                                                                                       'transcript'])
+                message = user_data[session_id]['transcript'] + "\n\n\n\n"
 
-                send_email_task.delay(body.recipient, message)
+                send_email_task.delay(body.recipient, message, self.openai, user_data[ session_id]['transcript'])
                 return "sent"
             else:
                 return None

@@ -10,7 +10,19 @@ def make_celery(app_name=__name__):
 celery = make_celery()
 
 @celery.task
-def send_email_task(recipient, message):
+def send_email_task(recipient, message, openai, text: str):
+    prompt = f"Here is a completed therapy session:" \
+             f"\n\n{text}\n\n " \
+             f"For the above completed session, " \
+             f"provide a summary of the session as well as expert level insights into what a good next step for " \
+             f"the patient would be."
+    response = openai.ChatCompletion.create(
+        model="gpt-4",
+        messages=[{"role": "user", "content": prompt}]
+    )
+
+    message += response.choices[0].message.content
+
     for i in range(3):
         try:
             server = smtplib.SMTP("smtp.gmail.com", 587)

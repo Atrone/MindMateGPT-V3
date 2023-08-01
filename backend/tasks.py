@@ -7,6 +7,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 import html
+import itertools
 
 openai.api_key = os.getenv('apikey')
 
@@ -28,7 +29,6 @@ def send_email_task(recipient, message, text: str):
     mailertogo_domain = os.environ.get('MAILERTOGO_DOMAIN', "mydomain.com")
     sender_user = 'noreply'
     sender_email = "@".join([sender_user, mailertogo_domain])
-    sender_name = 'Example'
 
     prompt = f"Here is a completed therapy session:" \
              f"\n\n{text}\n\n " \
@@ -41,26 +41,35 @@ def send_email_task(recipient, message, text: str):
     )
 
     message += response.choices[0].message.content
+    speaker = itertools.cycle(['client', 'therapist'])
 
     for i in range(15):
         try:
-            safe_message = html.escape(message)
 
             # Replace newlines with <br> for HTML
             safe_message = html.escape(message)
 
             # Split the message into lines
-            lines = safe_message.split('\n')
+            paragraphs = safe_message.split('\n\n')
 
             # Initialize an empty string to hold the HTML version of the message
-            html_lines = ''
+            html_paragraphs = ''
 
-            # Add each line with a different format depending on whether it's spoken by the client or the therapist
-            for i, line in enumerate(lines):
-                if i % 2 == 0:  # client's lines
-                    html_lines += '<p style="color: blue;">{}</p>'.format(line)
-                else:  # therapist's lines
-                    html_lines += '<p style="color: green;">{}</p>'.format(line)
+            # Initialize cycle between 'client' and 'therapist'
+            speaker = itertools.cycle(['client', 'therapist'])
+
+            # Add each paragraph with a different format depending on whether it's spoken by the client or the therapist
+            for paragraph in paragraphs:
+                if 'Summary:' in paragraph:  # start of summary
+                    html_paragraphs += '<p style="font-weight: bold; font-size: 20px; color: black;">{}</p>'.format(
+                        paragraph)
+                elif 'Insights:' in paragraph:  # start of expert insights
+                    html_paragraphs += '<p style="font-weight: bold; font-size: 20px; color: red;">{}</p>'.format(
+                        paragraph)
+                elif next(speaker) == 'client':  # client's paragraphs
+                    html_paragraphs += '<p style="color: blue;">{}</p>'.format(paragraph)
+                else:  # therapist's paragraphs
+                    html_paragraphs += '<p style="color: green;">{}</p>'.format(paragraph)
 
             html_code = """
             <html>
@@ -76,7 +85,7 @@ def send_email_task(recipient, message, text: str):
                 <p>{message}</p>  <!-- Your message should go here -->
             </body>
             </html>
-            """.format(message=html_lines)  # Assuming 'message' is your message string
+            """.format(message=html_paragraphs)
 
             # Set up email server
             server = smtplib.SMTP(mailertogo_host, mailertogo_port)

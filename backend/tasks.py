@@ -41,7 +41,6 @@ def send_email_task(recipient, message, text: str):
     )
 
     message += response.choices[0].message.content
-    speaker = itertools.cycle(['client', 'therapist'])
 
     for i in range(15):
         try:
@@ -49,28 +48,10 @@ def send_email_task(recipient, message, text: str):
             # Replace newlines with <br> for HTML
             safe_message = html.escape(message)
 
-            # Split the message into lines
-            paragraphs = safe_message.split('\n\n')
+            # Replace newlines with <br> for HTML
+            html_message = safe_message.replace('\n', '<br>')
 
-            # Initialize an empty string to hold the HTML version of the message
-            html_paragraphs = ''
-
-            # Initialize cycle between 'client' and 'therapist'
-            speaker = itertools.cycle(['client', 'therapist'])
-
-            # Add each paragraph with a different format depending on whether it's spoken by the client or the therapist
-            for paragraph in paragraphs:
-                if 'Summary:' in paragraph:  # start of summary
-                    html_paragraphs += '<p style="font-weight: bold; font-size: 20px; color: black;">{}</p>'.format(
-                        paragraph)
-                elif 'Insights:' in paragraph:  # start of expert insights
-                    html_paragraphs += '<p style="font-weight: bold; font-size: 20px; color: red;">{}</p>'.format(
-                        paragraph)
-                elif next(speaker) == 'client':  # client's paragraphs
-                    html_paragraphs += '<p style="color: blue;">{}</p>'.format(paragraph)
-                else:  # therapist's paragraphs
-                    html_paragraphs += '<p style="color: green;">{}</p>'.format(paragraph)
-
+            # Now use html_message in your HTML template
             html_code = """
             <html>
             <head>
@@ -82,10 +63,10 @@ def send_email_task(recipient, message, text: str):
             </head>
             <body>
                 <h1>Therapy Insights from MindMateGPT :)</h1>
-                <p>{message}</p>  <!-- Your message should go here -->
+                <p>{message}</p>
             </body>
             </html>
-            """.format(message=html_paragraphs)
+            """.format(message=html_message)
 
             # Set up email server
             server = smtplib.SMTP(mailertogo_host, mailertogo_port)

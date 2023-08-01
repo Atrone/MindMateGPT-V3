@@ -49,7 +49,7 @@ def send_email_task(recipient, message, text: str):
             msg = MIMEMultipart()
             msg['From'] = sender_email
             msg['To'] = recipient
-            msg['Subject'] = 'Therapy Insights from MindMateGPT Premium :)'
+            msg['Subject'] = 'Therapy Insights from MindMateGPT :)'
             msg.attach(MIMEText(message, _charset='utf-8'))
             server.sendmail(sender_email, recipient, msg.as_string())
             server.quit()

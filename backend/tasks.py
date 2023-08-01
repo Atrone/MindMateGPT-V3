@@ -5,6 +5,9 @@ import time
 import openai
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+
+import html
+
 openai.api_key = os.getenv('apikey')
 
 
@@ -41,7 +44,12 @@ def send_email_task(recipient, message, text: str):
 
     for i in range(15):
         try:
-            html = """
+            safe_message = html.escape(message)
+
+            # Replace newlines with <br> for HTML
+            html_message = safe_message.replace('\n', '<br>')
+
+            html_code = """
             <html>
             <head>
                 <style>
@@ -55,7 +63,7 @@ def send_email_task(recipient, message, text: str):
                 <p>{message}</p>  <!-- Your message should go here -->
             </body>
             </html>
-            """.format(message=message)  # Assuming 'message' is your message string
+            """.format(message=html_message)  # Assuming 'message' is your message string
 
             # Set up email server
             server = smtplib.SMTP(mailertogo_host, mailertogo_port)
@@ -71,11 +79,12 @@ def send_email_task(recipient, message, text: str):
             msg['Subject'] = 'Therapy Insights from MindMateGPT :)'
 
             # Attach HTML content
-            msg.attach(MIMEText(html, 'html'))
+            msg.attach(MIMEText(html_code, 'html'))
 
             # Send email
             server.sendmail(sender_email, recipient, msg.as_string())
             server.quit()
+            return {"message": "Successful send email"}
 
         except Exception as e:
             print(e)

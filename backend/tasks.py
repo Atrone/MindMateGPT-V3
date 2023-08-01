@@ -1,5 +1,6 @@
 from celery import Celery
 import os
+import smtplib
 
 def make_celery(app_name=__name__):
     backend = broker = os.getenv('REDIS_URL')

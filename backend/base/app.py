@@ -34,14 +34,18 @@ class BaseApp:
         for attempt in range(3):
             try:
                 server = smtplib.SMTP(mailertogo_host, mailertogo_port)
+                print("logged in")
                 server.ehlo()
                 server.starttls()
                 server.ehlo()
+                print("logged in")
                 server.login(mailertogo_user, mailertogo_password)
+                print("logged in")
                 message = 'Subject: {}\n\n{}'.format("Therapy Insights from MindMateGPT Premium :)", message)
                 server.sendmail(sender_email, recipient, message)
-                server.quit()
-
+                print("logged in")
+                server.close()
+                print("logged in")
                 return {"message": "Email sent successfully"}
 
             except Exception as e:
@@ -49,4 +53,4 @@ class BaseApp:
                     time.sleep(5)  # Wait for 10 seconds before the next attempt
                     continue
                 else:
-                    raise Exception()
+                    print("error")

@@ -10,11 +10,11 @@ celery = make_celery()
 
 @celery.task
 def send_email_task(recipient, message):
-    mailertogo_host = environ.get('MAILERTOGO_SMTP_HOST')
-    mailertogo_port = environ.get('MAILERTOGO_SMTP_PORT', 587)
-    mailertogo_user = environ.get('MAILERTOGO_SMTP_USER')
-    mailertogo_password = environ.get('MAILERTOGO_SMTP_PASSWORD')
-    mailertogo_domain = environ.get('MAILERTOGO_DOMAIN', "mydomain.com")
+    mailertogo_host = os.environ.get('MAILERTOGO_SMTP_HOST')
+    mailertogo_port = os.environ.get('MAILERTOGO_SMTP_PORT', 587)
+    mailertogo_user = os.environ.get('MAILERTOGO_SMTP_USER')
+    mailertogo_password = os.environ.get('MAILERTOGO_SMTP_PASSWORD')
+    mailertogo_domain = os.environ.get('MAILERTOGO_DOMAIN', "mydomain.com")
     sender_user = 'noreply'
     sender_email = "@".join([sender_user, mailertogo_domain])
     server = smtplib.SMTP(mailertogo_host, mailertogo_port)

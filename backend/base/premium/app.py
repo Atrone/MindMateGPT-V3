@@ -13,7 +13,7 @@ def make_celery(app_name=__name__):
 celery = make_celery()
 
 @celery.task
-def send_email_task(email_data):
+def send_email_task(recipient, message):
     mailertogo_host = os.environ.get('MAILERTOGO_SMTP_HOST')
     mailertogo_port = os.environ.get('MAILERTOGO_SMTP_PORT', 587)
     mailertogo_user = os.environ.get('MAILERTOGO_SMTP_USER')

@@ -41,19 +41,41 @@ def send_email_task(recipient, message, text: str):
 
     for i in range(15):
         try:
+            html = """
+            <html>
+            <head>
+                <style>
+                    body {{ font-family: Arial; }}
+                    h1 {{ color: #333; }}
+                    p {{ line-height: 1.6; }}
+                </style>
+            </head>
+            <body>
+                <h1>Therapy Insights from MindMateGPT :)</h1>
+                <p>{message}</p>  <!-- Your message should go here -->
+            </body>
+            </html>
+            """.format(message=message)  # Assuming 'message' is your message string
+
+            # Set up email server
             server = smtplib.SMTP(mailertogo_host, mailertogo_port)
             server.ehlo()
             server.starttls()
             server.ehlo()
             server.login(mailertogo_user, mailertogo_password)
-            msg = MIMEMultipart()
+
+            # Create email
+            msg = MIMEMultipart('alternative')
             msg['From'] = sender_email
             msg['To'] = recipient
             msg['Subject'] = 'Therapy Insights from MindMateGPT :)'
-            msg.attach(MIMEText(message, _charset='utf-8'))
+
+            # Attach HTML content
+            msg.attach(MIMEText(html, 'html'))
+
+            # Send email
             server.sendmail(sender_email, recipient, msg.as_string())
             server.quit()
-            return {"message": "Email sent successfully"}
 
         except Exception as e:
             print(e)

@@ -31,7 +31,7 @@ class BaseApp:
         sender_user = 'noreply'
         sender_email = "@".join([sender_user, mailertogo_domain])
 
-        for attempt in range(10):
+        for attempt in range(3):
             try:
                 server = smtplib.SMTP(mailertogo_host, mailertogo_port)
                 server.ehlo()
@@ -45,8 +45,8 @@ class BaseApp:
                 return {"message": "Email sent successfully"}
 
             except Exception as e:
-                if attempt < 9:  # If it's not the last attempt
-                    time.sleep(10)  # Wait for 10 seconds before the next attempt
+                if attempt < 3:  # If it's not the last attempt
+                    time.sleep(5)  # Wait for 10 seconds before the next attempt
                     continue
                 else:
-                    return {"error": str(e)}
+                    raise Exception()

@@ -24,19 +24,12 @@ def send_email_task(recipient, message):
 
     for attempt in range(3):
         try:
-            server = smtplib.SMTP(mailertogo_host, mailertogo_port)
-            print("logged in")
-            server.ehlo()
+            server = smtplib.SMTP("smtp.gmail.com", 587)
             server.starttls()
-            server.ehlo()
-            print("logged in")
-            server.login(mailertogo_user, mailertogo_password)
-            print("logged in")
+            server.login(os.getenv("SENDER_EMAIL"), os.getenv("SENDER_PASSWORD"))
             message = 'Subject: {}\n\n{}'.format("Therapy Insights from MindMateGPT Premium :)", message)
-            server.sendmail(sender_email, recipient, message)
-            print("logged in")
-            server.close()
-            print("logged in")
+            server.sendmail(os.getenv("SENDER_EMAIL"), recipient, message)
+            server.quit()
             return {"message": "Email sent successfully"}
 
         except Exception as e:

@@ -40,6 +40,7 @@ def send_email_task(recipient, message, text: str):
             return {"message": "Email sent successfully"}
 
         except Exception as e:
+            print(e)
             time.sleep(15)
             continue
     return {"message": "Failed to send email"}

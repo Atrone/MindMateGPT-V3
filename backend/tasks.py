@@ -10,18 +10,17 @@ celery = make_celery()
 
 @celery.task
 def send_email_task(recipient, message):
-    for attempt in range(3):
-        try:
-            server = smtplib.SMTP("smtp.gmail.com", 587)
-            server.starttls()
-            server.login(os.getenv("SENDER_EMAIL"), os.getenv("SENDER_PASSWORD"))
-            message = 'Subject: {}\n\n{}'.format("Therapy Insights from MindMateGPT Premium :)", message)
-            server.sendmail(os.getenv("SENDER_EMAIL"), recipient, message)
-            server.quit()
-            return {"message": "Email sent successfully"}
-
-        except Exception as e:
-            print(e)
-            time.sleep(10)
-            continue
-    return {"message": "Email not sent successfully"}
+    mailertogo_host = environ.get('MAILERTOGO_SMTP_HOST')
+    mailertogo_port = environ.get('MAILERTOGO_SMTP_PORT', 587)
+    mailertogo_user = environ.get('MAILERTOGO_SMTP_USER')
+    mailertogo_password = environ.get('MAILERTOGO_SMTP_PASSWORD')
+    mailertogo_domain = environ.get('MAILERTOGO_DOMAIN', "mydomain.com")
+    sender_user = 'noreply'
+    sender_email = "@".join([sender_user, mailertogo_domain])
+    server = smtplib.SMTP(mailertogo_host, mailertogo_port)
+    server.ehlo()
+    server.starttls()
+    server.ehlo()
+    server.login(mailertogo_user, mailertogo_password)
+    server.sendmail(sender_email, recipient, message)
+    server.close()

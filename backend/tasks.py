@@ -26,7 +26,7 @@ def send_email_task(recipient, message, text: str):
 
     message += response.choices[0].message.content
 
-    for i in range(3):
+    for i in range(5):
         try:
             server = smtplib.SMTP("smtp.gmail.com", 587)
             server.starttls()
@@ -37,6 +37,6 @@ def send_email_task(recipient, message, text: str):
             return {"message": "Email sent successfully"}
 
         except Exception as e:
-            time.sleep(8)
+            time.sleep(10)
             continue
     return {"message": "Failed to send email"}

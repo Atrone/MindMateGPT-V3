@@ -3,7 +3,8 @@ import os
 import smtplib
 import time
 import openai
-
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 openai.api_key = os.getenv('apikey')
 
 
@@ -17,6 +18,15 @@ celery = make_celery()
 
 @celery.task
 def send_email_task(recipient, message, text: str):
+    mailertogo_host = os.environ.get('MAILERTOGO_SMTP_HOST')
+    mailertogo_port = os.environ.get('MAILERTOGO_SMTP_PORT', 587)
+    mailertogo_user = os.environ.get('MAILERTOGO_SMTP_USER')
+    mailertogo_password = os.environ.get('MAILERTOGO_SMTP_PASSWORD')
+    mailertogo_domain = os.environ.get('MAILERTOGO_DOMAIN', "mydomain.com")
+    sender_user = 'noreply'
+    sender_email = "@".join([sender_user, mailertogo_domain])
+    sender_name = 'Example'
+
     prompt = f"Here is a completed therapy session:" \
              f"\n\n{text}\n\n " \
              f"For the above completed session, " \
@@ -31,11 +41,17 @@ def send_email_task(recipient, message, text: str):
 
     for i in range(15):
         try:
-            server = smtplib.SMTP("smtp.gmail.com", 587)
+            server = smtplib.SMTP(mailertogo_host, mailertogo_port)
+            server.ehlo()
             server.starttls()
-            server.login(os.getenv("SENDER_EMAIL"), os.getenv("SENDER_PASSWORD"))
-            message = 'Subject: {}\n\n{}'.format("Therapy Insights from MindMateGPT Premium :)", message)
-            server.sendmail(os.getenv("SENDER_EMAIL"), recipient, message)
+            server.ehlo()
+            server.login(mailertogo_user, mailertogo_password)
+            msg = MIMEMultipart()
+            msg['From'] = sender_email
+            msg['To'] = recipient
+            msg['Subject'] = 'Therapy Insights from MindMateGPT Premium :)'
+            msg.attach(MIMEText(message, _charset='utf-8'))
+            server.sendmail(sender_email, recipient, msg.as_string())
             server.quit()
             return {"message": "Email sent successfully"}
 

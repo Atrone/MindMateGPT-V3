@@ -7,14 +7,14 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 import html
-import itertools
 
 openai.api_key = os.getenv('apikey')
 
 
 def make_celery(app_name=__name__):
     backend = broker = os.getenv('REDIS_URL')
-    return Celery(app_name, backend=backend, broker=broker)
+    ssl_cert_reqs = 'CERT_NONE'  # Set to CERT_NONE to disable SSL certificate verification
+    return Celery(app_name, backend=backend, broker=broker, broker_use_ssl={'ssl_cert_reqs': ssl_cert_reqs})
 
 
 celery = make_celery()

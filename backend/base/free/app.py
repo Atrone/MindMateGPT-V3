@@ -39,7 +39,8 @@ class FreeApp(BaseApp):
                 user_data[session_id]['prompt'] = f"""[{{"role": "system", "content":"{self.initial_prompt}"}}]"""
             print(user_data[session_id]['prompt'])
             print(json.loads(user_data[session_id]['prompt']))
-            conversation = json.loads(user_data[session_id]['prompt']).append({"role": "user", "content": body.message})
+            conversation = json.loads(user_data[session_id]['prompt'])
+            conversation.append({"role": "user", "content": body.message})
             user_data[session_id]['prompt'] = json.dumps(conversation)
             user_data[session_id]['transcript'] += f"\n\n\n\n {body.message} \n\n\n\n"
             result, conversation = await self.service.generate_response(body.message,conversation)

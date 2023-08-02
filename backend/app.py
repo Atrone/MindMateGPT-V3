@@ -62,16 +62,13 @@ openai.api_key = env_vars['OPENAI_API_KEY']
 redis_url = env_vars["REDIS_URL"]
 parsed_url = urlparse(redis_url)
 
-redis_conn = redis.Redis(
+redis_client = redis.Redis(
     host=parsed_url.hostname,
     port=parsed_url.port,
     password=parsed_url.password,
     ssl=True,
     ssl_cert_reqs=CERT_NONE
 )
-
-redis_client = redis.from_url(redis_url)
-
 
 
 

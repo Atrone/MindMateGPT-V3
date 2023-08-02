@@ -28,7 +28,6 @@ class FreeAppService:
                    "It's really important to talk things over with someone who can, though, such as a mental health " \
                    "professional or a trusted person in your life. You may also see our disclaimer for a crisis " \
                    "hotline. ", []
-        conversation.append({"role": "user", "content": message})
 
         try:
             response = self.openai.ChatCompletion.create(

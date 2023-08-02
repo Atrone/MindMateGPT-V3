@@ -55,7 +55,7 @@ app.add_middleware(**cors)
 templates = Jinja2Templates(directory="static")
 
 env_vars = load_environment()
-from ssl import CERT_REQUIRED
+from ssl import CERT_NONE
 
 # Backend-wide shared data
 openai.api_key = env_vars['OPENAI_API_KEY']
@@ -67,7 +67,7 @@ redis_conn = redis.Redis(
     port=parsed_url.port,
     password=parsed_url.password,
     ssl=True,
-    ssl_cert_reqs=CERT_REQUIRED
+    ssl_cert_reqs=CERT_NONE
 )
 
 redis_client = redis.from_url(redis_url)

@@ -1,3 +1,4 @@
+from urllib.parse import urlparse
 
 import redis
 from fastapi.staticfiles import StaticFiles
@@ -54,10 +55,21 @@ app.add_middleware(**cors)
 templates = Jinja2Templates(directory="static")
 
 env_vars = load_environment()
+from ssl import CERT_REQUIRED
 
 # Backend-wide shared data
 openai.api_key = env_vars['OPENAI_API_KEY']
 redis_url = env_vars["REDIS_URL"]
+parsed_url = urlparse(redis_url)
+
+redis_conn = redis.Redis(
+    host=parsed_url.hostname,
+    port=parsed_url.port,
+    password=parsed_url.password,
+    ssl=True,
+    ssl_cert_reqs=CERT_REQUIRED
+)
+
 redis_client = redis.from_url(redis_url)
 
 

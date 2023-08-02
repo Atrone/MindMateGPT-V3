@@ -1,3 +1,4 @@
+import redis
 from celery import Celery
 import os
 import smtplib
@@ -13,8 +14,9 @@ openai.api_key = os.getenv('apikey')
 
 def make_celery(app_name=__name__):
     backend = broker = os.getenv('REDIS_URL')
-    broker_url_with_ssl = f"{broker}?ssl_cert_reqs=CERT_NONE"
-    return Celery(app_name, backend=backend, broker=broker_url_with_ssl)
+    ssl_options = {'ssl_cert_reqs': 'CERT_NONE'}
+    broker_client = redis.StrictRedis.from_url(broker, ssl=ssl_options)
+    return Celery(app_name, backend=backend, broker=broker_client)
 
 
 celery = make_celery()

@@ -12,25 +12,29 @@ from email.mime.multipart import MIMEMultipart
 
 import html
 
-from kombu.utils.url import safequote
 
 openai.api_key = os.getenv('apikey')
-
-def add_ssl_to_redis_url(redis_url):
-    url_parts = urlparse(redis_url)
-    if url_parts.scheme == 'redis':
-        url_parts = url_parts._replace(scheme='rediss')
-    query = f'ssl_cert_reqs={safequote(ssl.CERT_NONE)}'
-    if url_parts.query:
-        query = f'{url_parts.query}&{query}'
-    url_parts = url_parts._replace(query=query)
-    return url_parts.geturl()
 
 
 def make_celery(app_name=__name__):
     redis_url = os.getenv('REDIS_URL')
-    redis_url_ssl = add_ssl_to_redis_url(redis_url)
-    return Celery(app_name, backend=redis_url_ssl, broker=redis_url_ssl)
+    url_parsed = urlparse(redis_url)
+    redis_url_ssl = f'rediss://{url_parsed.netloc}{url_parsed.path}'
+
+    # SSL settings
+    ssl_options = {'ssl_cert_reqs': ssl.CERT_NONE}
+
+    # Celery configuration
+    celery_config = {
+        'broker_url': redis_url_ssl,
+        'result_backend': redis_url_ssl,
+        'broker_use_ssl': ssl_options,
+        'redis_backend_use_ssl': ssl_options,
+    }
+
+    celery = Celery(app_name)
+    celery.conf.update(celery_config)
+    return celery
 
 
 celery = make_celery()

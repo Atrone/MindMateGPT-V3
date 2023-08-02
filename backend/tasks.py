@@ -13,8 +13,8 @@ openai.api_key = os.getenv('apikey')
 
 def make_celery(app_name=__name__):
     backend = broker = os.getenv('REDIS_URL')
-    ssl_cert_reqs = 'CERT_NONE'  # Set to CERT_NONE to disable SSL certificate verification
-    return Celery(app_name, backend=backend, broker=broker, broker_use_ssl={'ssl_cert_reqs': ssl_cert_reqs})
+    broker_url_with_ssl = f"{broker}?ssl_cert_reqs=CERT_NONE"
+    return Celery(app_name, backend=backend, broker=broker)
 
 
 celery = make_celery()

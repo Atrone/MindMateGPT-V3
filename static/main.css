@@ -360,7 +360,7 @@ body {
 
 .bottom_wrapper {
 	background-color: #fff;
-	padding: 20px;
+	padding: 5px;
 	bottom: 0;
 	display: flex;
 }
@@ -373,6 +373,15 @@ body {
 	border-radius: 50px;
 	margin-right: 15px;
 }
+.bottom_wrapper #downloadInput {
+	flex-grow: 1;
+	outline-width: 0;
+	padding: 12px;
+	border: 1px solid #bcbdc0;
+	border-radius: 50px;
+	margin-right: 15px;
+}
+
 
 .app_button_1 {
 	width: 140px;

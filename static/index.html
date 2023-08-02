@@ -225,6 +225,150 @@ function freeForm()
                             <div class="spinner"></div>
                         </div>
                     </div>
+                    <style>
+                        .range-slider {
+                            width: 100%;
+                            position: relative;
+                        }
+
+                        .dot {
+                            width: 10px;
+                            height: 10px;
+                            border-radius: 50%;
+                            position: absolute;
+                            top: 25px;
+                            display: none;
+                        }
+
+                        #last-session-dot {
+                            background: #ff0000; /* Red */
+                            opacity: 0.5;
+                        }
+
+                        #average-dot {
+                            background: #00ff00; /* Green */
+                            opacity: 0.5;
+                        }
+                    </style>
+
+                    <div class="bottom_wrapper" id="ratingArea">
+                        <div class="range-slider">
+                            <p>After your session, rate your mood.</p>
+                            <input type="range" min="1" max="10" value="5" id="currentRating" name="rating">
+                            <div id="last-session-dot" class="dot"></div>
+                            <div id="average-dot" class="dot"></div>
+                            <p id="dotExplain" style="display: none">Green dot is average mood, red dot is previous mood.</p>
+                        </div>
+                        <button class="app_button_1" onclick="submitRating()">Submit Rating</button>
+                    </div>
+
+                    <script>
+                                            // Function to set a cookie
+                        function setCookie(cname, cvalue, exdays) {
+                            var d = new Date();
+                            d.setTime(d.getTime() + (exdays*24*60*60*1000));
+                            var expires = "expires="+ d.toUTCString();
+                            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+                        }
+
+                        // Function to get a cookie
+                        function getCookie(cname) {
+                            var name = cname + "=";
+                            var decodedCookie = decodeURIComponent(document.cookie);
+                            var ca = decodedCookie.split(';');
+                            for(var i = 0; i <ca.length; i++) {
+                                var c = ca[i];
+                                while (c.charAt(0) == ' ') {
+                                    c = c.substring(1);
+                                }
+                                if (c.indexOf(name) == 0) {
+                                    return c.substring(name.length, c.length);
+                                }
+                            }
+                            return "";
+                        }
+
+
+                        // Function to submit the current rating
+                        function submitRating() {
+                            var rating = document.getElementById('currentRating').value;
+                            updateProgress(parseFloat(rating));
+
+                            // Show the dots
+                            document.getElementById('last-session-dot').style.display = 'block';
+                            document.getElementById('average-dot').style.display = 'block';
+                            document.getElementById('dotExplain').style.display = 'block';
+                            // Update the display
+                            document.getElementById('lastSession').innerText = rating;
+                            displayAverage();
+                            displayLastSessionDot();
+                        }
+
+                    // Function to store the last session rating
+                        function storeLastRating(rating) {
+                            setCookie("lastRating", rating, 30);
+                        }
+
+                        // Function to get the last session rating
+                        function getLastRating() {
+                            return parseFloat(getCookie("lastRating")) || null;
+                        }
+
+                        // Now, modify the updateProgress function to call storeLastRating
+                        function updateProgress(rating) {
+                            var totalRating = parseFloat(getCookie("totalRating")) || 0;
+                            var totalSessions = parseFloat(getCookie("totalSessions")) || 0;
+                            totalRating += rating;
+                            totalSessions++;
+
+                            // Store the cumulative rating and session count
+                            setCookie("totalRating", totalRating, 30);
+                            setCookie("totalSessions", totalSessions, 30);
+
+                            // Store the last session's rating
+                            storeLastRating(rating);
+                        }
+                        // Modify the displayAverage function
+                        function displayAverage() {
+                            var totalRating = parseFloat(getCookie("totalRating")) || 0;
+                            var totalSessions = parseFloat(getCookie("totalSessions")) || 0;
+
+                            if (totalSessions == 0) {
+                                // No previous sessions
+                                return;
+                            }
+
+                            var average = totalRating / totalSessions;
+
+                            // Position the dot
+                            var sliderWidth = document.getElementById('currentRating').offsetWidth;
+                            var dot = document.getElementById('average-dot');
+                            dot.style.left = ((average / 10) * sliderWidth) - (dot.offsetWidth / 2) + 'px';
+                        }
+
+                        // Create a new function to display the last session dot
+                        function displayLastSessionDot() {
+                            var lastRating = getLastRating();
+
+                            if (lastRating === null) {
+                                // No previous session
+                                return;
+                            }
+
+                            // Position the dot
+                            var sliderWidth = document.getElementById('currentRating').offsetWidth;
+                            var dot = document.getElementById('last-session-dot');
+                            dot.style.left = ((lastRating / 10) * sliderWidth) - (dot.offsetWidth / 2) + 'px';
+                        }
+
+                        // Call the functions when the page loads
+                        document.addEventListener('DOMContentLoaded', (event) => {
+                            displayAverage();
+                            displayLastSessionDot();
+                        });
+
+                    </script>
+
 				</div>
 
 			</div>

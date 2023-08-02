@@ -37,6 +37,8 @@ class FreeApp(BaseApp):
             if "prompt" not in user_data[session_id] and "transcript" not in user_data[session_id]:
                 user_data[session_id]['transcript'] = "This is a transcript"
                 user_data[session_id]['prompt'] = f"""[{{"role": "system", "content":"{self.initial_prompt}"}}]"""
+            print(user_data[session_id]['prompt'])
+            print(json.loads(user_data[session_id]['prompt']))
             conversation = json.loads(user_data[session_id]['prompt']).append({"role": "user", "content": body.message})
             user_data[session_id]['prompt'] = json.dumps(conversation)
             user_data[session_id]['transcript'] += f"\n\n\n\n {body.message} \n\n\n\n"

@@ -34,7 +34,8 @@ class FreeAppService:
                 model="gpt-3.5-turbo",
                 messages=conversation
             )
-        except:
+        except Exception as e:
+            print(e)
             return "Rate limit reached. Please add to journal.", []
 
         ai_message = response.choices[0].message['content']

@@ -1,3 +1,6 @@
+import ssl
+from urllib.parse import urlparse
+
 import redis
 from celery import Celery
 import os
@@ -9,14 +12,25 @@ from email.mime.multipart import MIMEMultipart
 
 import html
 
+from kombu.utils.url import safequote
+
 openai.api_key = os.getenv('apikey')
+
+def add_ssl_to_redis_url(redis_url):
+    url_parts = urlparse(redis_url)
+    if url_parts.scheme == 'redis':
+        url_parts = url_parts._replace(scheme='rediss')
+    query = f'ssl_cert_reqs={safequote(ssl.CERT_NONE)}'
+    if url_parts.query:
+        query = f'{url_parts.query}&{query}'
+    url_parts = url_parts._replace(query=query)
+    return url_parts.geturl()
 
 
 def make_celery(app_name=__name__):
-    backend = broker = os.getenv('REDIS_URL')
-    ssl_options = {'ssl_cert_reqs': 'CERT_NONE'}
-    broker_client = redis.StrictRedis.from_url(broker, ssl_cert_reqs='CERT_NONE')
-    return Celery(app_name, backend=backend, broker=broker_client)
+    redis_url = os.getenv('REDIS_URL')
+    redis_url_ssl = add_ssl_to_redis_url(redis_url)
+    return Celery(app_name, backend=redis_url_ssl, broker=redis_url_ssl)
 
 
 celery = make_celery()

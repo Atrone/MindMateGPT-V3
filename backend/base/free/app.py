@@ -38,8 +38,6 @@ class FreeApp(BaseApp):
                 conversation = [{"role": "system", "content": self.initial_prompt}]
                 user_data[session_id]['transcript'] = "This is a transcript"
                 user_data[session_id]['prompt'] = json.dumps(conversation)
-            print(user_data[session_id]['prompt'])
-            print(json.loads(user_data[session_id]['prompt']))
             conversation = json.loads(user_data[session_id]['prompt'])
             conversation.append({"role": "user", "content": body.message})
             user_data[session_id]['prompt'] = json.dumps(conversation)

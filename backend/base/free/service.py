@@ -20,26 +20,26 @@ class FreeAppService:
         formatted_prompt = main_string.format(**user_data)
         return formatted_prompt
 
-    async def generate_response(self, prompt: str, key_check_result: Dict[str, Any] = None) -> str:
-        if any(word.lower() in [bad_word for bad_word in os.environ.get("badWords").split(", ")] for word in prompt.split(" ")): 
-            return "I'm really sorry that you're feeling this way, but I'm unable to provide the help that you need. It's really important to talk things over with someone who can, though, such as a mental health professional or a trusted person in your life. You may also scroll down to our disclaimer for a crisis hotline"
-
-        # Common settings for the Completion.create
-        completion_params = {
-            "model": "text-davinci-003",
-            "prompt": prompt,
-            "temperature": 0.9,
-            "max_tokens": 824,
-            "top_p": 1,
-            "frequency_penalty": 0,
-            "presence_penalty": 0.6
-        }
+    async def generate_response(self, message: str, conversation: list) -> tuple:
+        if self.openai.Moderation.create(message)['results'][0]['flagged'] or any(
+                word.lower() in [bad_word for bad_word in os.environ.get("badWords").split(", ")] for word in
+                message.split(" ")):
+            return "I'm really sorry that you're feeling this way, but I'm unable to provide the help that you need. " \
+                   "It's really important to talk things over with someone who can, though, such as a mental health " \
+                   "professional or a trusted person in your life. You may also see our disclaimer for a crisis " \
+                   "hotline. ", []
+        conversation.append({"role": "user", "content": message})
 
         try:
-            response = self.openai.Completion.create(**completion_params)
-            if "{" in response.choices[0].text or "}" in response.choices[0].text:
-                response = self.openai.Completion.create(**completion_params)
+            response = self.openai.ChatCompletion.create(
+                model="gpt-3.5-turbo",
+                messages=conversation
+            )
         except:
-            return "Rate limit reached. Please add to journal."
+            return "Rate limit reached. Please add to journal.", []
 
-        return response.choices[0].text
+        ai_message = response.choices[0].message['content']
+
+        conversation.append({"role": "assistant", "content": ai_message})
+
+        return ai_message, conversation

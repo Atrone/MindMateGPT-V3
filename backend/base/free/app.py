@@ -23,23 +23,25 @@ class FreeApp(BaseApp):
             session_id = request.headers['Session']
             user_data_key = f"user_data_{session_id}"
             user_data = await extract_form_data(form_data, session_id)
-            user_data[session_id]['prompt'] = await self.service.format_prompt(user_data[session_id])
+            content = await self.service.format_prompt(user_data)
+            conversation_string = f"""[{{"role": "system", "content":"{content}"}}]"""
+            user_data[session_id]['prompt'] = conversation_string
             user_data[session_id]['transcript'] = "This is a transcript"
             redis_client.set(user_data_key, json.dumps(user_data))
             return user_data[session_id]
 
         @self.router.post("/therapistGPT")
-        async def get_response(request: Request, body: GPTBody, key_body: KeyBody = KeyBody(key="INVAL")):
+        async def get_response(request: Request, body: GPTBody):
             session_id = request.headers['Session']
             user_data = await self.get_user_data(session_id)
             if "prompt" not in user_data[session_id] and "transcript" not in user_data[session_id]:
                 user_data[session_id]['transcript'] = "This is a transcript"
-                user_data[session_id]['prompt'] = self.initial_prompt
+                user_data[session_id]['prompt'] = f"""[{{"role": "system", "content":"{self.initial_prompt}"}}]"""
+            conversation = json.loads(user_data[session_id]['prompt']).append({"role": "user", "content": body.message})
+            user_data[session_id]['prompt'] = json.dumps(conversation)
             user_data[session_id]['transcript'] += f"\n\n\n\n {body.message} \n\n\n\n"
-            user_data[session_id]['prompt'] += f"\n\n\n\n {body.message} \n\n\n\n"
-            result = await self.service.generate_response(user_data[session_id]['prompt'], await check_key(
-                key_body.key, self.redis_client))
-            user_data[session_id]['prompt'] += f"\n\n\n\n {result} \n\n\n\n"
+            result, conversation = await self.service.generate_response(body.message,conversation)
+            user_data[session_id]['prompt'] = json.dumps(conversation)
             user_data[session_id]['transcript'] += f"\n\n\n\n {result} \n\n\n\n"
             redis_client.set(f"user_data_{session_id}", json.dumps(user_data))
             return result

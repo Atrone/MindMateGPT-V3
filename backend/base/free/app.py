@@ -31,7 +31,7 @@ class FreeApp(BaseApp):
             return user_data[session_id]
 
         @self.router.post("/therapistGPT")
-        async def get_response(request: Request, body: GPTBody):
+        async def get_response(request: Request, body: GPTBody, key_body: KeyBody = KeyBody(key="INVAL")):
             session_id = request.headers['Session']
             user_data = await self.get_user_data(session_id)
             if "prompt" not in user_data[session_id] and "transcript" not in user_data[session_id]:

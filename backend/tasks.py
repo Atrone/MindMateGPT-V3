@@ -6,6 +6,7 @@ import time
 import openai
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from ssl import CERT_NONE
 
 import html
 
@@ -15,7 +16,7 @@ openai.api_key = os.getenv('apikey')
 def make_celery(app_name=__name__):
     backend = broker = os.getenv('REDIS_URL')
     ssl_options = {'ssl_cert_reqs': 'CERT_NONE'}
-    broker_client = redis.StrictRedis.from_url(broker, ssl_cert_reqs='CERT_NONE')
+    broker_client = redis.StrictRedis.from_url(broker, ssl_cert_reqs=CERT_NONE)
     return Celery(app_name, backend=backend, broker=broker_client)
 
 

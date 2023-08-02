@@ -14,7 +14,7 @@ openai.api_key = os.getenv('apikey')
 def make_celery(app_name=__name__):
     backend = broker = os.getenv('REDIS_URL')
     broker_url_with_ssl = f"{broker}?ssl_cert_reqs=CERT_NONE"
-    return Celery(app_name, backend=backend, broker=broker)
+    return Celery(app_name, backend=backend, broker=broker_url_with_ssl)
 
 
 celery = make_celery()

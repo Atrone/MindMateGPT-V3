@@ -19,7 +19,6 @@ from backend.base.free.app import FreeApp
 from backend.base.premium.app import PremiumApp
 
 from fastapi import FastAPI
-from starlette.middleware import Middleware
 from starlette.middleware.base import BaseHTTPMiddleware
 
 class CacheControlMiddleware(BaseHTTPMiddleware):

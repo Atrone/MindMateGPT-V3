@@ -12,12 +12,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 	<!-- vendor css & style files -->
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300|Open+Sans:300|Oxygen|Material+Icons"
-		rel="stylesheet">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-
-    <script src="https://js.stripe.com/v3/"></script>
 
 	<!-- custom css -->
 	<link rel="stylesheet" type="text/css" href="static/main.css">
@@ -32,6 +27,10 @@
 
   gtag('config', 'G-ZYL1S2102L');
 </script>
+
+
+
+<body>
     <script>
         // Get the session_id from the HTML
         const sessionId = "user_data_SESSION={{user}}";
@@ -45,70 +44,49 @@
 
     </script>
 
-
-
-<body>
-
-    <div id="welcome-section" class="welcome-section">
-<div class="logocon" data-0="height: 100vh; opacity: 1" data-99="height: 10vh; opacity: .85" data-100="height: 50px">
-<div class="logo" data-0="font-size: 150px" data-100="font-size: 32px" style="text-align: center">
-    MindMateGPT
-    <br><br>
-    <p style="font-size: 25px; padding-left: 20px; padding-right: 20px;">
-    Scroll to start your journey.
-</p>
-
-</div>
-</div>
-<!--page contents below-->
-    </div>
-<div class="banner">
-  <div style="
-    display: none;
-    font-weight: bold;
-    font-size: 30px;
-;
-">
-    <button onclick="showLandingPage()" style="display: none; background-color: #FFA500; color: black; padding: 8px 16px; margin-top: 10px; border: none; border-radius: 5px; cursor: pointer; font-size: 25px;">Upgrade Now! <br> For insights and session memory!</button>
-  </div>
-</div>
-    <br>
 <p style="display: none" id="session">SESSION={{user}}</p>
 <script>
-
 function hideContent() {
+  document.getElementById("intro").style.display = "block";
   document.getElementById("content").style.display = "none";
-  document.getElementById("hideAbout").style.display = "none";
 }
 </script>
-<div class="content">
-  <div style="display: block;" class="center" id="content">
-    <section>
-        <h2>What We Do</h2>
-        <p class="blurb">AI chat bot therapy. Email transcripts and insights. Mood tracker.</p>
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSX3gcwOii5iv-Y1I2dpphGI28hUYMFdPXm2_S9p_Vk4Q&s" alt="Happy person using our app">
-    </section>
-    <section>
-        <h2>Testimonials</h2>
-        <div class="testimonial">
-            <p>"Damn I talked to Mindy for like 45 minutes good stuff! Bookmarked, thanks for making this!!!" - /u/Jubie210</p>
-        </div>
-        <div class="testimonial">
-            <p>"I liked it better than the therapists I've talked to." - /u/Sue101010</p>
-        </div>
-    </section>
-      <section>
-        <h2>Updates</h2>
-        <p class="blurb">More powerful AI model, mood tracker, better email journals</p>
-    </section>
-    <div class="button-container">
-    <button id="hideAbout" onclick="hideContent()">Hide About</button>
-  </div>  
-  </div>  
-  <p class="notice">IMPORTANT: This is completely anonymous. We do not store any data.</p>
+      <p class="notice">IMPORTANT: This is completely anonymous. We do not store any data.</p>
   <p class="notice">Answer mindfully :)</p>
   <p class="notice">Complete our <a href="https://forms.gle/NUEvJkXav6X5ah5Y6">survey</a> and instantly earn $10.</p>
-<div id="intro" class="container">
+<div id="content">
+    <div class='container2'>
+        <div class='bubble'></div>
+        <div class='bubble'></div>
+        <div class='bubble'></div>
+        <div class='bubble'></div>
+        <div class='content2'>
+            <div class='text'>
+                <h1 style="font-weight: bold">MindMateGPT</h1>
+                <p>Experience the future of therapy, tailored to your needs.</p>
+                <div class='cta'>
+                    <button onclick="hideContent()" type='button'>Try a Demo</button>
+                </div>
+            <div class='section'>
+                <h2 style="font-weight: bold">What We Do</h2>
+                <p>AI chat bot therapy tool.<br>Journal transcripts and insights.</p>
+                <h2 style="font-weight: bold">Testimonials</h2>
+                <p>"Damn I talked to Mindy for like 45 minutes good stuff! Bookmarked, thanks for making this!!!"<br><span class='username'>- /u/Jubie210</span></p>
+                <p>"I liked it better than the therapists I've talked to."<br><span class='username'>- /u/Sue101010</span></p>
+                <p>"really good! I was so impressed with how it handled the nuances of working through a break up. thanks for sharing this <3"<br><span class='username'>- /u/Icy_Ad6586</span></p>
+            </div>
+            </div>
+            <div class='image'>
+                <img src='https://i.ibb.co/n7NSGMw/hITO7wG.png' alt='AI Icon' class='icon'>
+            </div>
+        </div>
+    </div>
+    </div>
+<div id="intro" style="display:none" class="container">
+        <div class='bubble'></div>
+        <div class='bubble'></div>
+        <div class='bubble'></div>
+        <div class='bubble'></div>
 
     <form id="contact_form" class="well form-horizontal" style="background-color: DDFBFE;" >
 <fieldset>
@@ -202,6 +180,10 @@ function freeForm()
 </div>
 
 	<div style="background-color: DDFBFE;"  id="chat" class="container">
+        <div class='bubble'></div>
+        <div class='bubble'></div>
+        <div class='bubble'></div>
+        <div class='bubble'></div>
 
 		<div class="row padded_row">
 
@@ -229,31 +211,6 @@ function freeForm()
                             <div class="spinner"></div>
                         </div>
                     </div>
-                    <style>
-                        .range-slider {
-                            width: 100%;
-                            position: relative;
-                        }
-
-                        .dot {
-                            width: 10px;
-                            height: 10px;
-                            border-radius: 50%;
-                            position: absolute;
-                            top: 25px;
-                            display: none;
-                        }
-
-                        #last-session-dot {
-                            background: #ff0000; /* Red */
-                            opacity: 0.5;
-                        }
-
-                        #average-dot {
-                            background: #00ff00; /* Green */
-                            opacity: 0.5;
-                        }
-                    </style>
 
                     <div class="bottom_wrapper" id="ratingArea">
                         <div class="range-slider">
@@ -424,16 +381,7 @@ function freeForm()
 	<!-- custom scripts -->
 	<script src="static/main.js"></script>
 
-  <!-- Initialize Skrollr -->
 <script>
-window.onscroll = function(ev) {
-    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight / 1.5) {
-        // User is at the bottom of the page
-        document.getElementById("welcome-section").style.display = "none";
-    }
-};
-</script>
-    <script>
 document.getElementById('downloadButton').addEventListener('click', function() {
     // Show the spinner
     document.getElementById('loadingSpinner2').style.display = 'block';
@@ -442,9 +390,6 @@ document.getElementById('downloadButton').addEventListener('click', function() {
     }, 12000);
 });
 </script>
-
-
-    </div>
 <div style="display: none" class="banner">
   <div class="form-wrapper">
     <form id="check-key-form" style="display: flex; flex-direction: column;">
@@ -454,6 +399,8 @@ document.getElementById('downloadButton').addEventListener('click', function() {
     </form>
   </div>
 </div>
+
+
 
 </body>
 

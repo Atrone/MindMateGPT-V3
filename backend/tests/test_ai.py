@@ -23,19 +23,19 @@ class TestInteractiveScenario(unittest.TestCase):
                      "criminal": "nope", "drugs": "nope", "family": "great", "religion": "Catholic",
                      "education": "University", "medication": "None", "working": "yes, mailman"}
         loop = asyncio.get_event_loop()
-        prompt = os.getenv(
-            "INITIAL_PROMPT") + "Hey" + "\n\n\n\n  "
+        conversation = [{"role": "system", "content": os.getenv(
+            "INITIAL_PROMPT")}]
+        conversation.append({"role": "user", "content": input()})
         while True:
-            response = loop.run_until_complete(self.instance.generate_response(prompt))
+            response, conversation = loop.run_until_complete(self.instance.generate_response("",conversation))
             print(response)
-            prompt += "\n\n\n\n" + response + "\n\n\n\n"
-            prompt += "\n\n\n\n" + input() + "\n\n\n\n"
+            conversation.append({"role": "user", "content": input()})
             if (input("Do you want to continue? (Y/N): ").lower()) == "n":
                 break
 
         assert input("Good?") == "Y"
 
-
+    @skip
     def test_chat_ENTJ_America_Catholic_relationship_university_mailman_sober_no_criminal_happy(self):
         user_data = {"first_name": "Bill", 'childhood': "great", "relationship": "in a relationship", "mbti": "ENTJ",
                      "growup": "America", "live": "America",
@@ -44,7 +44,6 @@ class TestInteractiveScenario(unittest.TestCase):
         loop = asyncio.get_event_loop()
         prompt = loop.run_until_complete(self.instance.format_prompt(user_data)) + "Hey" + "\n\n\n\n  "
         while True:
-            print(openai.Moderation.create(prompt))
             response = loop.run_until_complete(self.instance.generate_response(prompt))
             print(response)
             prompt += "\n\n\n\n" + response + "\n\n\n\n"

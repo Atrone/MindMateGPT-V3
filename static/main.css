@@ -1,14 +1,111 @@
-* {
-	box-sizing: border-box;
-}
 body {
-  overflow-x: hidden;
-  overflow-style: none;
+    background-color: #f0f8ff;
+    font-family: Arial, sans-serif;
+    position: relative;
 }
-body {
-  overflow-x: hidden;
-  overflow-style: none;
+
+.bubble {
+    position: absolute;
+    background-color: rgba(0, 51, 102, 0.1);
+    border-radius: 100%;
 }
+
+.bubble:nth-child(1) {
+    width: 200px;
+    height: 200px;
+    top: 10%;
+    left: 5%;
+}
+
+.bubble:nth-child(2) {
+    width: 150px;
+    height: 150px;
+    top: 30%;
+    right: 10%;
+}
+
+.bubble:nth-child(3) {
+    width: 100px;
+    height: 100px;
+    bottom: 20%;
+    left: 20%;
+}
+
+.bubble:nth-child(4) {
+    width: 120px;
+    height: 120px;
+    bottom: 10%;
+    right: 5%;
+}
+
+.container2 {
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.content2 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.text {
+    flex: 1 0 60%;
+    text-align: left;
+}
+
+.image {
+    flex: 1 0 40%;
+    text-align: right;
+}
+
+.icon {
+    max-width: 100%;
+    height: auto;
+}
+
+
+.username {
+    font-size: 14px;
+}
+
+.cta button {
+    background-color: #003366;
+    color: #ffffff;
+    border: none;
+    padding: 10px 24px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 2px 1px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+}
+
+.cta button:hover {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.section {
+    margin-top: 40px;
+}
+
+h1 {
+    color: #003366;
+    font-size: 24px;
+}
+
+p, h2 {
+    color: #003366;
+    font-size: 16px;
+}
+
+
 .spinner {
   border: 16px solid #f3f3f3;
   border-top: 16px solid #3498db;
@@ -23,83 +120,6 @@ body {
   100% { transform: rotate(360deg); }
 }
 
-.welcome-section .logocon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100vw;
-  height: 100vh;
-  background: #3498db;
-  animation: color 30s linear infinite;
-  user-select: none;
-  position: relative; /* Change position to relative */
-  top: 0;
-  z-index: 3;
-}
-.welcome-section .logo {
-  font: 300 150px Comfortaa;
-  color: #fff;
-  cursor: default;
-  position: absolute; /* Add position absolute */
-  top: 50%; /* Position the text vertically at the center */
-  transform: translateY(-50%); /* Adjust the vertical alignment */
-
-}
-.welcome-section .hint {
-  position: fixed;
-  z-index: 4;
-  bottom: 5vh;
-  width: 100vw;
-  text-align: center;
-  color: rgba(255,255,255,0.welcome-section .6);
-  font: 300 30px Comfortaa;
-  bottom: 25px; /* Adjust the bottom position */
-
-}
-  @media only screen and (max-width: 480px) {
-    .welcome-section .logo {
-      font-size: 50px;
-      font-weight: bold;
-    }
-
-    .welcome-section .logo p {
-      font-size: 10px;
-      font-weight: normal;
-
-    }
-  }
-
-.banner {
-  background-color: #5B969C;
-  color: black;
-  border-radius: 5px;
-  text-align: center;
-  font-size: 18px;
-  position: fixed; /* Add fixed position */
-  top: 0; /* Stick the banner to the top */
-  left: 0; /* Align the banner to the left */
-  width: 100%; /* Make the banner full width */
-  z-index: 999; /* Set a high z-index to ensure the banner is on top */
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-    text-align: center;
-  /* Add flexbox properties to align and position items */
-    display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  /* Add flexbox properties to center align content */
-  text-align: center;
-    display: flex;
-  align-items: center;
-  justify-content: center;
-  /* Add flexbox properties to center align content */
-  text-align: center;
-  position: relative; /* Add position relative to create a new positioning context */
-
-
-}
 
 .form-wrapper {
   display: flex;
@@ -120,88 +140,6 @@ body {
   /* Add margin to create space between label and input */
 }
 
-.welcome-section .content {
-    margin-top: 150px; /* Adjust the top margin to make space for the logo */
-  padding: 30px;
-  position: relative;
-  top: 20vh;
-  height: 200vh;
-  font: 16px Ubuntu;
-}
-@-moz-keyframes color {
-  0% {
-    background: #3498db;
-  }
-  25% {
-    background: #19e5e6;
-  }
-  50% {
-    background: #1a5770;
-  }
-  75% {
-    background: #5B969C;
-  }
-  100% {
-    background: #b0d4f3;
-  }
-}
-@-webkit-keyframes color {
-  0% {
-    background: #3498db;
-  }
-  25% {
-    background: #19e5e6;
-  }
-  50% {
-    background: #1a5770;
-  }
-  75% {
-    background: #5B969C;
-  }
-  100% {
-    background: #b0d4f3;
-  }
-}
-@-o-keyframes color {
-  0% {
-    background: #3498db;
-  }
-  25% {
-    background: #19e5e6;
-  }
-  50% {
-    background: #1a5770;
-  }
-  75% {
-    background: #5B969C;
-  }
-  100% {
-    background: #b0d4f3;
-  }
-}
-@keyframes color {
-  0% {
-    background: #3498db;
-  }
-  25% {
-    background: #19e5e6;
-  }
-  50% {
-    background: #1a5770;
-  }
-  75% {
-    background: #5B969C;
-  }
-  100% {
-    background: #b0d4f3;
-  }
-}
-
-
-body {
-	background-color: #5B969C;
-	font-family: 'Calibri', 'Roboto', sans-serif;
-}
 #key {
     border: 2px solid;
 }
@@ -210,9 +148,6 @@ body {
             display: none;
             text-align: center;
             padding: 20px;
-}
-.payment-button {
-            margin-top: 20px;
 }
 
 .row.padded_row,
@@ -489,4 +424,27 @@ body {
   border-radius: 12px;
   margin:0 auto;
   display:block;
+}
+.range-slider {
+    width: 100%;
+    position: relative;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    position: absolute;
+    top: 25px;
+    display: none;
+}
+
+#last-session-dot {
+    background: #ff0000; /* Red */
+    opacity: 0.5;
+}
+
+#average-dot {
+    background: #00ff00; /* Green */
+    opacity: 0.5;
 }

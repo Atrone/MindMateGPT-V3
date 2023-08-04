@@ -54,7 +54,7 @@ cors = {"middleware_class": CORSMiddleware,
 
 api_app.add_middleware(**cors)
 
-app = FastAPI(title="main app")
+app = FastAPI(title="main app", middleware=middleware)
 app.mount("/api", api_app)
 app.mount("/static", StaticFiles(directory="static", html=True), name="static")
 

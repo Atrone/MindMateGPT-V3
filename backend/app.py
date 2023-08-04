@@ -28,12 +28,8 @@ class CacheControlMiddleware(BaseHTTPMiddleware):
         response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0'
         return response
 
-middleware = [
-    Middleware(CacheControlMiddleware)
-]
 
-
-api_app = FastAPI(title="api app",middleware=middleware)
+api_app = FastAPI(title="api app")
 
 
 
@@ -54,7 +50,7 @@ cors = {"middleware_class": CORSMiddleware,
 
 api_app.add_middleware(**cors)
 
-app = FastAPI(title="main app", middleware=middleware)
+app = FastAPI(title="main app")
 app.mount("/api", api_app)
 app.mount("/static", StaticFiles(directory="static", html=True), name="static")
 

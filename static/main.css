@@ -8,6 +8,7 @@ body {
     position: absolute;
     background-color: rgba(0, 51, 102, 0.1);
     border-radius: 100%;
+    pointer-events: none;
 }
 
 .bubble:nth-child(1) {
@@ -82,13 +83,7 @@ body {
     display: inline-block;
     font-size: 14px;
     margin: 2px 1px;
-    cursor: pointer;
     transition-duration: 0.4s;
-}
-
-.cta button:hover {
-    background-color: #4CAF50;
-    color: white;
 }
 
 .section {

@@ -12,9 +12,9 @@ openai.api_key = os.getenv("apikey")
 
 class TestInteractiveScenario(unittest.TestCase):
     def setUp(self):
-        self.openai = openai  # Replace 'YourApiKey' with your actual API key
+        self.openai = openai
         self.instance = FreeAppService(self.openai, None, os.getenv(
-            "INITIAL_PROMPT"))  # Replace YourClassNameHere with your actual class name
+            "INITIAL_PROMPT"))
 
     @skip
     def test_chat_free_form(self):
@@ -184,7 +184,7 @@ class TestInteractiveScenario(unittest.TestCase):
         assert input("Good?") == "Y"
 
     @skip
-    def test_chat_INFP_work(self): # PASSED
+    def test_chat_INFP_work(self):  # PASSED
         # Assertiveness and conflict resolution
 
         # Hello there! I'm Mindy, your psychotherapist. How can I help you today? Do you want to continue? (Y/N): I'm

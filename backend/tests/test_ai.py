@@ -70,7 +70,7 @@ class TestInteractiveScenario(unittest.TestCase):
 
     @skip
     def test_chat_INFP_relationship(self):  # PASSED
-        # Assertiveness and conflict
+        # Assertiveness and conflict resolution
 
         # I can understand that you're feeling upset and questioning your self-worth due to your boyfriend not
         # labeling the relationship after one year. It's important to remember that your worth isn't determined by
@@ -184,8 +184,8 @@ class TestInteractiveScenario(unittest.TestCase):
         assert input("Good?") == "Y"
 
     @skip
-    def test_chat_INFP_work(self):
-        # Assertiveness and conflict
+    def test_chat_INFP_work(self): # PASSED
+        # Assertiveness and conflict resolution
 
         # Hello there! I'm Mindy, your psychotherapist. How can I help you today? Do you want to continue? (Y/N): I'm
         # really sorry to hear that you're feeling this way. Losing a job can be incredibly tough,

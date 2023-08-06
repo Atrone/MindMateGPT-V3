@@ -168,7 +168,6 @@ $('#contact_form').bootstrapValidator({
   })
   .then(response => {
     // handle the response from the backend API endpoint
-    title.textContent = 'MindMateGPT';
     myDiv.style.display = "none";
     myDiv2.style.display = "block";
   })

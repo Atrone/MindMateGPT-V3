@@ -59,20 +59,20 @@ function hideContent() {
         <div class='bubble'></div>
         <div class='content2'>
             <div class='text'>
-                <h1 style="font-weight: bold">MindMateGPT</h1>
-                <p>Experience the future of therapy, tailored to your needs.</p>
+                <h1 style="font-size:24px; color: #003366; font-weight: bold">MindMateGPT</h1>
+                <p style="font-size: 16px; color: #003366">Experience the future of therapy, tailored to your needs.</p>
                 <div class='cta'>
                     <button onclick="hideContent()" type='button'>Try a Demo</button>
                 </div>
             <div class='section'>
-                <h2 style="font-weight: bold">What We Do</h2>
-                <p>AI chat bot therapy tool.<br>Journal transcripts and insights.</p>
-                <h2 style="font-weight: bold">Testimonials</h2>
-                <p>"Damn I talked to Mindy for like 45 minutes good stuff! Bookmarked, thanks for making this!!!"<br><span class='username'>- /u/Jubie210</span></p>
-                <p>"I liked it better than the therapists I've talked to."<br><span class='username'>- /u/Sue101010</span></p>
-                <p>"really good! I was so impressed with how it handled the nuances of working through a break up. thanks for sharing this <3"<br><span class='username'>- /u/Icy_Ad6586</span></p>
-                <p>"Hey! This is good. Good job."<br><span class='username'>- /u/PerfectParfait5</span></p>
-                <p>"Mfw I end up being the therapist for it as well"<br><span class='username'>- /u/Nomad_65</span></p>
+                <h2 style="font-size: 16px; color: #003366;font-weight: bold">What We Do</h2>
+                <p style="font-size: 16px; color: #003366">AI chat bot therapy tool.<br>Journal transcripts and insights.</p>
+                <h2 style="font-size: 16px; color: #003366;font-weight: bold">Testimonials</h2>
+                <p style="font-size: 16px; color: #003366">"Damn I talked to Mindy for like 45 minutes good stuff! Bookmarked, thanks for making this!!!"<br><span class='username'>- /u/Jubie210</span></p>
+                <p style="font-size: 16px; color: #003366">"I liked it better than the therapists I've talked to."<br><span class='username'>- /u/Sue101010</span></p>
+                <p style="font-size: 16px; color: #003366">"really good! I was so impressed with how it handled the nuances of working through a break up. thanks for sharing this <3"<br><span class='username'>- /u/Icy_Ad6586</span></p>
+                <p style="font-size: 16px; color: #003366">"Hey! This is good. Good job."<br><span class='username'>- /u/PerfectParfait5</span></p>
+                <p style="font-size: 16px; color: #003366">"Mfw I end up being the therapist for it as well"<br><span class='username'>- /u/Nomad_65</span></p>
             </div>
             </div>
             <div class='image'>
@@ -181,31 +181,10 @@ function freeForm()
 </form>
 </div>
 
-	<div style="background-color: DDFBFE;"  id="chat" class="container">
-        <div class='bubble'></div>
-        <div class='bubble'></div>
-        <div class='bubble'></div>
-        <div class='bubble'></div>
-
-		<div class="row padded_row">
-
-			<!-- right side content -->
-			<div class="col-md-7">
-
-				<div class="chat_window">
-
-					<div class="top_menu">
-						<div id='welcome_title' class="title">TherapistGPT</div>
-					</div>
-
-					<!-- dynamically rendered -->
-					<ul class="messages"></ul>
-
-					<!-- input -->
-					<div class="bottom_wrapper">
-						<textarea id="msg_input" placeholder="Say Hi to begin chat..."></textarea>
-						<div id="send_button" class="app_button_1">Send</div>
-					</div>
+	<div id="chat">
+    <div id="myModal" class="modal">
+    <div class="modal-content">
+    <span class="close">&times;</span>
                     <div class="bottom_wrapper">
                         <input id="downloadInput" placeholder="bill@gmail.com... (gmail only)" />
 						<div id="downloadButton" class="app_button_1">Add to journal</div>
@@ -213,19 +192,40 @@ function freeForm()
                             <div class="spinner"></div>
                         </div>
                     </div>
-
-                    <div class="bottom_wrapper" id="ratingArea">
-                        <div class="range-slider">
-                            <p>After your session, rate your mood.</p>
-                            <input type="range" min="1" max="10" value="5" id="currentRating" name="rating">
-                            <div id="last-session-dot" class="dot"></div>
-                            <div id="average-dot" class="dot"></div>
-                            <p id="dotExplain" style="display: none">Green dot is average mood, red dot is previous mood.</p>
-                        </div>
-                        <button class="app_button_1" onclick="submitRating()">Submit Rating</button>
-                    </div>
-
-                    <script>
+    </div>
+    </div>
+    <div class='container3'>
+        <div class='bubble'></div>
+        <div class='bubble'></div>
+        <div class='bubble'></div>
+        <div class='bubble'></div>
+        <div id="chat2">
+            <div id="messages"></div>
+            <input type="text" id="input2">
+        </div>
+    </div>
+    <button id="startButton">Start Typing</button>
+    <script src="static/script.js"></script>
+    <button style="display: block; margin: auto;" id="finished">Click me when finished</button>
+    <script>
+    window.onload = function() {
+      var modal = document.getElementById('myModal');
+      var btn = document.getElementById('finished');
+      var span = document.getElementsByClassName('close')[0];
+      btn.onclick = function() {
+        modal.style.display = 'block';
+      }
+      span.onclick = function() {
+        modal.style.display = 'none';
+      }
+      window.onclick = function(event) {
+        if (event.target == modal) {
+          modal.style.display = 'none';
+        }
+      }
+    }
+    </script>
+        <script>
                                             // Function to set a cookie
                         function setCookie(cname, cvalue, exdays) {
                             var d = new Date();
@@ -262,7 +262,6 @@ function freeForm()
                             document.getElementById('average-dot').style.display = 'block';
                             document.getElementById('dotExplain').style.display = 'block';
                             // Update the display
-                            document.getElementById('lastSession').innerText = rating;
                             displayAverage();
                             displayLastSessionDot();
                         }
@@ -331,47 +330,6 @@ function freeForm()
                         });
 
                     </script>
-
-				</div>
-
-			</div>
-
-			<!-- left side content -->
-			<div class="col-md-5">
-				<div class="chat_window">
-
-					<div class="top_menu">
-						<div class="title">Help</div>
-					</div>
-
-					<!-- help container -->
-					<div class="panel-group" id="accordion">
-
-						<!-- help - 1 -->
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<h4 class="panel-title">
-									<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
-										href="#collapse1">DISCLAIMER</a>
-								</h4>
-							</div>
-							<div id="collapse1" class="panel-collapse collapse in">
-								<div class="panel-body">
-									WARNING: The makers of this project are in no way associated with OpenAI or ChatGPT.
-                                    This robot can give the wrong advices.
-                                    We do not store any data you type and everything you say is anonymous.
-                                    Use responsibly. This is not a professional therapy replacement. If in serious crisis, please use one of these <a href="https://www.psycom.net/get-help-mental-health"> hotlines.</a>
-								</div>
-							</div>
-						</div>
-
-					</div>
-
-				</div>
-			</div>
-
-		</div>
-
 	</div>
 
 	<!-- vendor script files -->
@@ -382,7 +340,6 @@ function freeForm()
 
 	<!-- custom scripts -->
 	<script src="static/main.js"></script>
-
 <script>
 document.getElementById('downloadButton').addEventListener('click', function() {
     // Show the spinner
@@ -392,7 +349,7 @@ document.getElementById('downloadButton').addEventListener('click', function() {
     }, 12000);
 });
 </script>
-<div style="display: none" class="banner">
+    <div style="display: none" class="banner">
   <div class="form-wrapper">
     <form id="check-key-form" style="display: flex; flex-direction: column;">
       <label for="key">Input Premium Key</label>

@@ -1,13 +1,6 @@
 let input = document.getElementById('input2');
 let chat = document.getElementById('chat2');
 let messages = document.getElementById('messages');
-let startButton = document.getElementById('startButton');
-
-startButton.addEventListener('click', function() {
-    startButton.style.display = 'none';
-    window.scrollTo(0,document.body.scrollHeight);
-    input.focus();
-});
 
 input2.addEventListener('keydown', function(event) {
   var sesh = document.getElementById("session");

@@ -57,7 +57,7 @@ input2.addEventListener('keydown', function(event) {
                 responseDiv.className = 'message response';
                 let response = document.createElement('p');
                 response.textContent = data;
-                response.textContent = data.replace(/\"/g, "").replace(/\n/g, " "); // Remove quotes and new lines
+                response.textContent = data.replace(/\"/g, "").replace(/(\r\n|\n|\r)/gm, " "); // Remove quotes and new lines
                 responseDiv.appendChild(response);
                 messages.appendChild(responseDiv);
                 messages.scrollTop = messages.scrollHeight;

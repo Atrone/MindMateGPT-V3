@@ -1,87 +1,3 @@
-/**
- * Returns the current datetime for the message creation.
- */
-function getCurrentTimestamp() {
-	return new Date();
-}
-
-
-/**
- * Renders a message on the chat screen based on the given arguments.
- * This is called from the `showUserMessage` and `showBotMessage`.
- */
-function renderMessageToScreen(args) {
-	// local variables
-	let displayDate = (args.time || getCurrentTimestamp()).toLocaleString('en-IN', {
-		month: 'short',
-		day: 'numeric',
-		hour: 'numeric',
-		minute: 'numeric',
-	});
-	let messagesContainer = $('.messages');
-
-	// init element
-	let message = $(`
-	<li class="message ${args.message_side}">
-		<div class="avatar"></div>
-		<div class="text_wrapper">
-			<div class="text">${args.text}</div>
-			<div class="timestamp">${displayDate}</div>
-		</div>
-	</li>
-	`);
-
-	// add to parent
-	messagesContainer.append(message);
-
-	// animations
-	setTimeout(function () {
-		message.addClass('appeared');
-	}, 0);
-	messagesContainer.animate({ scrollTop: messagesContainer.prop('scrollHeight') }, 300);
-}
-
-/**
- * Displays the user message on the chat screen. This is the right side message.
- */
-function showUserMessage(message, datetime) {
-	renderMessageToScreen({
-		text: message,
-		time: datetime,
-		message_side: 'right',
-	});
-}
-
-/**
- * Displays the chatbot message on the chat screen. This is the left side message.
- */
-function showBotMessage(message, datetime) {
-	renderMessageToScreen({
-		text: message,
-		time: datetime,
-		message_side: 'left',
-	});
-}
-
-/**
- * Get input from user and show it on screen on button click.
- */
-$('#send_button').on('click', async (e) => {
-	var post_param = ($('#msg_input').val())
-
-	// get and show message and reset input
-	showUserMessage($('#msg_input').val());
-	$('#msg_input').val('');
-    var keyInput = document.getElementById('key');
-    console.log(keyInput.value)
-
-	// show bot message
-	var ai = await postData({body:{message:post_param}}, {key_body:{key: keyInput.value}});
-	showBotMessage(ai);
-
-
-});
-
 $('#downloadButton').on('click', async (e) => {
                           var sesh = document.getElementById("session");
                           var keyInput = document.getElementById('key');
@@ -158,7 +74,7 @@ $('#contact_form').bootstrapValidator({
   var myDiv2 = document.getElementById("chat");
   var sesh = document.getElementById("session");
   var title = document.getElementById("welcome_title");
-
+  var input = document.getElementById('input2');
 
   // use AJAX to submit the form data to the backend API endpoint
   fetch(url, {
@@ -170,6 +86,7 @@ $('#contact_form').bootstrapValidator({
     // handle the response from the backend API endpoint
     myDiv.style.display = "none";
     myDiv2.style.display = "block";
+    input.focus(); // Refocus on the input
   })
   .catch(error => {
     // handle any errors that occur during the form submission process
@@ -177,35 +94,5 @@ $('#contact_form').bootstrapValidator({
   });
 });
 
-// Example POST method implementation:
-async function postData(data, key_data) {
-  var sesh = document.getElementById("session");
-
-  // Default options are marked with *
-  const response = await fetch("https://mindmategpt.herokuapp.com/api/therapistGPT", {
-    method: "POST", // *GET, POST, PUT, DELETE, etc.
-    mode: "cors", // no-cors, *cors, same-origin
-    cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-    credentials: "same-origin", // include, *same-origin, omit
-    headers: {
-      "Content-Type": "application/json",
-      'Session': sesh.textContent // Include the session ID in the headers
-    },
-    redirect: "follow", // manual, *follow, error
-    referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-    body: JSON.stringify(data), // body data type must match "Content-Type" header
-    key_body: JSON.stringify(key_data) // body data type must match "Content-Type" header
-  });
-  return response.json(); // parses JSON response into native JavaScript objects
-}
-
-/**
- * Set initial bot message to the screen for the user.
- */
-$(window).on('load', function () {
-  	var myDiv = document.getElementById("chat");
-    myDiv.style.display = "none";
-	showBotMessage('Hello there! Type in a message.');
-});
 
 

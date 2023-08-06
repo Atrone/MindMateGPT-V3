@@ -1,4 +1,4 @@
 # MindMateGPT
-Your personal AI mental health journaling companion
+Your personal AI mental health companion
 
 https://mindmategpt.com

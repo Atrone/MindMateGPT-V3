@@ -70,9 +70,9 @@ p.response {
 
 }
 
-@media (max-width: 600px) {
+@media screen and (max-width: 600px) {
     p, p.response {
-        max-width: 90%;
+        font-size: 25px;
     }
 }
 

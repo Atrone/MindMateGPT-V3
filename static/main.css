@@ -56,14 +56,15 @@ body {
 p {
     width: fit-content;
     max-width: 80%;
-    font-size: 30px;
+    font-size: 40px;
+    font-family: 'Roboto', sans-serif;
 
 }
 
 p.response {
     align-self: flex-end;
     color: #003366;
-    font-size: 30px;
+    font-size: 40px;
     font-weight: bold;
     font-style: italic;
 
@@ -106,6 +107,7 @@ p.response {
     font-size: 14px;
     margin: 2px 1px;
     transition-duration: 0.4s;
+    border-radius: 10px;
 }
 
 .section {
@@ -535,6 +537,8 @@ paragraph, header2 {
     font-size: 20px;
     outline: none;
     color: #003366;
+    border-radius: 25px;
+    padding: 10px;
 }
 
 #startButton {
@@ -555,6 +559,7 @@ paragraph, header2 {
     font-size: 20px;
     color: #ffffff;
     background: #003366;
+    border-radius: 12px;
 }
 
 #messages {

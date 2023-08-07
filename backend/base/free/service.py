@@ -10,9 +10,8 @@ async def extract_form_data(form_data: Dict[str, Any], session_id: str) -> Dict[
 
 
 class FreeAppService:
-    def __init__(self, openai, stripe, initial_prompt):
+    def __init__(self, openai, initial_prompt):
         self.openai = openai
-        self.stripe = stripe
         self.initial_prompt = initial_prompt
 
     async def format_prompt(self, user_data: Dict[str, Any]) -> str:

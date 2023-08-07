@@ -10,12 +10,10 @@ from backend.base.free.service import FreeAppService, extract_form_data
 
 
 class FreeApp(BaseApp):
-    def __init__(self, redis_client, stripe, openai):
+    def __init__(self, redis_client, openai):
         super().__init__(redis_client, openai)
-        self.stripe = stripe
-        self.stripe.api_key = os.getenv("STRIPE_SECRET")
         self.initial_prompt = os.getenv("INITIAL_PROMPT")
-        self.service = FreeAppService(openai, self.stripe, self.initial_prompt)
+        self.service = FreeAppService(openai, self.initial_prompt)
 
         @self.router.post("/getForm")
         async def get_form(request: Request):

@@ -11,7 +11,7 @@ class ContactFormServices {
     }
 
     submitForm(model) {
-        const url = 'https://mindmategpt.herokuapp.com/api/getForm';
+        const url = 'http://localhost:8000/api/getForm';
         const formData = new FormData();
 
         formData.append('mbti', model.mbti);
@@ -48,31 +48,20 @@ class ContactFormServices {
             fields: {
                 childhood: {
                     validators: {
-                        between: {
-                            min: 0,
-                            max: 5000,
-                            message:'Please enter at least 0 characters'
-                        }
-                    }
+                  stringLength: {min:0}
+                }
                 },
                 relationship: {
                     validators: {
-                        between: {
-                            min: 0,
-                            max: 200,
-                            message:'Please enter at least 0 characters and no more than 200'
-                        }
-                    }
+                  stringLength: {min:0}
+                }
+
                 },
                 mbti: { validators: { notEmpty: { message: 'Please supply your MBTI' } } },
                 working: {
                     validators: {
-                        between: {
-                            min: 0,
-                            max: 200,
-                            message:'Please enter at least 0 characters and no more than 200'
-                        }
-                    }
+                  stringLength: {min:0}
+                }
                 }
             }
         }).on('success.form.bv', function(e) {

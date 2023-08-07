@@ -6,6 +6,8 @@ class ContactFormModel {
         this.childhood = '';
         this.relationship = '';
         this.working = '';
+        this.summary = '';
+        this.insight = '';
     }
 
     init() {}
@@ -24,5 +26,13 @@ class ContactFormModel {
 
     updateWorking(working) {
         this.working = working;
+    }
+
+    updateInsight(insight) {
+        this.insight = insight;
+    }
+
+    updateSummary(summary) {
+        this.summary = summary;
     }
 }

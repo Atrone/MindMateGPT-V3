@@ -39,6 +39,15 @@ class ContactFormController {
         this.model.updateWorking(event.target.value);
     }
 
+    handleSummaryChange(event) {
+        this.model.updateSummary(event.target.value);
+    }
+
+    handleInsightChange(event) {
+        this.model.updateInsight(event.target.value);
+    }
+
+
     handleSubmit(event) {
         event.preventDefault();
         this.service.validateAndSubmit(this.model);

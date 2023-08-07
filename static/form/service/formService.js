@@ -18,6 +18,8 @@ class ContactFormServices {
         formData.append('childhood', model.childhood);
         formData.append('relationship', model.relationship);
         formData.append('working', model.working);
+        formData.append('summary', model.summary);
+        formData.append('insight', model.insight);
 
         // add Session header value if necessary
         const headers = {'Session': document.getElementById("session").textContent};
@@ -62,7 +64,18 @@ class ContactFormServices {
                     validators: {
                   stringLength: {min:0}
                 }
+                },
+                                summary: {
+                    validators: {
+                  stringLength: {min:0}
                 }
+                }
+,                insight: {
+                    validators: {
+                  stringLength: {min:0}
+                }
+                }
+
             }
         }).on('success.form.bv', function(e) {
             // Prevent form submission

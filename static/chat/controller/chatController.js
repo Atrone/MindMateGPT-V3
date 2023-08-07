@@ -64,6 +64,7 @@ class ChatController {
         responseElement.textContent = response;
         responseDiv.appendChild(responseElement);
         this.messagesElement.appendChild(responseDiv);
+        this.messagesElement.scrollTop = this.messagesElement.scrollHeight;
         this.inputElement.style.display = 'block';
         this.inputElement.focus();
     }

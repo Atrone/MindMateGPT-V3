@@ -11,7 +11,7 @@ class ContactFormServices {
     }
 
     submitForm(model) {
-        const url = 'http://localhost:8000/api/getForm';
+        const url = 'https://mindmategpt.herokuapp.com//api/getForm';
         const formData = new FormData();
 
         formData.append('mbti', model.mbti);

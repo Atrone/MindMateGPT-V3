@@ -4,7 +4,7 @@ class ChatService {
     }
 
     async sendMessage(message) {
-        const response = await fetch('https://mindmategpt.herokuapp.com//api/therapistGPT', {
+        const response = await fetch('https://mindmategpt.herokuapp.com/api/therapistGPT', {
             method: 'POST',
             headers: {
               "Content-Type": "application/json",

@@ -48,6 +48,6 @@ class ContactFormController {
 
         document.getElementById("form").style.display = "none";
         document.getElementById("chat").style.display = "block";
-
+        document.getElementById("input2").focus();
     }
 }

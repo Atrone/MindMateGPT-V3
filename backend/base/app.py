@@ -2,6 +2,7 @@ import json
 from typing import Dict
 from fastapi import APIRouter
 
+
 class BaseApp:
     def __init__(self, redis_client, openai):
         self.redis_client = redis_client

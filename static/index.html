@@ -1,35 +1,14 @@
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-
-	<!-- seo related -->
-	<title>MindMateGPT</title>
-  <meta name="description" content="Discover MindMateGPT, your AI-powered therapist app offering personalized mental health support, expert advice, and effective coping strategies. Begin your journey to emotional well-being today!">
-
-	<!-- meta related -->
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
-	<!-- vendor css & style files -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Title</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 	<!-- custom css -->
 	<link rel="stylesheet" type="text/css" href="static/main.css">
 </head>
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZYL1S2102L"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-ZYL1S2102L');
-</script>
-
-
-
 <body>
     <script>
         // Get the session_id from the HTML
@@ -43,221 +22,50 @@
         });
 
     </script>
+    <p style="display: none" id="session">SESSION={{user}}</p>
+    <div id="landing"></div>
+    <div id="form" style="display:none;" class="container"></div>
+    <div id="chat" style="display:none;"></div>
 
-<p style="display: none" id="session">SESSION={{user}}</p>
-<script>
-function hideContent() {
-  document.getElementById("intro").style.display = "block";
-  document.getElementById("content").style.display = "none";
-}
-</script>
-<div id="content">
-    <div class='container2'>
-        <div class='bubble'></div>
-        <div class='bubble'></div>
-        <div class='bubble'></div>
-        <div class='bubble'></div>
-        <div class='content2'>
-            <div class='text'>
-                <h1 style="font-size:24px; color: #003366; font-weight: bold">MindMateGPT</h1>
-                <p style="font-size: 16px; color: #003366">Experience the future of therapy, tailored to your needs.</p>
-                <div class='cta'>
-                    <button onclick="hideContent()" type='button'>Try a Demo</button>
-                </div>
-            <div class='section'>
-                <h2 style="font-size: 16px; color: #003366;font-weight: bold">What We Do</h2>
-                <p style="font-size: 16px; color: #003366">AI chat bot therapy tool.<br>Journal transcripts and insights.</p>
-                <h2 style="font-size: 16px; color: #003366;font-weight: bold">Testimonials</h2>
-                <p style="font-size: 16px; color: #003366">"Damn I talked to Mindy for like 45 minutes good stuff! Bookmarked, thanks for making this!!!"<br><span class='username'>- /u/Jubie210</span></p>
-                <p style="font-size: 16px; color: #003366">"I liked it better than the therapists I've talked to."<br><span class='username'>- /u/Sue101010</span></p>
-                <p style="font-size: 16px; color: #003366">"really good! I was so impressed with how it handled the nuances of working through a break up. thanks for sharing this <3"<br><span class='username'>- /u/Icy_Ad6586</span></p>
-                <p style="font-size: 16px; color: #003366">"Hey! This is good. Good job."<br><span class='username'>- /u/PerfectParfait5</span></p>
-                <p style="font-size: 16px; color: #003366">"Mfw I end up being the therapist for it as well"<br><span class='username'>- /u/Nomad_65</span></p>
-            </div>
-            </div>
-            <div class='image'>
-                <img src='https://i.ibb.co/n7NSGMw/hITO7wG.png' alt='AI Icon' class='icon'>
-            </div>
-        </div>
-    </div>
-    </div>
-<div id="intro" style="display:none" class="container">
-          <p class="notice">IMPORTANT: This is completely anonymous. We do not store any data.</p>
-  <p class="notice">Answer mindfully :)</p>
-  <p class="notice">Complete our <a href="https://forms.gle/NUEvJkXav6X5ah5Y6">survey</a> and instantly earn $10.</p>
-        <div class='bubble'></div>
-        <div class='bubble'></div>
-        <div class='bubble'></div>
-        <div class='bubble'></div>
-
-    <form id="contact_form" class="well form-horizontal" style="background-color: DDFBFE;" >
-<fieldset>
-
-<!-- Form Name -->
-<legend>Tell me about yourself.</legend>
-
-<!-- Text input-->
-
-<div class="form-group">
-  <label class="col-md-4 control-label">What is your <a href="https://upload.wikimedia.org/wikipedia/commons/1/1f/MyersBriggsTypes.png">MBTI</a> type?</label>
-    <div class="col-md-4 inputGroupContainer">
-    <div class="input-group">
-        <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-  <input name="mbti" placeholder="ENTJ" class="form-control" type="text">
-    </div>
-  </div>
-</div>
-
-<!-- Text input-->
-
-
-<!-- Text input-->
-		<div class="form-group">
-  <label class="col-md-4 control-label">Tell me how you feel about your childhood.</label>
-    <div class="col-md-4 inputGroupContainer">
-    <div class="input-group">
-        <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-        	<textarea class="form-control" name="childhood" placeholder="Right now, I remember... (or blank)"></textarea>
-  </div>
-  </div>
-</div>
-
-
-
-<!-- Text input-->
-
-<div class="form-group">
-  <label class="col-md-4 control-label">Tell me about your relationship life.</label>
-    <div class="col-md-4 inputGroupContainer">
-    <div class="input-group">
-        <span class="input-group-addon"><i class="glyphicon glyphicon-heart"></i></span>
-  <textarea name="relationship" placeholder="Single, but... (or blank)" class="form-control"></textarea>
-    </div>
-  </div>
-</div>
-
-<!-- Text input-->
-			<!-- Text input -->
-
-	<div class="form-group">
-  <label class="col-md-4 control-label">Tell me about your work.</label>
-    <div class="col-md-4 inputGroupContainer">
-    <div class="input-group">
-        <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-  <textarea name="working" placeholder="I work as a software dev... (or blank)" class="form-control"></textarea>
-    </div>
-</div>
-</div>
-
-
-<!-- Button -->
-<div class="form-group">
-  <label class="col-md-4 control-label"></label>
-  <div class="col-md-4">
-    <div class="row">
-      <div class="col-md-6">
-        <button type="submit" class="btn btn-warning" style="background-color: #003366; border-color: #003366" >Send Journal<span class="glyphicon glyphicon-send"></span></button>
-      </div>
-      <div class="col-md-6">
-        <button class="btn btn-warning" style="background-color: #003366; border-color: #003366" onclick="freeForm()" >Skip to therapy  (not recommended) <span class="glyphicon glyphicon-play-circle"></span></button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script>
-function freeForm()
-{
-    var myDiv = document.getElementById("intro");
-    var myDiv2 = document.getElementById("chat");
-    myDiv.style.display = "none";
-    myDiv2.style.display = "block";
-
-}
-</script>
-
-
-</fieldset>
-</form>
-</div>
-
-	<div style="display: none;" id="chat">
-    <div id="myModal" class="modal">
-    <div class="modal-content">
-    <span class="close">&times;</span>
-                    <div class="bottom_wrapper">
-                        <input id="downloadInput" placeholder="bill@gmail.com... (gmail only)" />
-						<div id="downloadButton" style="background-color: #003366; border-color: #003366" class="app_button_1">Add to journal</div>
-                        <div id="loadingSpinner2" style="display: none;">
-                            <div class="spinner"></div>
-                        </div>
-                    </div>
-    </div>
-    </div>
-    <div class='container3'>
-        <div class='bubble'></div>
-        <div class='bubble'></div>
-        <div class='bubble'></div>
-        <div class='bubble'></div>
-        <div id="chat2">
-            <div id="messages"></div>
-            <input type="text" id="input2">
-        </div>
-    </div>
-    <script src="static/script.js"></script>
-    <button style="display: block; margin: auto;" id="finished">Click me when finished therapy session</button>
-        <div style="text-align:center;">
-        <a href="https://atrone.github.io/MindMateGPTDisclaimer/">Disclaimer and Repo</a>
-            </div>
-    <script>
-    window.onload = function() {
-      var modal = document.getElementById('myModal');
-      var btn = document.getElementById('finished');
-      var span = document.getElementsByClassName('close')[0];
-      btn.onclick = function() {
-        modal.style.display = 'block';
-      }
-      span.onclick = function() {
-        modal.style.display = 'none';
-      }
-      window.onclick = function(event) {
-        if (event.target == modal) {
-          modal.style.display = 'none';
-        }
-      }
-    }
-    </script>
-	</div>
-
-	<!-- vendor script files -->
 	<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js"> </script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js">
-	</script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="static/form/model/formModel.js"></script>
+    <script src="static/form/service/formService.js"></script>
+    <script src="static/form/controller/formController.js"></script>
+    <script src="static/landing/controller/landingController.js"></script>
+    <script src="static/chat/controller/chatController.js"></script>
+    <script src="static/chat/model/chatModel.js"></script>
+    <script src="static/chat/service/chatService.js"></script>
+    <script>
+    window.onload = function() {
+        loadHTML('static/landing/view/landingView.html', 'landing')
+            .then(() => {
+            loadHTML('static/form/view/formView.html', 'form')
+                .then(() => {
+                    const contactFormModel = new ContactFormModel();
+                    const contactFormService = new ContactFormServices();
+                    const contactFormController = new ContactFormController(contactFormModel, contactFormService);
 
-	<!-- custom scripts -->
-	<script src="static/main.js"></script>
-<script>
-document.getElementById('downloadButton').addEventListener('click', function() {
-    // Show the spinner
-    document.getElementById('loadingSpinner2').style.display = 'block';
-    setTimeout(function() {
-        document.getElementById('loadingSpinner2').style.display = 'none';
-    }, 12000);
-});
-</script>
-    <div style="display: none" class="banner">
-  <div class="form-wrapper">
-    <form id="check-key-form" style="display: flex; flex-direction: column;">
-      <label for="key">Input Premium Key</label>
-      <input type="text" id="key" required>
-      <button id="submitButton" type="button" class="check-key-button" onclick="checkKey()" style="color: black;">Check Key</button>
-    </form>
-  </div>
-</div>
+                    contactFormController.init();
+                    loadHTML('static/chat/view/chatView.html', 'chat')
+                        .then(() => {
+                            const chatModel = new ChatModel();
+                            const chatService = new ChatService();
+                            const chatController = new ChatController(chatModel, chatService);
+                        });
+                    });
+                });
+            };
 
-
-
+    function loadHTML(url, elementId) {
+        return fetch(url)
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById(elementId).innerHTML = html;
+            })
+            .catch(error => console.warn('Something went wrong.', error));
+    }
+    </script>
 </body>
-
 </html>

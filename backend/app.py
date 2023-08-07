@@ -95,10 +95,6 @@ async def delete_session(session_id: str):
     return JSONResponse(status_code=200, content={"message": "Session deleted"})
 
 
-@api_app.post('/check-key')
-async def check_key_route(keyCheck: HTTPKeyCheckBody):
-    return await check_key(keyCheck.key, redis_client)
-
 
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request):

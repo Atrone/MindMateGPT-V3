@@ -1,11 +1,11 @@
 import json
 import os
+import time
 
-from backend.app import check_key
 from backend.base.app import BaseApp
 from fastapi import Request
 
-from backend.base.free.request_models import PaymentBody, GPTBody, KeyBody
+from backend.base.free.request_models import GPTBody
 from backend.base.free.service import FreeAppService, extract_form_data
 
 
@@ -31,7 +31,7 @@ class FreeApp(BaseApp):
             return user_data[session_id]
 
         @self.router.post("/therapistGPT")
-        async def get_response(request: Request, body: GPTBody, key_body: KeyBody = KeyBody(key="INVAL")):
+        async def get_response(request: Request, body: GPTBody):
             session_id = request.headers['Session']
             user_data = await self.get_user_data(session_id)
             if "prompt" not in user_data[session_id] and "transcript" not in user_data[session_id]:

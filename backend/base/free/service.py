@@ -20,9 +20,9 @@ class FreeAppService:
         return formatted_prompt
 
     async def generate_response(self, message: str, conversation: list) -> tuple:
-        if self.openai.Moderation.create(message)['results'][0]['flagged'] or any(
-                word.lower() in [bad_word for bad_word in os.environ.get("badWords").split(", ")] for word in
-                message.split(" ")):
+        categories = self.openai.Moderation.create(message)['results'][0]['categories']
+        filtered_categories = [category for category in categories if category not in ["sexual", "hate"]]
+        if any(filtered_categories):
             return "I'm really sorry that you're feeling this way, but I'm unable to provide the help that you need. " \
                    "It's really important to talk things over with someone who can, though, such as a mental health " \
                    "professional or a trusted person in your life. You may also see our disclaimer for a crisis " \

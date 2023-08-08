@@ -21,7 +21,7 @@ class FreeAppService:
 
     async def generate_response(self, message: str, conversation: list) -> tuple:
         categories = self.openai.Moderation.create(message)['results'][0]['categories']
-        filtered_categories = [category for category in categories if category not in ["sexual", "hate"]]
+        filtered_categories = [category for category in categories]
         if any(filtered_categories):
             return "I'm really sorry that you're feeling this way, but I'm unable to provide the help that you need. " \
                    "It's really important to talk things over with someone who can, though, such as a mental health " \

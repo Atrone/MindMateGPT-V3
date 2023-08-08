@@ -25,7 +25,7 @@ class FreeApp(BaseApp):
             conversation = [{"role": "system", "content": content}]
             user_data[session_id]['prompt'] = json.dumps(conversation)
             user_data[session_id]['transcript'] = "This is a transcript"
-            redis_client.set(user_data_key, json.dumps(user_data))
+            redis_client.set(user_data_key, json.dumps(user_data),ex=24 * 60 * 60)
             return user_data[session_id]
 
         @self.router.post("/therapistGPT")
@@ -43,5 +43,5 @@ class FreeApp(BaseApp):
             result, conversation = await self.service.generate_response(body.message, conversation)
             user_data[session_id]['prompt'] = json.dumps(conversation)
             user_data[session_id]['transcript'] += f"\n\n\n\n {result} \n\n\n\n"
-            redis_client.set(f"user_data_{session_id}", json.dumps(user_data))
+            redis_client.set(f"user_data_{session_id}", json.dumps(user_data),ex=24 * 60 * 60)
             return result

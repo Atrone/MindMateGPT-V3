@@ -67,6 +67,15 @@ class ChatController {
         this.messagesElement.scrollTop = this.messagesElement.scrollHeight;
         this.inputElement.style.display = 'block';
         this.inputElement.focus();
+        
+        let paragraphs = document.querySelectorAll('p');
+    
+        // Loop through 
+        paragraphs.forEach(function(p) {
+            // Replace
+        p.innerHTML = p.innerHTML.replace(/\\n/g, '<br>');
+        });
+        
     }
 
     async handleDownloadClick(event) {

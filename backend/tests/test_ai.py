@@ -1,6 +1,5 @@
 import asyncio
 import os
-import unittest
 from unittest import skip
 
 import openai
@@ -9,11 +8,120 @@ from backend.base.free.service import FreeAppService
 
 openai.api_key = os.getenv("apikey")
 
+import imaplib
+import email
+import openai
+import unittest
+
+
+def fetch_email_content(email_address, email_password, subject_line):
+    mail = imaplib.IMAP4_SSL("imap.gmail.com")
+    mail.login(email_address, email_password)
+    mail.select("inbox")
+
+    status, email_ids = mail.search(None, f'(SUBJECT "{subject_line}")')
+    email_content = []
+
+    for e_id in email_ids[0].split():
+        _, msg_data = mail.fetch(e_id, '(RFC822)')
+        for response_part in msg_data:
+            if isinstance(response_part, tuple):
+                msg = email.message_from_bytes(response_part[1])
+
+                if msg.is_multipart():
+                    for part in msg.walk():
+                        # check if the part is text/plain
+                        if part.get_content_type() == "text/plain":
+                            payload = part.get_payload(decode=True)
+                            charset = part.get_content_charset()
+                            if payload and charset:
+                                content = payload.decode(charset, errors="ignore")
+                                start_idx = content.find("This is a transcript")
+                                end_idx = content.find("Summary")
+                                if start_idx != -1 and end_idx != -1:
+                                    extracted_content = content[start_idx:end_idx]
+                                    email_content.append(extracted_content)
+                else:
+                    payload = msg.get_payload(decode=True)
+                    charset = msg.get_content_charset()
+                    if payload and charset:
+                        content = payload.decode(charset, errors="ignore")
+                        start_idx = content.find("This is a transcript")
+                        end_idx = content.find("Summary")
+                        if start_idx != -1 and end_idx != -1:
+                            extracted_content = content[start_idx:end_idx]
+                            email_content.append(extracted_content)
+
+    mail.logout()
+    return email_content
+
+
+def convert_and_simulate_response(conversation_str):
+    lines = conversation_str[20:].strip().split("\r\n\r\n\r\n\r\n\r\n")
+    conversation = [{"role": "system", "content": ""}]
+
+    for idx, line in enumerate(lines):
+        if idx % 2 == 0:
+            conversation.append({"role": "user", "content": line})
+            try:
+                assistant_response = openai.ChatCompletion.create(
+                    model="gpt-3.5-turbo",
+                    messages=conversation
+                )
+            except Exception as e:
+                print(e)
+                return None
+            conversation.append({"role": "assistant", "content": assistant_response.choices[0].message["content"]})
+
+    return "\n".join([entry["content"] for entry in conversation if entry["content"]])
+
+
+class TestConversionAndSimulation(unittest.TestCase):
+    def test_conversion_and_simulation(self):
+        email_texts = fetch_email_content(os.getenv("SENDER_EMAIL"), os.getenv("SENDER_PASSWORD"),
+                                          "Fwd: Therapy Insights from MindMateGPT :)")
+        gpt4_choices = []
+        for conversation_str in email_texts:
+            result = convert_and_simulate_response(conversation_str)
+            if not result:
+                continue
+
+            # Create a conversation for GPT-4 to evaluate emotional intelligence
+            conversation = [
+                {"role": "system",
+                 "content": "You will be provided with 2 therapy conversations. Act as an expert emotional "
+                            "intelligence evaluator. Respond with which conversation's therapist has the highest "
+                            "emotional intelligence. Grade based on the application of "
+                            "therapeutic coping tactics and strategies, "
+                            "not only friendliness. "
+                            "Only respond with 1 number. This number is the % better 1 is than 2. Do not include the "
+                            "% sign. The % can be positive "
+                            "or negative."},
+                {"role": "user",
+                 "content": f"which conversation demonstrates higher emotional intelligence? {conversation_str} \n\n\n {result}"}
+            ]
+            try:
+                assistant_response = openai.ChatCompletion.create(
+                    model="gpt-4",  # Using GPT-4 as specified
+                    messages=conversation
+                )
+            except Exception as e:
+                print(e)
+                continue
+            evaluation_result = assistant_response.choices[0].message["content"].strip().lower()
+
+            # Here, you can assert the result as you need
+            # For the sake of demonstration, I'll print it.
+            gpt4_choices.append(evaluation_result)
+            print(f"GPT-4 chose: {evaluation_result}")
+        assert sum(int(gpt4_choice) for gpt4_choice in gpt4_choices) > (15 * len(gpt4_choices))
+        # PASS, 08-09-2023, 20 real world transcripts
+
 
 class TestInteractiveScenario(unittest.TestCase):
     def setUp(self):
         self.openai = openai
-        self.instance = FreeAppService(self.openai, None, os.getenv(
+        self.instance = FreeAppService(self.openai, os.getenv(
             "INITIAL_PROMPT"))
 
     @skip

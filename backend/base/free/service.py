@@ -27,7 +27,7 @@ class FreeAppService:
                    "hotline. ", []
 
         try:
-            conversation.append({"role": "assistant", "content": openai.ChatCompletion.create(
+            conversation.append({"role": "assistant", "content": self.openai.ChatCompletion.create(
                     model="gpt-3.5-turbo",  # Using GPT-4 as specified
                     messages=conversation
                 ).choices[0].message["content"].strip().lower()})

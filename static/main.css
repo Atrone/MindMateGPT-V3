@@ -475,7 +475,7 @@ paragraph, header2 {
     position: relative;
 }
 .testimonial-image {
-    text-align: center; /* Center the image */
+    text-align: left; /* Center the image */
 }
 
 .testimonial-image img {

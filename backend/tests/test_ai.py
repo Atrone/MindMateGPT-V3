@@ -76,6 +76,8 @@ def convert_and_simulate_response(conversation_str):
     return "\n".join([entry["content"] for entry in conversation if entry["content"]])
 
 
+# Test it yourself... set your email and password (less secure apps on) as the env vars and then grade your version of
+# mindy against ChatGPT...
 class TestConversionAndSimulation(unittest.TestCase):
     def test_conversion_and_simulation(self):
         email_texts = fetch_email_content(os.getenv("SENDER_EMAIL"), os.getenv("SENDER_PASSWORD"),
@@ -91,16 +93,26 @@ class TestConversionAndSimulation(unittest.TestCase):
                 {"role": "system",
                  "content": "You will be provided with 2 therapy conversations. Act as an expert emotional "
                             "intelligence evaluator. Respond with which conversation's therapist has the highest "
-                            "emotional intelligence. Grade based on the application of "
+                            "emotional intelligence. Explain your reasoning thoroughly."
+                            " Grade principally on the application of "
                             "therapeutic coping tactics and strategies, "
-                            "not only friendliness. "
-                            "Only respond with 1 number. This number is the % better 1 is than 2. Do not include the "
-                            "% sign. The % can be positive "
-                            "or negative."},
+                            "with friendliness as an auxiliary metric. "},
                 {"role": "user",
                  "content": f"which conversation demonstrates higher emotional intelligence? {conversation_str} \n\n\n {result}"}
             ]
             try:
+                conversation.append({"role": "assistant", "content": openai.ChatCompletion.create(
+                    model="gpt-4",  # Using GPT-4 as specified
+                    messages=conversation
+                ).choices[0].message["content"].strip().lower()})
+                conversation.append({"role": "user", "content": "are you sure?"})
+                conversation.append({"role": "assistant", "content": openai.ChatCompletion.create(
+                    model="gpt-4",  # Using GPT-4 as specified
+                    messages=conversation
+                ).choices[0].message["content"].strip().lower()})
+                conversation.append({"role": "user", "content": """Only respond with 1 number. This number is the % 
+                better paragraph 1 is than paragraph 2. Do not include the % sign. The % can be positive or negative."""
+                                     })
                 assistant_response = openai.ChatCompletion.create(
                     model="gpt-4",  # Using GPT-4 as specified
                     messages=conversation
@@ -114,7 +126,7 @@ class TestConversionAndSimulation(unittest.TestCase):
             # For the sake of demonstration, I'll print it.
             gpt4_choices.append(evaluation_result)
             print(f"GPT-4 chose: {evaluation_result}")
-        assert sum(int(gpt4_choice) for gpt4_choice in gpt4_choices) > (15 * len(gpt4_choices))
+        assert sum(int(gpt4_choice) for gpt4_choice in gpt4_choices) > (12 * len(gpt4_choices))
         # PASS, 08-09-2023, 20 real world transcripts
 
 

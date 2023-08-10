@@ -474,6 +474,17 @@ paragraph, header2 {
     height: 93vh;
     position: relative;
 }
+.testimonial-image {
+    text-align: center; /* Center the image */
+}
+
+.testimonial-image img {
+    max-width: 100%; /* Make the image responsive */
+    height: auto; /* Maintain the aspect ratio */
+    border-radius: 10px; /* Optional: Add rounded corners */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Optional: Add a subtle shadow */
+}
+
 
 .bubble {
     position: absolute;

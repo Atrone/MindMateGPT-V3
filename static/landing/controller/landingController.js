@@ -1,20 +1,30 @@
-// This function will handle the display of the divs based on the provided state
 function setViewState(state) {
+    // Initially hide all divs
+    document.getElementById("form").style.display = "none";
+    document.getElementById("landing").style.display = "none";
+    document.getElementById("chat").style.display = "none";
+
+    // Display the appropriate div based on the state
     if (state && state.view === 'form') {
         document.getElementById("form").style.display = "block";
-        document.getElementById("landing").style.display = "none";
+    } else if (state && state.view === 'chat') {
+        document.getElementById("chat").style.display = "block";
     } else {
-        document.getElementById("form").style.display = "none";
         document.getElementById("landing").style.display = "block";
     }
 }
 
+// Originally your hideContent function
 function hideContent() {
-    document.getElementById("form").style.display = "block";
-    document.getElementById("landing").style.display = "none";
-
-    // Push a new state to represent the form view
     history.pushState({ view: 'form' }, '', '');
+    setViewState({ view: 'form' });
+}
+
+function showChat() {
+    // Push landing onto the history to ensure that going back from chat returns to landing
+    history.pushState({ view: 'landing' }, '', '');
+    history.pushState({ view: 'chat' }, '', '');
+    setViewState({ view: 'chat' });
 }
 
 // This will handle the popstate event

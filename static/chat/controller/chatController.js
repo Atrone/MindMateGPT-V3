@@ -74,6 +74,8 @@ class ChatController {
         paragraphs.forEach(function(p) {
             // Replace
         p.innerHTML = p.innerHTML.replace(/\\n/g, '<br>');
+        p.style.textAlign = "right";
+
         });
         
     }

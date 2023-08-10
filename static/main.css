@@ -54,8 +54,8 @@ body {
 }
 
 p {
-    width: fit-content;
-    max-width: 80%;
+    width: auto;
+    max-width: 100%;
     font-size: 40px;
     font-family: 'Roboto', sans-serif;
 
@@ -78,7 +78,7 @@ p.response {
 
 .text {
     flex: 1 0 60%;
-    text-align: left;
+    text-align: center;
 }
 
 .image {
@@ -475,7 +475,7 @@ paragraph, header2 {
     position: relative;
 }
 .testimonial-image {
-    text-align: left; /* Center the image */
+    text-align: center; /* Center the image */
 }
 
 .testimonial-image img {

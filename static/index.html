@@ -34,7 +34,7 @@
         const sessionId = "user_data_SESSION={{user}}";
 
         window.addEventListener("beforeunload", function (event) {
-            fetch("https://mindmategpt.herokuapp.com/api/session/" + sessionId, {
+            fetch("https://mindmategpt.com/api/session/" + sessionId, {
                 method: "DELETE",
                 keepalive: true
             });

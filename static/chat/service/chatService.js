@@ -47,7 +47,7 @@ class ChatService {
                     const status = await this.checkTaskStatus(taskId);
                     if (status.status === "completed") {
                         clearInterval(intervalId);  // Stop polling
-                        document.cookie = `taskResult=${encodeURIComponent(status.result.gpt4)}; path=/; max-age=86400 * 7`;  // The result is stored for 1 day (86400 seconds)
+                        document.cookie = `taskResult=${encodeURIComponent(status.result.gpt4)}; path=/; max-age=864000`;  // The result is stored for 1 day (86400 seconds)
                         resolve(status.result.gpt4);
                     } else if (status.status === "error") {  // Add any other statuses that indicate an error
                         clearInterval(intervalId);  // Stop polling

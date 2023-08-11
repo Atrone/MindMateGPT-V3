@@ -50,7 +50,7 @@ class ContactFormController {
     handleSubmit(event) {
         event.preventDefault();
         if (!this.getCookie("mbti")) {
-            document.cookie = `mbti=${encodeURIComponent(this.model.mbti)}; path=/; max-age=86400 * 7 * 30`;  // The result is stored for 1 day (86400 seconds)
+            document.cookie = `mbti=${encodeURIComponent(this.model.mbti)}; path=/; max-age=864000`;  // The result is stored for 1 day (86400 seconds)
         }
 
         this.service.validateAndSubmit(this.model);

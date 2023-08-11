@@ -13,7 +13,7 @@ class ContactFormController {
         this.validationInstance = null; // Add this line
         // add event listeners
         const mbtiCookieValue = this.getCookie("mbti");
-        const myDiv = document.getElementById("mbti");
+        const myDiv = document.getElementById("mbtiForm");
 
         // Check if the "mbti" cookie exists
         if (mbtiCookieValue) {

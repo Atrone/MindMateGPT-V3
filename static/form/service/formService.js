@@ -11,7 +11,7 @@ class ContactFormServices {
     }
 
     submitForm(model) {
-        const url = 'https://mindmategpt.herokuapp.com/api/getForm';
+        const url = 'https://mindmategpt.com/api/getForm';
         const formData = new FormData();
 
         formData.append('mbti', model.mbti);
@@ -22,7 +22,7 @@ class ContactFormServices {
         formData.append('insight', model.insight);
 
         // add Session header value if necessary
-        const headers = {'Session': document.getElementById("session").textContent};
+        const headers = {'Session': document.getElementById("session").textContent, 'Cookie': `taskResult=`};
 
         fetch(url, {
             method: 'POST',

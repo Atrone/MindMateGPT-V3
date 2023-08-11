@@ -41,7 +41,7 @@ class FreeApp(BaseApp):
                 if value:
                     form_data[key] = value
             form_data['mbti'] = request.cookies.get('mbti', "None")
-
+            print(form_data)
             session_id = request.headers['Session']
             user_data_key = f"user_data_{session_id}"
             user_data = await extract_form_data(form_data, session_id)

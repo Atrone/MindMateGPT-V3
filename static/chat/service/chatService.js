@@ -4,7 +4,7 @@ class ChatService {
     }
 
     async sendMessage(message) {
-        const response = await fetch('https://mindmategpt.herokuapp.com/api/therapistGPT', {
+        const response = await fetch('https://mindmategpt.com/api/therapistGPT', {
             method: 'POST',
             headers: {
               "Content-Type": "application/json",
@@ -18,7 +18,7 @@ class ChatService {
 
     async downloadJournal(email) {
         const data = {recipient: email};
-        const response = await fetch("https://mindmategpt.herokuapp.com/api/download", {
+        const response = await fetch("https://mindmategpt.com/api/download", {
             method: "POST",
             mode: "cors",
             cache: "no-cache",
@@ -35,7 +35,7 @@ class ChatService {
         return task.task_id;
     }
     async checkTaskStatus(taskId) {
-        const response = await fetch(`https://mindmategpt.herokuapp.com/api/task_status/${taskId}`);
+        const response = await fetch(`https://mindmategpt.com/api/task_status/${taskId}`);
         const data = await response.json();
         return data;
     }

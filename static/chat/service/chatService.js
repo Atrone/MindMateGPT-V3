@@ -45,8 +45,8 @@ class ChatService {
             const status = await this.checkTaskStatus(taskId);
             if (status.status === "completed") {
                 clearInterval(intervalId);  // Stop polling
-                console.log("Task completed with result:", status.result);
-                document.cookie = `taskResult=${encodeURIComponent(status.result)}; path=/; max-age=86400`;  // The result is stored for 1 day (86400 seconds)
+                //console.log("Task completed with result:", status.result);
+                document.cookie = `taskResult=${encodeURIComponent(status.result.gpt4)}; path=/; max-age=86400`;  // The result is stored for 1 day (86400 seconds)
                 // Handle the result as necessary
             }
         }, 5000);  // Poll every 5 seconds, adjust as necessary

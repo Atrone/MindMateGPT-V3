@@ -51,8 +51,8 @@ class ChatService {
             }
         }, 5000);  // Poll every 5 seconds, adjust as necessary
     }
-    async handleTask() {
-        const taskId = await downloadJournal();
+    async handleTask(email) {
+        const taskId = await downloadJournal(email);
         startPolling(taskId);
     }
 }

@@ -39,7 +39,7 @@ class FreeApp(BaseApp):
             for key, value in cookie_data.items():
                 if value and key not in form_data:
                     form_data[key] = value
-
+            print(form_data)
             session_id = request.headers['Session']
             user_data_key = f"user_data_{session_id}"
             user_data = await extract_form_data(form_data, session_id)

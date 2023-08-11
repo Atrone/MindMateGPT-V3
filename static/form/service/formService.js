@@ -64,16 +64,6 @@ class ContactFormServices {
                     validators: {
                   stringLength: {min:0}
                 }
-                },
-                                summary: {
-                    validators: {
-                  stringLength: {min:0}
-                }
-                }
-,                insight: {
-                    validators: {
-                  stringLength: {min:0}
-                }
                 }
 
             }

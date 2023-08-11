@@ -9,8 +9,6 @@ class ContactFormController {
         this.childhoodElement = document.getElementById('childhood');
         this.relationshipElement = document.getElementById('relationship');
         this.workingElement = document.getElementById('working');
-        this.summaryElement = document.getElementById('summary');
-        this.insightElement = document.getElementById('insight');
         this.skip_button = document.getElementById("skip_button");
         this.validationInstance = null; // Add this line
         // add event listeners
@@ -18,8 +16,6 @@ class ContactFormController {
         this.childhoodElement.addEventListener('input', this.handleChildhoodChange.bind(this));
         this.relationshipElement.addEventListener('input', this.handleRelationshipChange.bind(this));
         this.workingElement.addEventListener('input', this.handleWorkingChange.bind(this));
-        this.summaryElement.addEventListener('input', this.handleSummaryChange.bind(this));
-        this.insightElement.addEventListener('input', this.handleInsightChange.bind(this));
         this.formElement.addEventListener('submit', this.handleSubmit.bind(this));
         this.skip_button.addEventListener('click', this.handleSkip.bind(this));
     }
@@ -41,14 +37,6 @@ class ContactFormController {
 
     handleWorkingChange(event) {
         this.model.updateWorking(event.target.value);
-    }
-
-    handleSummaryChange(event) {
-        this.model.updateSummary(event.target.value);
-    }
-
-    handleInsightChange(event) {
-        this.model.updateInsight(event.target.value);
     }
 
 

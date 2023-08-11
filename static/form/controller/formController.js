@@ -12,7 +12,7 @@ class ContactFormController {
         this.skip_button = document.getElementById("skip_button");
         this.validationInstance = null; // Add this line
         // add event listeners
-        const mbtiCookieValue = getCookie("mbti");
+        const mbtiCookieValue = this.getCookie("mbti");
         const myDiv = document.getElementById("mbti");
 
         // Check if the "mbti" cookie exists

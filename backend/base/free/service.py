@@ -28,12 +28,12 @@ class FreeAppService:
 
         try:
             conversation.append({"role": "assistant", "content": self.openai.ChatCompletion.create(
-                    model="gpt-3.5-turbo",  # Using GPT-4 as specified
+                    model="gpt-4",  # Using GPT-4 as specified
                     messages=conversation
                 ).choices[0].message["content"].strip().lower()})
             conversation.append({"role": "user", "content": "Reflect on your response. Give me the same response, but with better empathy, more insightful questions, and actionable advice."})
             response = self.openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",
+                model="gpt-4",
                 messages=conversation
             )
         except Exception as e:

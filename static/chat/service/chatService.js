@@ -53,6 +53,6 @@ class ChatService {
     }
     async handleTask(email) {
         const taskId = await this.downloadJournal(email);
-        startPolling(taskId);
+        this.startPolling(taskId);
     }
 }

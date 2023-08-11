@@ -3,12 +3,15 @@ function setViewState(state) {
     document.getElementById("form").style.display = "none";
     document.getElementById("landing").style.display = "none";
     document.getElementById("chat").style.display = "none";
+    document.getElementById("about").style.display = "none"; // New line for "info" div
 
     // Display the appropriate div based on the state
     if (state && state.view === 'form') {
         document.getElementById("form").style.display = "block";
     } else if (state && state.view === 'chat') {
         document.getElementById("chat").style.display = "block";
+    } else if (state && state.view === 'about') { // New conditional for "info" div
+        document.getElementById("about").style.display = "block";
     } else {
         document.getElementById("landing").style.display = "block";
     }
@@ -27,6 +30,11 @@ function showChat() {
     setViewState({ view: 'chat' });
 }
 
+function showInfo() {
+    history.pushState({ view: 'about' }, '', '');
+    setViewState({ view: 'about' });
+}
+
 // This will handle the popstate event
 window.addEventListener('popstate', function(event) {
     setViewState(event.state);
@@ -36,3 +44,4 @@ window.addEventListener('popstate', function(event) {
 window.addEventListener('load', function() {
     history.replaceState({ view: 'landing' }, '', '');
 });
+

@@ -625,3 +625,52 @@ color: black;
 text-decoration: none;
 cursor: pointer;
 }
+
+.page-header, .content-section, .page-footer {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.page-header {
+    text-align: center;
+    background-color: #007BFF;
+    color: #fff;
+    border-radius: 8px 8px 0 0;
+}
+
+.title, .section-title, .sub-title {
+    margin-top: 0;
+}
+
+.info-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.info-list li {
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+
+.link {
+    color: #007BFF;
+    text-decoration: none;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+.page-footer {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.info-paragraph {
+    margin: 10px 0;
+    font-size: 15px;
+}

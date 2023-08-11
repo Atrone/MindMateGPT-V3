@@ -1,13 +1,12 @@
 import json
 import os
-import re
-import urllib.parse
 
 from backend.base.app import BaseApp
 from fastapi import Request
 
 from backend.base.free.request_models import GPTBody
-from backend.base.free.service import FreeAppService, extract_form_data
+from backend.base.free.service import FreeAppService, extract_form_data, \
+    set_history_in_form_data
 
 
 class FreeApp(BaseApp):
@@ -22,24 +21,7 @@ class FreeApp(BaseApp):
             # Extracting from cookies
             # Parse the URL-encoded string
             if request.cookies.get('taskResult', None):
-                decoded_string = urllib.parse.unquote(request.cookies.get('taskResult')).lower()
-
-                # Find the summary
-                pattern = r"summary(.*?)insight"
-                summary_to_insights = re.search(pattern, decoded_string, re.DOTALL)
-
-                summary = summary_to_insights.group(1).strip()
-
-                insights = decoded_string.find("insight")
-
-                # Extract the content after "insight:"
-                insights = decoded_string[insights + len("insight"):].strip()
-
-                cookie_data = {"summary": summary, "insight": insights}
-                # Add to form_data if not exists
-                for key, value in cookie_data.items():
-                    if value:
-                        form_data[key] = value
+                form_data = await set_history_in_form_data(form_data, request.cookies.get('taskResult'))
             if request.cookies.get('mbti', None):
                 form_data['mbti'] = request.cookies.get('mbti', None)
 

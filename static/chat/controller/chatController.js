@@ -82,7 +82,7 @@ class ChatController {
         event.preventDefault();
         const email = this.downloadInputElement.value;
         document.getElementById('loadingSpinner2').style.display = 'block';
-        const data = await this.service.downloadJournal(email);
+        const data = await this.service.handleTask(email);
         document.getElementById('loadingSpinner2').style.display = 'none';
     }
 

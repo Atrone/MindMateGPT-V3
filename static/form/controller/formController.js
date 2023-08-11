@@ -12,6 +12,15 @@ class ContactFormController {
         this.skip_button = document.getElementById("skip_button");
         this.validationInstance = null; // Add this line
         // add event listeners
+        const mbtiCookieValue = getCookie("mbti");
+        const myDiv = document.getElementById("mbti");
+
+        // Check if the "mbti" cookie exists
+        if (mbtiCookieValue) {
+            // If the cookie exists, hide the div
+            myDiv.style.display = "none";
+        }
+
         this.mbtiElement.addEventListener('input', this.handleMbtiChange.bind(this));
         this.childhoodElement.addEventListener('input', this.handleChildhoodChange.bind(this));
         this.relationshipElement.addEventListener('input', this.handleRelationshipChange.bind(this));
@@ -51,4 +60,10 @@ class ContactFormController {
         document.getElementById("chat").style.display = "block";
         document.getElementById("input2").focus();
     }
+    getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+
 }

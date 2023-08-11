@@ -49,7 +49,7 @@ class FreeAppService:
 
         try:
             response = self.openai.ChatCompletion.create(
-                model="gpt-4",
+                model="gpt-3.5-turbo",
                 messages=conversation
             )
         except Exception as e:

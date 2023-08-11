@@ -40,7 +40,7 @@ class FreeApp(BaseApp):
             for key, value in cookie_data.items():
                 if value:
                     form_data[key] = value
-            form_data['mbti'] = request.cookies.get('mbti', None)
+            form_data['mbti'] = request.cookies.get('mbti', "None")
 
             session_id = request.headers['Session']
             user_data_key = f"user_data_{session_id}"

@@ -31,6 +31,27 @@ class ChatService {
             referrerPolicy: "no-referrer",
             body: JSON.stringify(data),
         });
-        return response.json();
+        const task = await response.json();
+        return task.task_id();
+    }
+    async checkTaskStatus(taskId) {
+        const response = await fetch(`https://mindmategpt.herokuapp.com/task_status/${taskId}`);
+        const data = await response.json();
+        return data;
+    }
+
+    startPolling(taskId) {
+        const intervalId = setInterval(async () => {
+            const status = await checkTaskStatus(taskId);
+            if (status.status === "completed") {
+                clearInterval(intervalId);  // Stop polling
+                console.log("Task completed with result:", status.result);
+                // Handle the result as necessary
+            }
+        }, 5000);  // Poll every 5 seconds, adjust as necessary
+    }
+    async handleTask() {
+        const taskId = await downloadJournal();
+        startPolling(taskId);
     }
 }

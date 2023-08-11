@@ -2,6 +2,7 @@ from fastapi import Request
 from backend.base.app import BaseApp
 from backend.base.premium.request_models import InsightBody
 from backend.tasks import send_email_task
+from celery.result import AsyncResult
 
 
 class PremiumApp(BaseApp):
@@ -15,5 +16,12 @@ class PremiumApp(BaseApp):
 
             message = user_data[session_id]['transcript'] + "\n\n\n\n"
 
-            send_email_task.delay(body.recipient, message, user_data[session_id]['transcript'])
-            return "sent"
+            task = send_email_task.delay(body.recipient, message, user_data[session_id]['transcript'])
+            return {"task_id": task.id}
+
+        @self.router.get("/task_status/{task_id}")
+        async def task_status(task_id: str):
+            task = AsyncResult(task_id)
+            if task.ready():
+                return {"status": "completed", "result": task.result}
+            return {"status": "pending"}

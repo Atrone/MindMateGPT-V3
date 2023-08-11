@@ -107,10 +107,10 @@ def send_email_task(recipient, message, text: str):
             # Send email
             server.sendmail(sender_email, recipient, msg.as_string())
             server.quit()
-            return {"message": "Successful send email"}
+            return {"message": "Successful send email", "gpt4": message}
 
         except Exception as e:
             print(e)
             time.sleep(15)
             continue
-    return {"message": "Failed to send email"}
+    return {"message": "Failed to send email", "gpt4": message}

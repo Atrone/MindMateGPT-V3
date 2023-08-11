@@ -17,7 +17,19 @@ class FreeApp(BaseApp):
 
         @self.router.post("/getForm")
         async def get_form(request: Request):
-            form_data = await request.form()
+            form_data = dict(await request.form())
+            # Extracting from cookies
+            cookie_data = {
+                "WORK": request.cookies.get('WORK', None),
+                "RELATIONSHIP": request.cookies.get('RELATIONSHIP', None),
+                "LIFE": request.cookies.get('LIFE', None)
+            }
+
+            # Add to form_data if not exists
+            for key, value in cookie_data.items():
+                if value and key not in form_data:
+                    form_data[key] = value
+
             session_id = request.headers['Session']
             user_data_key = f"user_data_{session_id}"
             user_data = await extract_form_data(form_data, session_id)

@@ -26,7 +26,6 @@ class ContactFormController {
         this.relationshipElement.addEventListener('input', this.handleRelationshipChange.bind(this));
         this.workingElement.addEventListener('input', this.handleWorkingChange.bind(this));
         this.formElement.addEventListener('submit', this.handleSubmit.bind(this));
-        this.skip_button.addEventListener('click', this.handleSkip.bind(this));
     }
     init() {
         this.service.initializeFormValidation();

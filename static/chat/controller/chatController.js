@@ -62,6 +62,7 @@ class ChatController {
         responseDiv.className = 'message response';
         let responseElement = document.createElement('p');
         responseElement.textContent = response;
+        responseElement.style.textAlign = "right";
         responseDiv.appendChild(responseElement);
         this.messagesElement.appendChild(responseDiv);
         this.messagesElement.scrollTop = this.messagesElement.scrollHeight;
@@ -72,10 +73,7 @@ class ChatController {
     
         // Loop through 
         paragraphs.forEach(function(p) {
-            // Replace
         p.innerHTML = p.innerHTML.replace(/\\n/g, '<br>');
-        p.style.textAlign = "right";
-
         });
         
     }

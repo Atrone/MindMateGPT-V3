@@ -1,6 +1,7 @@
 import json
 import os
-import time
+import re
+import urllib.parse
 
 from backend.base.app import BaseApp
 from fastapi import Request
@@ -19,12 +20,21 @@ class FreeApp(BaseApp):
         async def get_form(request: Request):
             form_data = dict(await request.form())
             # Extracting from cookies
-            cookie_data = {
-                "WORK": request.cookies.get('WORK', None),
-                "RELATIONSHIP": request.cookies.get('RELATIONSHIP', None),
-                "LIFE": request.cookies.get('LIFE', None)
-            }
+            # Parse the URL-encoded string
+            decoded_string = urllib.parse.unquote(request.cookies.get('taskResult')).lower()
 
+            # Find the summary
+            pattern = r":(.*?):"
+            summary_to_insights = re.search(pattern, decoded_string, re.DOTALL)
+
+            summary = summary_to_insights.group(1).strip()
+
+            insights = decoded_string.find("insight")
+
+            # Extract the content after "insight:"
+            insights = decoded_string[insights + len("insight"):].strip()
+
+            cookie_data = {"summary": summary, "insights": insights}
             # Add to form_data if not exists
             for key, value in cookie_data.items():
                 if value and key not in form_data:

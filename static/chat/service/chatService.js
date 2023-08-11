@@ -42,7 +42,7 @@ class ChatService {
 
     startPolling(taskId) {
         const intervalId = setInterval(async () => {
-            const status = await checkTaskStatus(taskId);
+            const status = await this.checkTaskStatus(taskId);
             if (status.status === "completed") {
                 clearInterval(intervalId);  // Stop polling
                 console.log("Task completed with result:", status.result);
@@ -52,7 +52,7 @@ class ChatService {
         }, 5000);  // Poll every 5 seconds, adjust as necessary
     }
     async handleTask(email) {
-        const taskId = await downloadJournal(email);
+        const taskId = await this.downloadJournal(email);
         startPolling(taskId);
     }
 }

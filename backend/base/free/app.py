@@ -21,27 +21,28 @@ class FreeApp(BaseApp):
             form_data = dict(await request.form())
             # Extracting from cookies
             # Parse the URL-encoded string
-            decoded_string = urllib.parse.unquote(request.cookies.get('taskResult', "session: insight: ")).lower()
+            if request.cookies.get('taskResult', None):
+                decoded_string = urllib.parse.unquote(request.cookies.get('taskResult')).lower()
 
                 # Find the summary
-            pattern = r"summary(.*?)insight"
-            summary_to_insights = re.search(pattern, decoded_string, re.DOTALL)
+                pattern = r"summary(.*?)insight"
+                summary_to_insights = re.search(pattern, decoded_string, re.DOTALL)
 
-            summary = summary_to_insights.group(1).strip()
+                summary = summary_to_insights.group(1).strip()
 
-            insights = decoded_string.find("insight")
+                insights = decoded_string.find("insight")
 
-            # Extract the content after "insight:"
-            insights = decoded_string[insights + len("insight"):].strip()
+                # Extract the content after "insight:"
+                insights = decoded_string[insights + len("insight"):].strip()
 
-            cookie_data = {"summary": summary, "insight": insights}
-            # Add to form_data if not exists
-            print(cookie_data)
-            for key, value in cookie_data.items():
-                if value:
-                    form_data[key] = value
-            form_data['mbti'] = request.cookies.get('mbti', "None")
-            print(form_data)
+                cookie_data = {"summary": summary, "insight": insights}
+                # Add to form_data if not exists
+                for key, value in cookie_data.items():
+                    if value:
+                        form_data[key] = value
+            if request.cookies.get('mbti', None):
+                form_data['mbti'] = request.cookies.get('mbti', None)
+
             session_id = request.headers['Session']
             user_data_key = f"user_data_{session_id}"
             user_data = await extract_form_data(form_data, session_id)

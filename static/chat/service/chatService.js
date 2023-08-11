@@ -35,7 +35,7 @@ class ChatService {
         return task.task_id;
     }
     async checkTaskStatus(taskId) {
-        const response = await fetch(`https://mindmategpt.herokuapp.com/task_status/${taskId}`);
+        const response = await fetch(`https://mindmategpt.herokuapp.com/api/task_status/${taskId}`);
         const data = await response.json();
         return data;
     }

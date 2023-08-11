@@ -37,7 +37,7 @@ class FreeApp(BaseApp):
             cookie_data = {"summary": summary, "insight": insights}
             # Add to form_data if not exists
             for key, value in cookie_data.items():
-                if value and key not in form_data:
+                if value:
                     form_data[key] = value
             print(form_data)
             session_id = request.headers['Session']

@@ -41,18 +41,33 @@ class ChatService {
     }
 
     startPolling(taskId) {
-        const intervalId = setInterval(async () => {
-            const status = await this.checkTaskStatus(taskId);
-            if (status.status === "completed") {
-                clearInterval(intervalId);  // Stop polling
-                //console.log("Task completed with result:", status.result);
-                document.cookie = `taskResult=${encodeURIComponent(status.result.gpt4)}; path=/; max-age=86400 * 7`;  // The result is stored for 1 day (86400 seconds)
-                // Handle the result as necessary
-            }
-        }, 5000);  // Poll every 5 seconds, adjust as necessary
+        return new Promise(async (resolve, reject) => {
+            const intervalId = setInterval(async () => {
+                try {
+                    const status = await this.checkTaskStatus(taskId);
+                    if (status.status === "completed") {
+                        clearInterval(intervalId);  // Stop polling
+                        document.cookie = `taskResult=${encodeURIComponent(status.result.gpt4)}; path=/; max-age=86400 * 7`;  // The result is stored for 1 day (86400 seconds)
+                        resolve(status.result.gpt4);
+                    } else if (status.status === "error") {  // Add any other statuses that indicate an error
+                        clearInterval(intervalId);  // Stop polling
+                        reject(new Error("Task encountered an error"));
+                    }
+                } catch (error) {
+                    clearInterval(intervalId);
+                    reject(error);
+                }
+            }, 5000);  // Poll every 5 seconds, adjust as necessary
+        });
     }
+
     async handleTask(email) {
         const taskId = await this.downloadJournal(email);
-        this.startPolling(taskId);
+        try {
+            const result = await this.startPolling(taskId);
+            return result;
+        } catch (error) {
+            throw error;  // Handle error or throw it to be caught outside of this function
+        }
     }
 }

@@ -24,7 +24,7 @@ class FreeApp(BaseApp):
             decoded_string = urllib.parse.unquote(request.cookies.get('taskResult')).lower()
 
             # Find the summary
-            pattern = r":(.*?):"
+            pattern = r"summary(.*?)insight"
             summary_to_insights = re.search(pattern, decoded_string, re.DOTALL)
 
             summary = summary_to_insights.group(1).strip()
@@ -34,7 +34,7 @@ class FreeApp(BaseApp):
             # Extract the content after "insight:"
             insights = decoded_string[insights + len("insight"):].strip()
 
-            cookie_data = {"summary": summary, "insights": insights}
+            cookie_data = {"summary": summary, "insight": insights}
             # Add to form_data if not exists
             for key, value in cookie_data.items():
                 if value and key not in form_data:

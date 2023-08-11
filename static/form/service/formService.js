@@ -22,7 +22,7 @@ class ContactFormServices {
         formData.append('insight', model.insight);
 
         // add Session header value if necessary
-        const headers = {'Session': document.getElementById("session").textContent, 'Cookie': `taskResult=`};
+        const headers = {'Session': document.getElementById("session").textContent};
 
         fetch(url, {
             method: 'POST',

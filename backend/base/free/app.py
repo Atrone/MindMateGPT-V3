@@ -37,6 +37,7 @@ class FreeApp(BaseApp):
 
                 cookie_data = {"summary": summary, "insight": insights}
                 # Add to form_data if not exists
+                print(cookie_data)
                 for key, value in cookie_data.items():
                     if value:
                         form_data[key] = value

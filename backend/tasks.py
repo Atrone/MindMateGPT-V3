@@ -111,6 +111,6 @@ def send_email_task(recipient, message, text: str):
 
         except Exception as e:
             print(e)
-            time.sleep(15)
+            time.sleep(3)
             continue
     return {"message": "Failed to send email", "gpt4": message}

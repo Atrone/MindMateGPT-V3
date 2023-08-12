@@ -427,6 +427,9 @@ paragraph, header2 {
   .center {
     width: 100%;
   }
+  h1 {
+    font-size: 50px;
+  }
 }
 .button-container {
   text-align: center;

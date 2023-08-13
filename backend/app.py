@@ -11,7 +11,7 @@ import string
 from fastapi import Request
 
 from starlette.middleware.cors import CORSMiddleware
-from starlette.responses import JSONResponse
+from starlette.responses import JSONResponse, FileResponse
 from backend.env.variables import load_environment
 from backend.base.free.app import FreeApp
 from backend.base.premium.app import PremiumApp
@@ -82,6 +82,10 @@ api_app.include_router(premium_app.router)
 async def delete_session(session_id: str):
     redis_client.delete(session_id)
     return JSONResponse(status_code=200, content={"message": "Session deleted"})
+
+@app.get("/ads.txt", response_class=FileResponse)
+async def read_ads_txt():
+    return FileResponse("static/ads.txt",media_type="text/plain")
 
 
 @app.get("/", response_class=HTMLResponse)

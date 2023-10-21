@@ -97,7 +97,7 @@ class ChatService {
                     clearInterval(intervalId);
                     reject(error);
                 }
-            }, 5000); // Poll every 5 seconds
+            }, 1000); // Poll every 5 seconds
         });
     }
 

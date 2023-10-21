@@ -72,7 +72,7 @@ class ChatService {
         }
     }
     initiatePayment() {
-        return document.getElementById("session");
+        return document.getElementById("session").textContent;
     }
 
     async checkPaymentStatus(paymentId) {

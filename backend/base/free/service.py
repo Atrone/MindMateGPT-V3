@@ -8,19 +8,19 @@ async def set_history_in_form_data(form_data: Dict[str, Any], cookie) -> Dict[st
     # Find the summary
     pattern = r"summary(.*?)insight"
     summary_to_insights = re.search(pattern, decoded_string, re.DOTALL)
+    if summary_to_insights:
+        summary = summary_to_insights.group(1).strip()
 
-    summary = summary_to_insights.group(1).strip()
+        insights = decoded_string.find("insight")
 
-    insights = decoded_string.find("insight")
+        # Extract the content after "insight:"
+        insights = decoded_string[insights + len("insight"):].strip()
 
-    # Extract the content after "insight:"
-    insights = decoded_string[insights + len("insight"):].strip()
-
-    cookie_data = {"summary": summary, "insight": insights}
-    # Add to form_data if not exists
-    for key, value in cookie_data.items():
-        if value:
-            form_data[key] = value
+        cookie_data = {"summary": summary, "insight": insights}
+        # Add to form_data if not exists
+        for key, value in cookie_data.items():
+            if value:
+                form_data[key] = value
     return form_data
 
 async def extract_form_data(form_data: Dict[str, Any], session_id: str) -> Dict[str, Any]:

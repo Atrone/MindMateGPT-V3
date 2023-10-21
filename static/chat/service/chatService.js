@@ -75,17 +75,17 @@ class ChatService {
         return document.getElementById("session").textContent;
     }
 
-    async checkPaymentStatus(paymentId) {
-        const response = await fetch(`https://mindmategpt.com/api/payment_status/${paymentId}`);
+    async checkPaymentStatus() {
+        const response = await fetch(`https://mindmategpt.com/api/payment_status/`);
         const data = await response.json();
         return data;
     }
 
-    startPollingPayment(paymentId) {
+    startPollingPayment() {
         return new Promise(async (resolve, reject) => {
             const intervalId = setInterval(async () => {
                 try {
-                    const status = await this.checkPaymentStatus(paymentId);
+                    const status = await this.checkPaymentStatus();
                     if (status.status === "completed") {
                         clearInterval(intervalId);
                         resolve("Payment Completed Successfully.");
@@ -97,7 +97,7 @@ class ChatService {
                     clearInterval(intervalId);
                     reject(error);
                 }
-            }, 1000); // Poll every 1 seconds
+            }, 3000); // Poll every 1 seconds
         });
     }
 

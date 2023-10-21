@@ -76,7 +76,7 @@ class ChatService {
     }
 
     async checkPaymentStatus() {
-        const response = await fetch(`https://mindmategpt.com/api/payment_status/`);
+        const response = await fetch(`https://mindmategpt.com/api/payment_status`);
         const data = await response.json();
         return data;
     }

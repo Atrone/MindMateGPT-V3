@@ -8,6 +8,8 @@ import os
 
 
 class PremiumApp(BaseApp):
+    session_id_payment = None
+
     def __init__(self, redis_client, openai):
         super().__init__(redis_client, openai)
 
@@ -30,12 +32,10 @@ class PremiumApp(BaseApp):
 
         @self.router.get("/payment_status")
         async def get_payment_status(request: Request):
-            session_id = request.headers['Session']
-            return {"status": redis_client.get(session_id + "PAYMENT") if redis_client.get(session_id + "PAYMENT") else "pending"}
+            return {"status": self.session_id_payment if self.session_id_payment else "pending"}
 
         @self.router.post("/webhook")
         async def webhook_received(request: Request, stripe_signature: str = Header(None)):
-            session_id = request.headers['Session']
             webhook_secret = os.environ["STRIPE_WEBHOOK_SECRET"]
             data = await request.body()
             try:
@@ -54,5 +54,5 @@ class PremiumApp(BaseApp):
                 print('invoice payment failed')
             else:
                 print(f'unhandled event: {event_type}')
-            redis_client.set(session_id + "PAYMENT", "completed")
+            self.session_id_payment = "completed"
             return {"status": "success"}

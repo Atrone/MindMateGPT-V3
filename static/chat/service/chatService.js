@@ -71,48 +71,11 @@ class ChatService {
             throw error;  // Handle error or throw it to be caught outside of this function
         }
     }
-    initiatePayment() {
-        return document.getElementById("session").textContent;
-    }
+    handlePayment(){
 
-    async checkPaymentStatus() {
-        const headers = {'Session': document.getElementById("session").textContent};
-        const response = await fetch("https://mindmategpt.com/api/payment_status", {headers: headers})
-        const data = await response.json();
-        return data;
-    }
+        document.getElementById('downloadButton').style.display = 'block';
+        document.getElementById('buyButton').style.display = 'none';
+        document.getElementById('downloadInput').style.display = 'block';
 
-    startPollingPayment() {
-        return new Promise(async (resolve, reject) => {
-            const intervalId = setInterval(async () => {
-                try {
-                    const status = await this.checkPaymentStatus();
-                    if (status.status === "completed") {
-                        clearInterval(intervalId);
-                        resolve("Payment Completed Successfully.");
-                    } else if (status.status === "error") {
-                        clearInterval(intervalId);
-                        reject(new Error("Payment encountered an error."));
-                    }
-                } catch (error) {
-                    clearInterval(intervalId);
-                    reject(error);
-                }
-            }, 3000); // Poll every 1 seconds
-        });
     }
-
-    async handlePayment(email) {
-        const paymentId = this.initiatePayment();
-        try {
-            const result = await this.startPollingPayment(paymentId);
-            console.log(result);
-            document.getElementById('buyButton').style.display = 'none';
-            document.getElementById('downloadInput').style.display = 'block';
-            document.getElementById('downloadButton').style.display = 'block';
-        } catch (error) {
-            console.error(error); // Handle the error appropriately
-        }
-    }
-
 }

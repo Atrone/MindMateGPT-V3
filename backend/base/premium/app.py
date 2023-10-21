@@ -53,6 +53,5 @@ class PremiumApp(BaseApp):
                 print('invoice payment failed')
             else:
                 print(f'unhandled event: {event_type}')
-            self.redis_client[self.get_user_data(session_id)] = "completed"
-
+            redis_client.set(session_id,"completed")
             return {"status": "success"}

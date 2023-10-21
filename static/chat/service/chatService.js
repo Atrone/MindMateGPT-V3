@@ -97,7 +97,7 @@ class ChatService {
                     clearInterval(intervalId);
                     reject(error);
                 }
-            }, 1000); // Poll every 5 seconds
+            }, 1000); // Poll every 1 seconds
         });
     }
 
@@ -106,6 +106,9 @@ class ChatService {
         try {
             const result = await this.startPollingPayment(paymentId);
             console.log(result);
+            document.getElementById('buyButton').style.display = 'none';
+            document.getElementById('downloadInput').style.display = 'block';
+            document.getElementById('downloadButton').style.display = 'block';
         } catch (error) {
             console.error(error); // Handle the error appropriately
         }

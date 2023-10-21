@@ -29,9 +29,8 @@ class PremiumApp(BaseApp):
             return {"status": "pending"}
 
         @self.router.get("/payment_status/{payment_id}")
-        async def get_payment_status(request: Request):
-            session_id = request.headers['Session']
-            return {"status": self.redis_client.get(self.get_user_data(session_id),'pending')}
+        async def get_payment_status(payment_id: str):
+            return {"status": self.redis_client.get(self.get_user_data(payment_id),'pending')}
 
         @self.router.post("/webhook")
         async def webhook_received(request: Request, stripe_signature: str = Header(None)):

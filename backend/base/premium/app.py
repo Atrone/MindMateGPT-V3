@@ -5,9 +5,6 @@ from backend.base.premium.request_models import InsightBody
 from backend.tasks import send_email_task
 from celery.result import AsyncResult
 import os
-from sse_starlette.sse import EventSourceResponse
-
-clients = []
 
 
 class PremiumApp(BaseApp):
@@ -31,18 +28,14 @@ class PremiumApp(BaseApp):
                 return {"status": "completed", "result": task.result}
             return {"status": "pending"}
 
-        @self.router.get("/events")
-        async def events(request: Request):
-            async def event_stream():
-                while True:
-                    if clients:
-                        data = clients.pop()
-                        yield f"data: {data}\n\n"
-
-            return EventSourceResponse(event_stream())
+        @self.router.get("/payment_status/{payment_id}")
+        async def get_payment_status(request: Request):
+            session_id = request.headers['Session']
+            return {"status": self.redis_client.get(self.get_user_data(session_id),'pending')}
 
         @self.router.post("/webhook")
         async def webhook_received(request: Request, stripe_signature: str = Header(None)):
+            session_id = request.headers['Session']
             webhook_secret = os.environ["STRIPE_WEBHOOK_SECRET"]
             data = await request.body()
             try:
@@ -56,10 +49,11 @@ class PremiumApp(BaseApp):
 
             event_type = event['type']
             if event_type == 'checkout.session.completed' or event_type == 'invoice.paid':
-                clients.append("payment_success")
+                print('success')
             elif event_type == 'invoice.payment_failed':
                 print('invoice payment failed')
             else:
                 print(f'unhandled event: {event_type}')
+            self.redis_client[self.get_user_data(session_id)] = "completed"
 
             return {"status": "success"}

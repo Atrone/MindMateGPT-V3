@@ -71,4 +71,44 @@ class ChatService {
             throw error;  // Handle error or throw it to be caught outside of this function
         }
     }
+    initiatePayment() {
+        return document.getElementById("session");
+    }
+
+    async checkPaymentStatus(paymentId) {
+        const response = await fetch(`https://mindmategpt.com/api/payment_status/${paymentId}`);
+        const data = await response.json();
+        return data;
+    }
+
+    startPollingPayment(paymentId) {
+        return new Promise(async (resolve, reject) => {
+            const intervalId = setInterval(async () => {
+                try {
+                    const status = await this.checkPaymentStatus(paymentId);
+                    if (status.status === "completed") {
+                        clearInterval(intervalId);
+                        resolve("Payment Completed Successfully.");
+                    } else if (status.status === "error") {
+                        clearInterval(intervalId);
+                        reject(new Error("Payment encountered an error."));
+                    }
+                } catch (error) {
+                    clearInterval(intervalId);
+                    reject(error);
+                }
+            }, 5000); // Poll every 5 seconds
+        });
+    }
+
+    async handlePayment(email) {
+        const paymentId = this.initiatePayment();
+        try {
+            const result = await this.startPollingPayment(paymentId);
+            console.log(result);
+        } catch (error) {
+            console.error(error); // Handle the error appropriately
+        }
+    }
+
 }

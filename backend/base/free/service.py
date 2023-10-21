@@ -2,6 +2,7 @@ from typing import Dict, Any
 import re
 import urllib.parse
 
+
 async def set_history_in_form_data(form_data: Dict[str, Any], cookie) -> Dict[str, Any]:
     decoded_string = urllib.parse.unquote(cookie).lower()
 
@@ -22,6 +23,7 @@ async def set_history_in_form_data(form_data: Dict[str, Any], cookie) -> Dict[st
             if value:
                 form_data[key] = value
     return form_data
+
 
 async def extract_form_data(form_data: Dict[str, Any], session_id: str) -> Dict[str, Any]:
     user_data = {session_id: {}}

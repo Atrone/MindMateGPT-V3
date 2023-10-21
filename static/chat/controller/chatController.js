@@ -4,6 +4,7 @@ class ChatController {
         this.service = service;
         this.inputElement = document.getElementById('input2');
         this.downloadButton = document.getElementById('downloadButton');
+        this.buyButton = document.getElementById('buyButton');
         this.downloadInputElement = document.getElementById('downloadInput');
         this.finishedButton = document.getElementById('finished');
         this.modal = document.getElementById('myModal');
@@ -11,6 +12,7 @@ class ChatController {
         this.messagesElement = document.getElementById('messages');
         this.inputElement.addEventListener('keydown', this.handleMessageInput.bind(this));
         this.downloadButton.addEventListener('click', this.handleDownloadClick.bind(this));
+        this.buyButton.addEventListener('click', this.handleBuyClick.bind(this));
         this.finishedButton.addEventListener('click', this.handleFinishedClick.bind(this));
         this.modalClose.addEventListener('click', this.handleCloseClick.bind(this));
         window.addEventListener('click', this.handleWindowClick.bind(this));
@@ -76,6 +78,19 @@ class ChatController {
         p.innerHTML = p.innerHTML.replace(/\\n/g, '<br>');
         });
         
+    }
+
+    handleBuyClick(event){
+        this.service.handlePayment()
+        .then(result => {
+            // If you want to handle the successful result here
+            console.log(result);
+        })
+        .catch(error => {
+            // If you want to handle errors here
+            console.error(error);
+        });
+
     }
 
     async handleDownloadClick(event) {

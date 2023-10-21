@@ -30,7 +30,7 @@ class PremiumApp(BaseApp):
 
         @self.router.get("/payment_status/{payment_id}")
         async def get_payment_status(payment_id: str):
-            return {"status": self.redis_client.get(payment_id,'pending')}
+            return {"status": redis_client.get(payment_id + "PAYMENT") if redis_client.get(payment_id + "PAYMENT") else "pending"}
 
         @self.router.post("/webhook")
         async def webhook_received(request: Request, stripe_signature: str = Header(None)):
@@ -53,5 +53,5 @@ class PremiumApp(BaseApp):
                 print('invoice payment failed')
             else:
                 print(f'unhandled event: {event_type}')
-            redis_client.set(session_id,"completed")
+            redis_client.set(session_id + "PAYMENT", "completed")
             return {"status": "success"}

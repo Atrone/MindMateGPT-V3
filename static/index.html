@@ -48,6 +48,17 @@
     <div id="chat" style="display:none;"></div>
     <div id="about" style="display:none;"></div>
 	<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script>
+        const evtSource = new EventSource("https://mindmategpt.com/api/events");
+        evtSource.onmessage = function(event) {
+            if (event.data === "payment_success") {
+                document.getElementById('buyButton').style.display = 'none';
+                document.getElementById('downloadButton').style.display = 'block';
+                document.getElementById('downloadInput').style.display = 'block';
+
+            }
+        }
+    </script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js"> </script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="static/form/model/formModel.js"></script>

@@ -31,3 +31,4 @@ redis
 stripe
 python-dotenv
 celery
+sse_starlette

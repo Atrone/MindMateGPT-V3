@@ -677,3 +677,43 @@ cursor: pointer;
     margin: 10px 0;
     font-size: 15px;
 }
+.legend-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.info-blurb {
+    position: relative;
+    display: inline-block;
+    margin-left: 20px; /* Adjust space between the legend and the info blurb */
+}
+
+.trigger-text {
+    font-size: 14px;
+    background-color: #f9f9f9;
+    color: #222;
+    border: 1px solid #d4d4d4;
+    border-radius: 4px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.blurb-content {
+    font-size: 12px;
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    color: #222;
+    border: 1px solid #d4d4d4;
+    border-radius: 4px;
+    padding: 15px;
+    width: 200px;
+    z-index: 1;
+    top: 100%; /* Positioning the blurb content below the trigger text */
+    left: 0; /* Align the blurb content to the left of the trigger text */
+}
+
+.info-blurb:hover .blurb-content {
+    display: block;
+}

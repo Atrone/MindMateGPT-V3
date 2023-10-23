@@ -709,7 +709,7 @@ cursor: pointer;
     border-radius: 4px;
     padding: 15px;
     width: 200px;
-    z-index: 1;
+    z-index: 9999; /* Set a high z-index value so the blurb content appears above all other elements */
     top: 100%; /* Positioning the blurb content below the trigger text */
     left: 0; /* Align the blurb content to the left of the trigger text */
 }

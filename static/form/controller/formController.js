@@ -10,6 +10,7 @@ class ContactFormController {
         this.relationshipElement = document.getElementById('relationship');
         this.workingElement = document.getElementById('working');
         this.skip_button = document.getElementById("skip_button");
+        this.submit_button = document.getElementById("submitButtonForm");
         this.validationInstance = null; // Add this line
         // add event listeners
         const mbtiCookieValue = this.getCookie("mbti");
@@ -26,6 +27,13 @@ class ContactFormController {
         this.relationshipElement.addEventListener('input', this.handleRelationshipChange.bind(this));
         this.workingElement.addEventListener('input', this.handleWorkingChange.bind(this));
         this.formElement.addEventListener('submit', this.handleSubmit.bind(this));
+        this.formElement.addEventListener('click', this.handleSubmitClick.bind(this));
+        document.getElementById("submitButtonForm").addEventListener("click", function() {
+            setTimeout(function() {
+                document.getElementById("submitButtonForm").removeAttribute("disabled");
+            }, 100); // you can adjust the timeout as necessary
+        });
+
     }
     init() {
         this.service.initializeFormValidation();
@@ -55,6 +63,13 @@ class ContactFormController {
 
         this.service.validateAndSubmit(this.model);
     }
+
+    handleSubmitClick(event) {
+            setTimeout(function() {
+                document.getElementById("submitButtonForm").removeAttribute("disabled");
+            }, 100); // you can adjust the timeout as necessary
+    }
+
     handleSkip(event) {
         event.preventDefault(); // prevent the default action
 

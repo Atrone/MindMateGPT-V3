@@ -2,6 +2,8 @@ from typing import Dict, Any
 import re
 import urllib.parse
 
+from backend.base.entities import UserSessionData
+
 
 async def set_history_in_form_data(form_data: Dict[str, Any], cookie) -> Dict[str, Any]:
     decoded_string = urllib.parse.unquote(cookie).lower()
@@ -28,7 +30,8 @@ async def set_history_in_form_data(form_data: Dict[str, Any], cookie) -> Dict[st
 async def extract_form_data(form_data: Dict[str, Any], session_id: str) -> Dict[str, Any]:
     user_data = {session_id: {}}
     for key in ['childhood', 'relationship', 'mbti', 'working', 'summary', 'insight']:
-        user_data[session_id][key] = form_data.get(key)
+        if form_data.get(key):
+            user_data[session_id][key] = form_data.get(key)
     return user_data
 
 
@@ -37,9 +40,9 @@ class FreeAppService:
         self.openai = openai
         self.initial_prompt = initial_prompt
 
-    async def format_prompt(self, user_data: Dict[str, Any]) -> str:
+    async def format_prompt(self, user_data: UserSessionData) -> str:
         main_string = self.initial_prompt
-        formatted_prompt = main_string.format(**user_data)
+        formatted_prompt = main_string.format(**user_data.to_dict())
         return formatted_prompt
 
     async def generate_response(self, message: str, conversation: list) -> tuple:

@@ -12,6 +12,8 @@ from fastapi import Request
 
 from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import JSONResponse, FileResponse
+
+from backend.base.payment.app import PaymentApp
 from backend.env.variables import load_environment
 from backend.base.free.app import FreeApp
 from backend.base.premium.app import PremiumApp
@@ -36,9 +38,15 @@ cors = {"middleware_class": CORSMiddleware,
 
 api_app.add_middleware(**cors)
 
+import os
+
+PARENT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+STATIC_DIR = os.path.join(PARENT_DIR, 'static')
+
+
 app = FastAPI(title="main app")
 app.mount("/api", api_app)
-app.mount("/static", StaticFiles(directory="static", html=True), name="static")
+app.mount("/static", StaticFiles(directory=STATIC_DIR, html=True), name="static")
 
 origins = [
     "http://localhost:8000",
@@ -73,9 +81,11 @@ redis_client = redis.Redis(
 
 free_app = FreeApp(redis_client, openai)
 premium_app = PremiumApp(redis_client, openai)
+payment_app = PaymentApp(redis_client, openai)
 
 api_app.include_router(free_app.router)
 api_app.include_router(premium_app.router)
+api_app.include_router(payment_app.router)
 
 
 @api_app.delete("/session/{session_id}")

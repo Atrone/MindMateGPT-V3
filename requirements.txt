@@ -32,3 +32,4 @@ stripe
 python-dotenv
 celery
 sse_starlette
+httpx

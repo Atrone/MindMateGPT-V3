@@ -47,11 +47,11 @@ class ChatService {
                     const status = await this.checkTaskStatus(taskId);
                     if (status.status === "completed") {
                         clearInterval(intervalId);  // Stop polling
-                        document.cookie = `taskResult=${encodeURIComponent(status.result.gpt4)}; path=/; max-age=86400000`;  // The result is stored for 100 day (864000 seconds)
+                        localStorage.setItem('taskResult', encodeURIComponent(status.result.gpt4));  // The result is stored persistently until explicitly removed
                         resolve(status.result.gpt4);
                     } else if (status.status === "error") {  // Add any other statuses that indicate an error
                         clearInterval(intervalId);  // Stop polling
-                        document.cookie = `taskResult=${encodeURIComponent(status.result.gpt4)}; path=/; max-age=86400000`;  // The result is stored for 100 day (864000 seconds)
+                        localStorage.setItem('taskResult', encodeURIComponent(status.result.gpt4));  // The result is stored persistently until explicitly removed
                         reject(new Error("Task encountered an error"));
                     }
                 } catch (error) {

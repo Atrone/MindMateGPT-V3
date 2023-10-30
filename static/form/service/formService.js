@@ -20,7 +20,8 @@ class ContactFormServices {
         formData.append('working', model.working);
 
         // add Session header value if necessary
-        const headers = {'Session': document.getElementById("session").textContent};
+        const headers = {'Session': document.getElementById("session").textContent,
+        'taskResult': null ? "" : localStorage.getItem('taskResult')};
 
         fetch(url, {
             method: 'POST',

@@ -9,7 +9,7 @@ class BaseApp:
         self.openai = openai
         self.router = APIRouter()
 
-    async def get_user_data(self, session_id: str) -> Dict:
+    async def get_user_data_dict(self, session_id: str) -> Dict:
         user_data_key = f"user_data_{session_id}"
         user_data = self.redis_client.get(user_data_key)
         if user_data is None:

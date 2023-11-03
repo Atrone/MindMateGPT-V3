@@ -27,11 +27,11 @@ async def set_history_in_form_data(form_data: Dict[str, Any], cookie) -> Dict[st
     return form_data
 
 
-async def extract_form_data(form_data: Dict[str, Any], session_id: str) -> Dict[str, Any]:
-    user_data = {session_id: {}}
+async def extract_form_data(form_data: Dict[str, Any]) -> Dict[str, Any]:
+    user_data = {}
     for key in ['childhood', 'relationship', 'mbti', 'working', 'summary', 'insight']:
         if form_data.get(key):
-            user_data[session_id][key] = form_data.get(key)
+            user_data[key] = form_data.get(key)
     return user_data
 
 

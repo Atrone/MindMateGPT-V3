@@ -13,7 +13,7 @@ class BaseApp:
         user_data_key = f"user_data_{session_id}"
         user_data = self.redis_client.get(user_data_key)
         if user_data is None:
-            user_data = {session_id: {}}
+            user_data = {}
         else:
             user_data = json.loads(user_data)
         return user_data

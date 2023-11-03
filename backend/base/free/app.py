@@ -26,8 +26,8 @@ class FreeApp(BaseApp):
 
             session_id = request.headers['Session']
             user_data_key = f"user_data_{session_id}"
-            user_data_dict = await extract_form_data(form_data, session_id)
-            user_data = UserSessionData(**user_data_dict[session_id])
+            user_data_dict = await extract_form_data(form_data)
+            user_data = UserSessionData(**user_data_dict)
 
             content = await self.service.format_prompt(user_data)
             conversation = [{"role": "system", "content": content}]
@@ -41,10 +41,7 @@ class FreeApp(BaseApp):
         async def get_response(request: Request, body: GPTBody):
             session_id = request.headers['Session']
             user_data_dict = await self.get_user_data_dict(session_id)
-            if session_id in user_data_dict:
-                user_data = UserSessionData(**user_data_dict[session_id])
-            else:
-                user_data = UserSessionData(**user_data_dict)
+            user_data = UserSessionData(**user_data_dict)
             if not user_data.prompt and not user_data.transcript:
                 conversation = [{"role": "system", "content": self.initial_prompt}]
                 user_data.transcript = "This is a transcript"

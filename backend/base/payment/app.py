@@ -11,7 +11,7 @@ class PaymentApp(BaseApp):
 
         @self.router.get("/payment_status")
         async def get_payment_status():
-            return {"status": redis_client.get("PAYMENT") if redis_client.get("PAYMENT") == "completed" else "pending"}
+            return {"status": redis_client.get("PAYMENT") if redis_client.get("PAYMENT") else "pending"}
 
         @self.router.post("/webhook")
         async def webhook_received(request: Request, stripe_signature: str = Header(None)):

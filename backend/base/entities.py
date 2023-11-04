@@ -17,5 +17,5 @@ class UserSessionData:
 
 @dataclass
 class PersistentUserData:
-    last_session: str = None
-    mbti: str = None
+    last_session: str = "None"
+    mbti: str = "idk"

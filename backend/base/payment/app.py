@@ -28,7 +28,7 @@ class PaymentApp(BaseApp):
                 return {"error": str(e)}
 
             event_type = event['type']
-            if event_type == 'checkout.session.completed' or event_type == 'invoice.paid':
+            if event_type == 'charge.succeeded':
                 print('success')
                 redis_client.set("PAYMENT", "completed")
             elif event_type == 'invoice.payment_failed':

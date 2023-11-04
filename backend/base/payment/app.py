@@ -28,6 +28,7 @@ class PaymentApp(BaseApp):
                 return {"error": str(e)}
 
             event_type = event['type']
+            print(event_type)
             if event_type == 'charge.succeeded':
                 print('success')
                 redis_client.set("PAYMENT", "completed")
@@ -35,4 +36,4 @@ class PaymentApp(BaseApp):
                 print('invoice payment failed')
             else:
                 print(f'unhandled event: {event_type}')
-            return {"status": "success"}
+            return {"status": event_type}

@@ -4,6 +4,7 @@ from unittest import skip
 
 import openai
 
+from backend.base.entities import UserSessionData
 from backend.base.free.service import FreeAppService
 
 openai.api_key = os.getenv("apikey")
@@ -65,7 +66,28 @@ def convert_and_simulate_response(conversation_str):
             conversation.append({"role": "user", "content": line})
             try:
                 assistant_response = openai.ChatCompletion.create(
-                    model="gpt-3.5-turbo",
+                    model="gpt-3.5-turbo-16k",
+                    messages=conversation
+                )
+            except Exception as e:
+                print(e)
+                return None
+            conversation.append({"role": "assistant", "content": assistant_response.choices[0].message["content"]})
+
+    return "\n".join([entry["content"] for entry in conversation if entry["content"]])
+
+
+def convert_and_simulate_response_mindmate(conversation_str):
+    lines = conversation_str[20:].strip().split("\r\n\r\n\r\n\r\n\r\n")
+    conversation = [{"role": "system", "content": os.getenv(
+        "INITIAL_PROMPT")}]
+
+    for idx, line in enumerate(lines):
+        if idx % 2 == 0:
+            conversation.append({"role": "user", "content": line})
+            try:
+                assistant_response = openai.ChatCompletion.create(
+                    model="gpt-3.5-turbo-16k",
                     messages=conversation
                 )
             except Exception as e:
@@ -85,7 +107,9 @@ class TestConversionAndSimulation(unittest.TestCase):
         gpt4_choices = []
         for conversation_str in email_texts:
             result = convert_and_simulate_response(conversation_str)
-            if not result:
+            result_mindmate = convert_and_simulate_response_mindmate(conversation_str)
+            if not result or not result_mindmate:
+                print('nope')
                 continue
 
             # Create a conversation for GPT-4 to evaluate emotional intelligence
@@ -98,7 +122,8 @@ class TestConversionAndSimulation(unittest.TestCase):
                             "therapeutic coping tactics and strategies, "
                             "with friendliness as an auxiliary metric. "},
                 {"role": "user",
-                 "content": f"which conversation demonstrates higher emotional intelligence? {conversation_str} \n\n\n {result}"}
+                 "content": f"which conversation demonstrates higher emotional intelligence? {result_mindmate} "
+                            f"\n\n\n {result}"}
             ]
             try:
                 conversation.append({"role": "assistant", "content": openai.ChatCompletion.create(
@@ -126,7 +151,9 @@ class TestConversionAndSimulation(unittest.TestCase):
             # For the sake of demonstration, I'll print it.
             gpt4_choices.append(evaluation_result)
             print(f"GPT-4 chose: {evaluation_result}")
-        assert sum(int(gpt4_choice) for gpt4_choice in gpt4_choices) > (12 * len(gpt4_choices))
+        print(sum(int(gpt4_choice) for gpt4_choice in gpt4_choices))
+        print(len(gpt4_choices))
+        assert sum(int(gpt4_choice) for gpt4_choice in gpt4_choices) >= (20 * len(gpt4_choices))
         # PASS, 08-09-2023, 20 real world transcripts
 
 
@@ -150,7 +177,6 @@ class TestInteractiveScenario(unittest.TestCase):
 
         assert input("Good?") == "Y"
 
-    @skip
     def test_chat_ENTJ_relationship(self):  # PASSED
         # Use more feeling tone and empathy
 
@@ -177,7 +203,7 @@ class TestInteractiveScenario(unittest.TestCase):
                                                            "isn't proud of me because "
                                                            "he doesn't label us", "mbti": "ENTJ", "working": "mailman"}
         loop = asyncio.get_event_loop()
-        conversation = [{"role": "system", "content": loop.run_until_complete(self.instance.format_prompt(user_data))},
+        conversation = [{"role": "system", "content": loop.run_until_complete(self.instance.format_prompt(UserSessionData(**user_data)))},
                         {"role": "user", "content": input()}]
         while True:
             response, conversation = loop.run_until_complete(self.instance.generate_response("", conversation))

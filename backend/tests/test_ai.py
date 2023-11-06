@@ -246,7 +246,7 @@ class TestInteractiveScenario(unittest.TestCase):
                                                            "isn't proud of me because "
                                                            "he doesn't label us", "mbti": "INFP", "working": "mailman"}
         loop = asyncio.get_event_loop()
-        conversation = [{"role": "system", "content": loop.run_until_complete(self.instance.format_prompt(user_data))},
+        conversation = [{"role": "system", "content": loop.run_until_complete(self.instance.format_prompt(UserSessionData(**user_data)))},
                         {"role": "user", "content": input()}]
         while True:
             response, conversation = loop.run_until_complete(self.instance.generate_response("", conversation))
@@ -282,7 +282,7 @@ class TestInteractiveScenario(unittest.TestCase):
                                                            "isn't proud of me because "
                                                            "he doesn't label us", "mbti": "INTP", "working": "mailman"}
         loop = asyncio.get_event_loop()
-        conversation = [{"role": "system", "content": loop.run_until_complete(self.instance.format_prompt(user_data))},
+        conversation = [{"role": "system", "content": loop.run_until_complete(self.instance.format_prompt(UserSessionData(**user_data)))},
                         {"role": "user", "content": input()}]
         while True:
             response, conversation = loop.run_until_complete(self.instance.generate_response("", conversation))
@@ -318,7 +318,7 @@ class TestInteractiveScenario(unittest.TestCase):
         user_data = {'childhood': "I felt lonely and like everyone hated me", "relationship": "Single and happy",
                      "mbti": "INTP", "working": "Software engineer"}
         loop = asyncio.get_event_loop()
-        conversation = [{"role": "system", "content": loop.run_until_complete(self.instance.format_prompt(user_data))},
+        conversation = [{"role": "system", "content": loop.run_until_complete(self.instance.format_prompt(UserSessionData(**user_data)))},
                         {"role": "user", "content": input()}]
         while True:
             response, conversation = loop.run_until_complete(self.instance.generate_response("", conversation))
@@ -353,7 +353,7 @@ class TestInteractiveScenario(unittest.TestCase):
         user_data = {'childhood': "great", "relationship": "My girlfriend is sexy and amazing :)",
                      "mbti": "INFP", "working": "unemployed and can't find anything..."}
         loop = asyncio.get_event_loop()
-        conversation = [{"role": "system", "content": loop.run_until_complete(self.instance.format_prompt(user_data))},
+        conversation = [{"role": "system", "content": loop.run_until_complete(self.instance.format_prompt(UserSessionData(**user_data)))},
                         {"role": "user", "content": input()}]
         while True:
             response, conversation = loop.run_until_complete(self.instance.generate_response("", conversation))

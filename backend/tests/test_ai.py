@@ -57,30 +57,9 @@ def fetch_email_content(email_address, email_password, subject_line):
     return email_content
 
 
-def convert_and_simulate_response(conversation_str):
+def convert_and_simulate_response(conversation_str, initial=""):
     lines = conversation_str[20:].strip().split("\r\n\r\n\r\n\r\n\r\n")
-    conversation = [{"role": "system", "content": ""}]
-
-    for idx, line in enumerate(lines):
-        if idx % 2 == 0:
-            conversation.append({"role": "user", "content": line})
-            try:
-                assistant_response = openai.ChatCompletion.create(
-                    model="gpt-3.5-turbo-16k",
-                    messages=conversation
-                )
-            except Exception as e:
-                print(e)
-                return None
-            conversation.append({"role": "assistant", "content": assistant_response.choices[0].message["content"]})
-
-    return "\n".join([entry["content"] for entry in conversation if entry["content"]])
-
-
-def convert_and_simulate_response_mindmate(conversation_str):
-    lines = conversation_str[20:].strip().split("\r\n\r\n\r\n\r\n\r\n")
-    conversation = [{"role": "system", "content": os.getenv(
-        "INITIAL_PROMPT")}]
+    conversation = [{"role": "system", "content": initial}]
 
     for idx, line in enumerate(lines):
         if idx % 2 == 0:
@@ -107,7 +86,8 @@ class TestConversionAndSimulation(unittest.TestCase):
         gpt4_choices = []
         for conversation_str in email_texts:
             result = convert_and_simulate_response(conversation_str)
-            result_mindmate = convert_and_simulate_response_mindmate(conversation_str)
+            result_mindmate = convert_and_simulate_response(conversation_str, os.getenv(
+                "INITIAL_PROMPT"))
             if not result or not result_mindmate:
                 print('nope')
                 continue
@@ -203,7 +183,8 @@ class TestInteractiveScenario(unittest.TestCase):
                                                            "isn't proud of me because "
                                                            "he doesn't label us", "mbti": "ENTJ", "working": "mailman"}
         loop = asyncio.get_event_loop()
-        conversation = [{"role": "system", "content": loop.run_until_complete(self.instance.format_prompt(UserSessionData(**user_data)))},
+        conversation = [{"role": "system",
+                         "content": loop.run_until_complete(self.instance.format_prompt(UserSessionData(**user_data)))},
                         {"role": "user", "content": input()}]
         while True:
             response, conversation = loop.run_until_complete(self.instance.generate_response("", conversation))
@@ -246,7 +227,8 @@ class TestInteractiveScenario(unittest.TestCase):
                                                            "isn't proud of me because "
                                                            "he doesn't label us", "mbti": "INFP", "working": "mailman"}
         loop = asyncio.get_event_loop()
-        conversation = [{"role": "system", "content": loop.run_until_complete(self.instance.format_prompt(UserSessionData(**user_data)))},
+        conversation = [{"role": "system",
+                         "content": loop.run_until_complete(self.instance.format_prompt(UserSessionData(**user_data)))},
                         {"role": "user", "content": input()}]
         while True:
             response, conversation = loop.run_until_complete(self.instance.generate_response("", conversation))
@@ -282,7 +264,8 @@ class TestInteractiveScenario(unittest.TestCase):
                                                            "isn't proud of me because "
                                                            "he doesn't label us", "mbti": "INTP", "working": "mailman"}
         loop = asyncio.get_event_loop()
-        conversation = [{"role": "system", "content": loop.run_until_complete(self.instance.format_prompt(UserSessionData(**user_data)))},
+        conversation = [{"role": "system",
+                         "content": loop.run_until_complete(self.instance.format_prompt(UserSessionData(**user_data)))},
                         {"role": "user", "content": input()}]
         while True:
             response, conversation = loop.run_until_complete(self.instance.generate_response("", conversation))
@@ -318,7 +301,8 @@ class TestInteractiveScenario(unittest.TestCase):
         user_data = {'childhood': "I felt lonely and like everyone hated me", "relationship": "Single and happy",
                      "mbti": "INTP", "working": "Software engineer"}
         loop = asyncio.get_event_loop()
-        conversation = [{"role": "system", "content": loop.run_until_complete(self.instance.format_prompt(UserSessionData(**user_data)))},
+        conversation = [{"role": "system",
+                         "content": loop.run_until_complete(self.instance.format_prompt(UserSessionData(**user_data)))},
                         {"role": "user", "content": input()}]
         while True:
             response, conversation = loop.run_until_complete(self.instance.generate_response("", conversation))
@@ -353,7 +337,8 @@ class TestInteractiveScenario(unittest.TestCase):
         user_data = {'childhood': "great", "relationship": "My girlfriend is sexy and amazing :)",
                      "mbti": "INFP", "working": "unemployed and can't find anything..."}
         loop = asyncio.get_event_loop()
-        conversation = [{"role": "system", "content": loop.run_until_complete(self.instance.format_prompt(UserSessionData(**user_data)))},
+        conversation = [{"role": "system",
+                         "content": loop.run_until_complete(self.instance.format_prompt(UserSessionData(**user_data)))},
                         {"role": "user", "content": input()}]
         while True:
             response, conversation = loop.run_until_complete(self.instance.generate_response("", conversation))

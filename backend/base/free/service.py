@@ -30,7 +30,8 @@ async def set_history_in_form_data(form_data: Dict[str, Any], cookie) -> Dict[st
 
 async def extract_form_data(form_data: Dict[str, Any]) -> Dict[str, Any]:
     user_data = {}
-    for key in ['childhood', 'relationship', 'mbti', 'working', 'summary', 'insight']:
+    keys = [f.name.lower() for f in fields(UserSessionData)]
+    for key in keys:
         if form_data.get(key):
             user_data[key] = form_data.get(key)
     return user_data

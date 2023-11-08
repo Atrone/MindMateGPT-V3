@@ -19,7 +19,7 @@ class FreeApp(BaseApp):
         @self.router.post("/getForm")
         async def get_form(request: Request):
             form_data = dict(await request.form())
-            persistent_user_data = PersistentUserData(last_session=request.headers['taskResult'],
+            persistent_user_data = PersistentUserData(last_session=request.headers.get('taskResult',""),
                                                       mbti=request.cookies.get('mbti', ""))
             form_data = await set_history_in_form_data(form_data, persistent_user_data.last_session)
             form_data['mbti'] = persistent_user_data.mbti

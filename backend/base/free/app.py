@@ -25,8 +25,6 @@ class FreeApp(BaseApp):
                 await extract_details_from_last_session_string(persistent_user_data.last_session)
             form_data['mbti'] = persistent_user_data.mbti
 
-            session_id = request.headers['Session']
-            user_data_key = f"user_data_{session_id}"
             user_data_dict = await extract_form_data(form_data)
             user_data = UserSessionData(**user_data_dict)
 

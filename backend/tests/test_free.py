@@ -8,8 +8,8 @@ class TestFreeApp(unittest.TestCase):
     def test_get_form_endpoint(self):
         try:
             client = TestClient(app)
-            response = client.post("/api/getForm", headers={"Session": "test_session", 'taskResult': 'task'})
-            assert response.json()['childhood'] == "Not provided" and response.json()['prompt'] != ""
+            response = client.post("/api/getForm", headers={"Session": "test_session", 'taskResult': 'summary: hi, insight: bruh'})
+            assert response.json()['childhood'] == "Not provided" and response.json()['prompt'] != "" and response.json()['summary'] == ": hi,"
         except Exception as e:
             assert 'int() argument must be a string' in e.args[0]
 

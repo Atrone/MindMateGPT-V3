@@ -6,8 +6,8 @@ from dataclasses import fields
 from backend.base.entities import UserSessionData
 
 
-async def set_history_in_form_data(form_data: Dict[str, Any], cookie) -> Dict[str, Any]:
-    decoded_string = urllib.parse.unquote(cookie).lower()
+async def extract_details_from_last_session_string(last_session_string: str) -> tuple[str, str]:
+    decoded_string = urllib.parse.unquote(last_session_string).lower()
 
     # Find the summary
     pattern = r"summary(.*?)insight"
@@ -17,15 +17,11 @@ async def set_history_in_form_data(form_data: Dict[str, Any], cookie) -> Dict[st
 
         insights = decoded_string.find("insight")
 
-        # Extract the content after "insight:"
         insights = decoded_string[insights + len("insight"):].strip()
+        return summary, insights
+    else:
+        return "", ""
 
-        cookie_data = {"summary": summary, "insight": insights}
-        # Add to form_data if not exists
-        for key, value in cookie_data.items():
-            if value:
-                form_data[key] = value
-    return form_data
 
 
 async def extract_form_data(form_data: Dict[str, Any]) -> Dict[str, Any]:
@@ -48,12 +44,15 @@ class FreeAppService:
         return formatted_prompt
 
     async def generate_response(self, message: str, conversation: list) -> tuple:
-        if self.openai.Moderation.create(message)['results'][0]['flagged']:
-            return "I'm really sorry that you're feeling this way, but I'm unable to provide the help that you need. " \
-                   "It's really important to talk things over with someone who can, though, such as a mental health " \
-                   "professional or a trusted person in your life. You may also see our disclaimer for a crisis " \
-                   "hotline. ", conversation
-
+        try:
+            if self.openai.Moderation.create(message)['results'][0]['flagged']:
+                return "I'm really sorry that you're feeling this way, but I'm unable to provide the help that you need. " \
+                       "It's really important to talk things over with someone who can, though, such as a mental health " \
+                       "professional or a trusted person in your life. You may also see our disclaimer for a crisis " \
+                       "hotline. ", conversation
+        except Exception as e:
+            print(e)
+            return "Something is wrong with our AI provider", []
         try:
             response = self.openai.ChatCompletion.create(
                 model="gpt-3.5-turbo-16k",

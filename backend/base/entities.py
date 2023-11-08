@@ -1,19 +1,20 @@
-from dataclasses import dataclass, field, asdict
+from dataclasses import dataclass, field, asdict, fields
 
 
 @dataclass
 class UserSessionData:
-    childhood: str = field(default_factory=str)
-    relationship: str = field(default_factory=str)
-    mbti: str = field(default_factory=str)
-    working: str = field(default_factory=str)
-    summary: str = field(default_factory=str)
-    insight: str = field(default_factory=str)
+    childhood: str = "Not provided"
+    relationship: str = "Not provided"
+    mbti: str = "No last session"
+    working: str = "Not provided"
+    summary: str = "No last session"
+    insight: str = "No last session"
     prompt: str = field(default_factory=str)
     transcript: str = field(default_factory=str)
 
     def to_dict(self):
         return asdict(self)
+
 
 @dataclass
 class PersistentUserData:

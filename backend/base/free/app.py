@@ -7,7 +7,7 @@ from fastapi import Request
 from backend.base.entities import UserSessionData, PersistentUserData
 from backend.base.free.request_models import GPTBody
 from backend.base.free.service import FreeAppService, extract_form_data, \
-    set_history_in_form_data
+     extract_details_from_last_session_string
 
 
 class FreeApp(BaseApp):
@@ -21,7 +21,8 @@ class FreeApp(BaseApp):
             form_data = dict(await request.form())
             persistent_user_data = PersistentUserData(last_session=request.headers.get('taskResult',""),
                                                       mbti=request.cookies.get('mbti', ""))
-            form_data = await set_history_in_form_data(form_data, persistent_user_data.last_session)
+            form_data['summary'], form_data['insight'] = \
+                await extract_details_from_last_session_string(persistent_user_data.last_session)
             form_data['mbti'] = persistent_user_data.mbti
 
             session_id = request.headers['Session']
@@ -34,14 +35,16 @@ class FreeApp(BaseApp):
             user_data.prompt = json.dumps(conversation)
             user_data.transcript = "This is a transcript"
 
-            redis_client.set(user_data_key, json.dumps(user_data.__dict__), ex=24 * 60 * 60)
+            try:
+                redis_client.set(f"user_data_{request.headers['Session']}", json.dumps(user_data.__dict__), ex=24 * 60 * 60)
+            except Exception as e:
+                print(e)
+                return user_data.__dict__
             return user_data.__dict__
 
         @self.router.post("/therapistGPT")
         async def get_response(request: Request, body: GPTBody):
-            session_id = request.headers['Session']
-            user_data_dict = await self.get_user_data_dict(session_id)
-            user_data = UserSessionData(**user_data_dict)
+            user_data = await self.get_user_data_dataclass(request.headers['Session'])
             if not user_data.prompt and not user_data.transcript:
                 conversation = [{"role": "system", "content": self.initial_prompt}]
                 user_data.transcript = "This is a transcript"
@@ -54,6 +57,9 @@ class FreeApp(BaseApp):
             result, conversation = await self.service.generate_response(body.message, conversation)
             user_data.prompt = json.dumps(conversation)
             user_data.transcript += f"\n\n\n\n {result} \n\n\n\n"
-
-            redis_client.set(f"user_data_{session_id}", json.dumps(user_data.__dict__), ex=24 * 60 * 60)
+            try:
+                redis_client.set(f"user_data_{request.headers['Session']}", json.dumps(user_data.__dict__), ex=24 * 60 * 60)
+            except Exception as e:
+                print(e)
+                return result
             return result

@@ -23,7 +23,6 @@ async def extract_details_from_last_session_string(last_session_string: str) -> 
         return "", ""
 
 
-
 async def extract_form_data(form_data: Dict[str, Any]) -> Dict[str, Any]:
     user_data = {}
     keys = [f.name.lower() for f in fields(UserSessionData)]
@@ -46,8 +45,10 @@ class FreeAppService:
     async def generate_response(self, message: str, conversation: list) -> tuple:
         try:
             if self.openai.Moderation.create(message)['results'][0]['flagged']:
-                return "I'm really sorry that you're feeling this way, but I'm unable to provide the help that you need. " \
-                       "It's really important to talk things over with someone who can, though, such as a mental health " \
+                return "I'm really sorry that you're feeling this way, but I'm unable to provide the help that you " \
+                       "need. " \
+                       "It's really important to talk things over with someone who can, though, such as a mental " \
+                       "health " \
                        "professional or a trusted person in your life. You may also see our disclaimer for a crisis " \
                        "hotline. ", conversation
         except Exception as e:

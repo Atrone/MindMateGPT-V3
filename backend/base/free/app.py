@@ -34,7 +34,8 @@ class FreeApp(BaseApp):
             user_data.transcript = "This is a transcript"
 
             try:
-                redis_client.set(f"user_data_{request.headers['Session']}", json.dumps(user_data.__dict__), ex=24 * 60 * 60)
+                if redis_client.get(f"user_data_{request.headers['Session']}") is None:
+                    redis_client.set(f"user_data_{request.headers['Session']}", json.dumps(user_data.__dict__), ex=24 * 60 * 60)
             except Exception as e:
                 print(e)
                 return user_data.__dict__

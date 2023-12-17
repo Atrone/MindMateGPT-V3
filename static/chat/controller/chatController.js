@@ -5,6 +5,7 @@ class ChatController {
         this.inputElement = document.getElementById('input2');
         this.downloadButton = document.getElementById('downloadButton');
         this.buyButton = document.getElementById('buyButton');
+        this.buyButton2 = document.getElementById('buyButton2');
         this.downloadInputElement = document.getElementById('downloadInput');
         this.finishedButton = document.getElementById('finished');
         this.modal = document.getElementById('myModal');
@@ -13,6 +14,7 @@ class ChatController {
         this.inputElement.addEventListener('keydown', this.handleMessageInput.bind(this));
         this.downloadButton.addEventListener('click', this.handleDownloadClick.bind(this));
         this.buyButton.addEventListener('click', this.handleBuyClick.bind(this));
+        this.buyButton2.addEventListener('click', this.handleBuyClick.bind(this));
         this.finishedButton.addEventListener('click', this.handleFinishedClick.bind(this));
         this.modalClose.addEventListener('click', this.handleCloseClick.bind(this));
         window.addEventListener('click', this.handleWindowClick.bind(this));

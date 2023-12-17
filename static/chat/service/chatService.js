@@ -102,6 +102,7 @@ class ChatService {
             const result = await this.startPollingPayment();
             console.log(result);
             document.getElementById('buyButton').style.display = 'none';
+            document.getElementById('buyButton2').style.display = 'none';
             document.getElementById('downloadInput').style.display = 'block';
             document.getElementById('downloadButton').style.display = 'block';
         } catch (error) {

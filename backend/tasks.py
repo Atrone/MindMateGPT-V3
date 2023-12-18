@@ -54,7 +54,7 @@ def send_email_task(recipient, message, text: str):
              f"\n\n{text}\n\n " \
              f"For the above completed session, " \
              f"provide a summary of the session as well as expert level insights into what a good next step for " \
-             f"the patient would be."
+             f"the patient would be. Make sure the structure the response with headers like Summary: and Insights:"
     response = openai.ChatCompletion.create(
         model="gpt-4",
         messages=[{"role": "user", "content": prompt}]

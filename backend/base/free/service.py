@@ -56,7 +56,7 @@ class FreeAppService:
             return "Something is wrong with our AI provider", []
         try:
             response = self.openai.ChatCompletion.create(
-                model="gpt-3.5-turbo-16k",
+                model="gpt-3.5-turbo-0125",
                 messages=conversation
             )
         except Exception as e:

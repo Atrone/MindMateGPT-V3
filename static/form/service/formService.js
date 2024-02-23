@@ -58,7 +58,7 @@ class ContactFormServices {
                 }
 
                 },
-                mbti: { validators: { notEmpty: { message: 'Please supply your MBTI' } } },
+                mbti: { validators: { stringLength: { min:0 } } },
                 working: {
                     validators: {
                   stringLength: {min:0}

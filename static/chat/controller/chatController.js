@@ -11,6 +11,7 @@ class ChatController {
         this.downloadInputElement2 = document.getElementById('downloadInput2');
         this.finishedButton = document.getElementById('finished');
         this.analyzeButton = document.getElementById('analyze');
+        this.journals = document.getElementById('journals');
         this.modal = document.getElementById('myModal');
         this.modalAnalyze = document.getElementById('myModal2');
         this.modalClose = document.getElementsByClassName('close')[0];
@@ -114,9 +115,12 @@ class ChatController {
     async handleDownloadClick2(event) {
         event.preventDefault();
         const email = this.downloadInputElement2.value;
-        document.getElementById('loadingSpinner3').style.display = 'block';
-        const data = await this.service.handleTask2(email);
-        document.getElementById('loadingSpinner3').style.display = 'none';
+        if (email != '')
+        {
+            document.getElementById('loadingSpinner3').style.display = 'block';
+            const data = await this.service.handleTask2(email, this.journals.value);
+            document.getElementById('loadingSpinner3').style.display = 'none';
+        }
     }
 
     handleFinishedClick(event) {

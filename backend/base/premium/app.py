@@ -28,7 +28,7 @@ class PremiumApp(BaseApp):
             user_data = UserSessionData(**user_data_dict)
             message = user_data.transcript + "\n\n\n\n" + body.journals
 
-            task = send_email_task2.delay(body.recipient, message, user_data.transcript)
+            task = send_email_task2.delay(body.recipient, message)
             return {"task_id": task.id}
 
 

@@ -337,6 +337,25 @@ paragraph, header2 {
 	margin-right: 15px;
 }
 
+.bottom_wrapper #downloadInput2 {
+	flex-grow: 1;
+	outline-width: 0;
+	padding: 12px;
+	border: 1px solid #bcbdc0;
+	border-radius: 50px;
+	margin-right: 15px;
+}
+
+.bottom_wrapper #journals {
+	flex-grow: 1;
+	outline-width: 0;
+	padding: 12px;
+	border: 1px solid #bcbdc0;
+	border-radius: 50px;
+	margin-right: 15px;
+}
+
+
 
 .app_button_1 {
 	width: 140px;
@@ -575,6 +594,15 @@ paragraph, header2 {
     background: #003366;
     border-radius: 12px;
 }
+
+#analyze {
+    padding: 10px 20px;
+    font-size: 20px;
+    color: #ffffff;
+    background: #003366;
+    border-radius: 12px;
+}
+
 
 #messages {
     overflow: auto;

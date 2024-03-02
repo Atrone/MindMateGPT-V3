@@ -4,19 +4,27 @@ class ChatController {
         this.service = service;
         this.inputElement = document.getElementById('input2');
         this.downloadButton = document.getElementById('downloadButton');
+        this.downloadButton2 = document.getElementById('downloadButton2');
         this.buyButton = document.getElementById('buyButton');
         this.buyButton2 = document.getElementById('buyButton2');
         this.downloadInputElement = document.getElementById('downloadInput');
+        this.downloadInputElement2 = document.getElementById('downloadInput2');
         this.finishedButton = document.getElementById('finished');
+        this.analyzeButton = document.getElementById('analyze');
         this.modal = document.getElementById('myModal');
+        this.modalAnalyze = document.getElementById('myModal2');
         this.modalClose = document.getElementsByClassName('close')[0];
+        this.modalClose2 = document.getElementsByClassName('close')[1];
         this.messagesElement = document.getElementById('messages');
         this.inputElement.addEventListener('keydown', this.handleMessageInput.bind(this));
         this.downloadButton.addEventListener('click', this.handleDownloadClick.bind(this));
+        this.downloadButton2.addEventListener('click', this.handleDownloadClick2.bind(this));
         this.buyButton.addEventListener('click', this.handleBuyClick.bind(this));
         this.buyButton2.addEventListener('click', this.handleBuyClick.bind(this));
         this.finishedButton.addEventListener('click', this.handleFinishedClick.bind(this));
+        this.analyzeButton.addEventListener('click', this.handleAnalyzeClick.bind(this));
         this.modalClose.addEventListener('click', this.handleCloseClick.bind(this));
+        this.modalClose2.addEventListener('click', this.handleClose2Click.bind(this));
         window.addEventListener('click', this.handleWindowClick.bind(this));
     }
 
@@ -103,17 +111,43 @@ class ChatController {
         document.getElementById('loadingSpinner2').style.display = 'none';
     }
 
+    async handleDownloadClick2(event) {
+        event.preventDefault();
+        const email = this.downloadInputElement2.value;
+        document.getElementById('loadingSpinner3').style.display = 'block';
+        const data = await this.service.handleTask2(email);
+        document.getElementById('loadingSpinner3').style.display = 'none';
+    }
+
     handleFinishedClick(event) {
         this.modal.style.display = 'block';
+    }
+
+    handleAnalyzeClick(event) {
+        this.modalAnalyze.style.display = 'block';
+    }
+
+
+    handleCloseClick(event) {
+        this.modal.style.display = 'none';
     }
 
     handleCloseClick(event) {
         this.modal.style.display = 'none';
     }
 
+    handleClose2Click(event) {
+        this.modalAnalyze.style.display = 'none';
+    }
+
+
     handleWindowClick(event) {
         if (event.target == this.modal) {
             this.modal.style.display = 'none';
+        }
+        else if(event.target == this.modalAnalyze)
+        {
+            this.modalAnalyze.style.display = 'none';
         }
     }
 }

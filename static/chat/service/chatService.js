@@ -34,6 +34,26 @@ class ChatService {
         const task = await response.json();
         return task.task_id;
     }
+
+    async downloadAnalysis(email, text) {
+        const data = {recipient: email, journals: text};
+        const response = await fetch("https://mindmategpt.com/api/downloadAnalysis", {
+            method: "POST",
+            mode: "cors",
+            cache: "no-cache",
+            credentials: "same-origin",
+            headers: {
+              "Content-Type": "application/json",
+              'Session': this.session
+            },
+            redirect: "follow",
+            referrerPolicy: "no-referrer",
+            body: JSON.stringify(data),
+        });
+        const task = await response.json();
+        return task.task_id;
+    }
+
     async checkTaskStatus(taskId) {
         const response = await fetch(`https://mindmategpt.com/api/task_status/${taskId}`);
         const data = await response.json();
@@ -71,6 +91,17 @@ class ChatService {
             throw error;  // Handle error or throw it to be caught outside of this function
         }
     }
+
+    async handleTask2(email, text) {
+        const taskId = await this.downloadAnalysis(email, text);
+        try {
+            const result = await this.startPolling(taskId);
+            return result;
+        } catch (error) {
+            throw error;  // Handle error or throw it to be caught outside of this function
+        }
+    }
+
     async checkPaymentStatus() {
         const response = await fetch(`https://mindmategpt.com/api/payment_status`);
         const data = await response.json();

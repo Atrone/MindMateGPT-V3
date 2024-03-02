@@ -56,7 +56,7 @@ def send_email_task(recipient, message, text: str):
              f"provide a summary of the session as well as expert level insights into what a good next step for " \
              f"the patient would be. Make sure the structure the response with headers like Summary: and Insights:"
     response = openai.ChatCompletion.create(
-        model="gpt-4",
+        model="gpt-3.5-turbo-0125",
         messages=[{"role": "user", "content": prompt}]
     )
 

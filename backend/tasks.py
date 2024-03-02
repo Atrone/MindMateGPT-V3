@@ -127,7 +127,7 @@ def send_email_task2(recipient, text: str):
     sender_email = "@".join([sender_user, mailertogo_domain])
 
     prompt = f"Here is a series of completed therapy sessions from the same patient alongside the session's summaries " \
-             f"and insights:" \ 
+             f"and insights:" \
              f"\n\n{text}\n\n " \
              f"For the above completed sessions, " \
              f"provide a summary of the sessions as well as expert level insights into what a good next step for " \

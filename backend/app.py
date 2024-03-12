@@ -26,8 +26,8 @@ origins = [
     "http://localhost:8000",
     'https://mindmategpt.herokuapp.com',
     'https://mindmategpt.com',
-    'https://www.mindmategpt.com'
-
+    'https://www.mindmategpt.com',
+    'https://freetherapyai.com'
 ]
 
 cors = {"middleware_class": CORSMiddleware,
@@ -52,7 +52,8 @@ origins = [
     "http://localhost:8000",
     'https://mindmategpt.herokuapp.com',
     'https://mindmategpt.com',
-    'https://www.mindmategpt.com'
+    'https://www.mindmategpt.com',
+    'https://freetherapyai.com'
 ]
 
 app.add_middleware(**cors)

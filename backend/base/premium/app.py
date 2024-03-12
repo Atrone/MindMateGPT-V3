@@ -31,9 +31,7 @@ class PremiumApp(BaseApp):
             task = send_email_task2.delay(body.recipient, message)
             return {"task_id": task.id}
 
-
-
-        @self.router.get("/task_status/{task_id}")
+        @self.router.get("/api/task_status/{task_id}")
         async def task_status(task_id: str):
             task = AsyncResult(task_id)
             if task.ready():

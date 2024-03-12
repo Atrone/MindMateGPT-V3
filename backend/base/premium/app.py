@@ -11,7 +11,7 @@ class PremiumApp(BaseApp):
     def __init__(self, redis_client, openai):
         super().__init__(redis_client, openai)
 
-        @self.router.post("/download")
+        @self.router.post("/api/download")
         async def download_insights(request: Request, body: InsightBody):
             session_id = request.headers['Session']
             user_data_dict = await self.get_user_data_dict(session_id)
@@ -21,7 +21,7 @@ class PremiumApp(BaseApp):
             task = send_email_task.delay(body.recipient, message, user_data.transcript)
             return {"task_id": task.id}
 
-        @self.router.post("/downloadAnalysis")
+        @self.router.post("/api/downloadAnalysis")
         async def download_insights(request: Request, body: AnalysisBody):
             session_id = request.headers['Session']
             user_data_dict = await self.get_user_data_dict(session_id)

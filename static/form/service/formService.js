@@ -11,7 +11,7 @@ class ContactFormServices {
     }
 
     submitForm(model) {
-        const url = 'https://mindmategpt.com/api/getForm';
+        const url = `https://${window.location.hostname}/api/getForm`;
         const formData = new FormData();
 
         formData.append('mbti', model.mbti);

@@ -24,7 +24,7 @@ api_app = FastAPI(title="api app")
 
 origins = [
     "http://localhost:8000",
-    'https://mindmategpt.herokuapp.com/',
+    'https://mindmategpt.herokuapp.com',
     'https://mindmategpt.com',
     'https://www.mindmategpt.com'
 
@@ -50,7 +50,7 @@ app.mount("/static", StaticFiles(directory=STATIC_DIR, html=True), name="static"
 
 origins = [
     "http://localhost:8000",
-    'https://mindmategpt.herokuapp.com/',
+    'https://mindmategpt.herokuapp.com',
     'https://mindmategpt.com',
     'https://www.mindmategpt.com'
 ]

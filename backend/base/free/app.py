@@ -16,7 +16,7 @@ class FreeApp(BaseApp):
         self.initial_prompt = os.getenv("INITIAL_PROMPT")
         self.service = FreeAppService(openai, self.initial_prompt)
 
-        @self.router.post("/getForm")
+        @self.router.post("/api/getForm")
         async def get_form(request: Request):
             form_data = dict(await request.form())
             persistent_user_data = PersistentUserData(last_session=request.headers.get('taskResult',""),
@@ -41,7 +41,7 @@ class FreeApp(BaseApp):
                 return user_data.__dict__
             return user_data.__dict__
 
-        @self.router.post("/therapistGPT")
+        @self.router.post("/api/therapistGPT")
         async def get_response(request: Request, body: GPTBody):
             user_data = await self.get_user_data_dataclass(request.headers['Session'])
             if not user_data.prompt and not user_data.transcript:

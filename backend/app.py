@@ -20,7 +20,6 @@ from backend.base.premium.app import PremiumApp
 
 from fastapi import FastAPI
 
-api_app = FastAPI(title="api app")
 
 origins = [
     "http://localhost:8000",
@@ -44,7 +43,6 @@ STATIC_DIR = os.path.join(PARENT_DIR, 'static')
 
 
 app = FastAPI(title="main app")
-app.mount("/api", api_app)
 app.mount("/static", StaticFiles(directory=STATIC_DIR, html=True), name="static")
 
 
@@ -76,9 +74,9 @@ free_app = FreeApp(redis_client, openai)
 premium_app = PremiumApp(redis_client, openai)
 payment_app = PaymentApp(redis_client, openai)
 
-api_app.include_router(free_app.router)
-api_app.include_router(premium_app.router)
-api_app.include_router(payment_app.router)
+app.include_router(free_app.router)
+app.include_router(premium_app.router)
+app.include_router(payment_app.router)
 
 
 @api_app.delete("/session/{session_id}")

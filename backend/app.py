@@ -36,7 +36,6 @@ cors = {"middleware_class": CORSMiddleware,
         "allow_methods": ['*'],
         "allow_headers": ['*']}
 
-api_app.add_middleware(**cors)
 
 import os
 
@@ -48,13 +47,6 @@ app = FastAPI(title="main app")
 app.mount("/api", api_app)
 app.mount("/static", StaticFiles(directory=STATIC_DIR, html=True), name="static")
 
-origins = [
-    "http://localhost:8000",
-    'https://mindmategpt.herokuapp.com',
-    'https://mindmategpt.com',
-    'https://www.mindmategpt.com',
-    'https://freetherapyai.com'
-]
 
 app.add_middleware(**cors)
 

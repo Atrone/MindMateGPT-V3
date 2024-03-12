@@ -4,7 +4,7 @@ class ChatService {
     }
 
     async sendMessage(message) {
-        const response = await fetch('https://mindmategpt.com/api/therapistGPT', {
+        const response = await fetch(`https://${window.location.hostname}/api/therapistGPT`, {
             method: 'POST',
             headers: {
               "Content-Type": "application/json",
@@ -18,7 +18,7 @@ class ChatService {
 
     async downloadJournal(email) {
         const data = {recipient: email};
-        const response = await fetch("https://mindmategpt.com/api/download", {
+        const response = await fetch(`https://${window.location.hostname}/api/download`, {
             method: "POST",
             mode: "cors",
             cache: "no-cache",
@@ -37,7 +37,7 @@ class ChatService {
 
     async downloadAnalysis(email, text) {
         const data = {recipient: email, journals: text};
-        const response = await fetch("https://mindmategpt.com/api/downloadAnalysis", {
+        const response = await fetch(`https://${window.location.hostname}/api/downloadAnalysis`, {
             method: "POST",
             mode: "cors",
             cache: "no-cache",
@@ -55,7 +55,7 @@ class ChatService {
     }
 
     async checkTaskStatus(taskId) {
-        const response = await fetch(`https://mindmategpt.com/api/task_status/${taskId}`);
+        const response = await fetch(`https://${window.location.hostname}/api/task_status/${taskId}`);
         const data = await response.json();
         return data;
     }
@@ -103,7 +103,7 @@ class ChatService {
     }
 
     async checkPaymentStatus() {
-        const response = await fetch(`https://mindmategpt.com/api/payment_status`);
+        const response = await fetch(`https://${window.location.hostname}/api/payment_status`);
         const data = await response.json();
         return data;
     }

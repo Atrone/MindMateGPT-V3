@@ -79,7 +79,7 @@ app.include_router(premium_app.router)
 app.include_router(payment_app.router)
 
 
-@app.delete("/session/{session_id}")
+@app.delete("/api/session/{session_id}")
 async def delete_session(session_id: str):
     redis_client.delete(session_id)
     return JSONResponse(status_code=200, content={"message": "Session deleted"})

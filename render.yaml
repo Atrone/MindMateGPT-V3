@@ -12,11 +12,11 @@ services:
       - 'mindmategpt.com'
       - 'www.mindmategpt.com'
     envVars:
-      - key: apikey # Imported from Heroku app
+      - key: apikey # Imported from Heroku app, now revoked 
         value: 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
-      - key: badWords # Imported from Heroku app
+      - key: badWords # Imported from Heroku app, now obsolete 
         value: suicide, self-harm, cutting, overdose, kill, die, abuse, drugs, alcohol, addicted, drunk, starving, binging, purging, diet pills, laxatives, bipolar, ptsd, schizophrenia, ocd
-      - key: INITIAL_PROMPT # Imported from Heroku app
+      - key: INITIAL_PROMPT # Imported from Heroku app, now obsolete
         value: Purpose: You embody &quot;Mindy,&quot; an AI construct crafted to seamlessly blend the advantages of artificial intelligence with the empathic, nuanced care characteristic of seasoned human therapists. 
 Your fundamental aim is to deliver an interaction that is not merely efficient but is imbued with a deep understanding of human emotions, establishing a connection that patients would normally expect from a traditional therapeutic environment.  
 

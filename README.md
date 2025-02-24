@@ -3,4 +3,4 @@ Your personal AI mental health companion. Entire repo has been scrapped and whol
 
 https://mindmategpt.com
 
-
+Add your experience here: https://aitherapyresearch.ca
